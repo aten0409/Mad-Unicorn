@@ -44,26 +44,32 @@
     :root {
       --header-h: 52px;
       --progress-h: 4px;
-      --slide-safe-top: calc(var(--progress-h) + var(--header-h) + 6px);
+      --nav-total: calc(var(--progress-h) + var(--header-h));
+    }
+
+    #slide-deck {
+      height: 100dvh;
+      overflow: hidden;
     }
 
     .slide-track {
       display: flex;
       width: 400vw;
-      height: 100dvh;
+      height: 100%;
       transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
     }
     .slide {
       width: 100vw;
-      height: 100vh;
-      height: 100dvh;
+      min-height: 100dvh;
+      max-height: 100dvh;
       flex-shrink: 0;
-      overflow: hidden;
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
     }
     .slide-inner {
-      height: 100%;
-      max-height: 100dvh;
-      overflow: hidden;
+      min-height: 100%;
+      width: 100%;
     }
 
     /* Select — dark theme (fix white-on-white dropdown) */
@@ -90,152 +96,21 @@
       overflow: hidden;
     }
 
-    /* Mobile: CSS Grid shell — graphic บน, content ล่าง, fit 1 screen */
-    @media (max-width: 767px) {
-      header.fixed { top: var(--progress-h); padding-top: 0.375rem !important; padding-bottom: 0.375rem !important; }
-
-      .slide-layout {
-        display: grid !important;
-        grid-template-rows: auto minmax(0, 1fr);
-        grid-template-areas: "graphic" "content";
-        height: 100dvh !important;
-        max-height: 100dvh !important;
-        padding-top: var(--slide-safe-top) !important;
-        padding-bottom: max(8px, env(safe-area-inset-bottom)) !important;
-        gap: 6px !important;
-        overflow: hidden !important;
-        align-items: stretch !important;
-        justify-content: start !important;
-      }
-      .slide-graphic {
-        grid-area: graphic;
-        grid-row: 1;
-        flex: none !important;
-        max-height: 20dvh;
-        overflow: hidden;
-        width: 100%;
-      }
-      .slide-text {
-        grid-area: content;
-        grid-row: 2;
-        flex: none !important;
-        min-height: 0;
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-      }
-
-      .slide-2-inner {
-        display: grid !important;
-        grid-template-rows: auto minmax(0, 1fr);
-        height: 100dvh !important;
-        max-height: 100dvh !important;
-        padding-top: var(--slide-safe-top) !important;
-        padding-bottom: max(8px, env(safe-area-inset-bottom)) !important;
-        gap: 6px !important;
-        overflow: hidden !important;
-      }
-      .slide-2-header { flex-shrink: 0; }
-      .slide-2-inner #cost-panels {
-        min-height: 0;
-        overflow-x: auto;
-        overflow-y: hidden;
-        align-content: start;
-      }
-
-      .mobile-compact-title { font-size: 1.25rem !important; line-height: 1.2 !important; margin-bottom: 0.375rem !important; }
-      .mobile-compact-sub { font-size: 0.75rem !important; margin-bottom: 0.375rem !important; }
-      .mobile-compact-label { font-size: 0.625rem !important; margin-bottom: 0.125rem !important; }
-      .mobile-hide-sm { display: none !important; }
-
-      /* Slide 1 — compact conveyor */
-      .mobile-graphic-sm { padding: 0.5rem 0.75rem !important; }
-      .mobile-graphic-sm .conveyor-wrap {
-        margin-top: 0.25rem !important;
-        margin-bottom: 0.25rem !important;
-        transform: scale(0.72);
-        transform-origin: center top;
-        height: 36px;
-      }
-      .parcel-box { top: -28px !important; width: 28px !important; height: 28px !important; }
-
-      /* Slide 1 — horizontal cards */
-      .mobile-cards-row {
-        display: flex !important;
-        flex-direction: row !important;
-        gap: 0.5rem;
-        overflow-x: auto;
-        scroll-snap-type: x mandatory;
-        -webkit-overflow-scrolling: touch;
-        padding-bottom: 2px;
-        flex: 1;
-        min-height: 0;
-        align-items: stretch;
-      }
-      .mobile-card-snap {
-        flex: 0 0 72vw;
-        scroll-snap-align: start;
-        padding: 0.5rem 0.625rem !important;
-      }
-      .mobile-card-snap p { font-size: 0.6875rem !important; line-height: 1.3 !important; }
-      .mobile-card-snap .font-bold { font-size: 0.75rem !important; margin-bottom: 0.125rem !important; }
-
-      /* Slide 2 panels */
-      #cost-panels { display: flex !important; flex-direction: row !important; gap: 0.5rem; }
-      #cost-panels > div { min-width: 78vw; scroll-snap-align: start; padding: 0.625rem !important; flex-shrink: 0; }
-      #cost-panels h3 { font-size: 0.8125rem !important; margin-bottom: 0.25rem !important; }
-      #cost-panels .text-xs { display: none; }
-      #cost-panels span { font-size: 0.625rem !important; padding: 0.2rem 0.4rem !important; }
-      .slide-2-inner h2 { font-size: 1.125rem !important; line-height: 1.25 !important; margin-bottom: 0.25rem !important; }
-
-      /* Slide 3 */
-      #wf-step-buttons {
-        flex-wrap: nowrap !important;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        margin-bottom: 0.375rem !important;
-      }
-      #wf-step-buttons button { flex-shrink: 0; padding: 0.375rem 0.625rem !important; font-size: 0.6875rem !important; }
-      #wf-step-content {
-        min-height: 0 !important;
-        padding: 0.625rem !important;
-        flex: 1;
-        overflow: hidden;
-      }
-      #wf-step-content h3 { font-size: 0.875rem !important; margin-bottom: 0.25rem !important; }
-      #motorcycle-svg { max-height: 14dvh !important; }
-      .slide-graphic .max-h-\[28vh\] { max-height: 14dvh !important; }
-
-      /* Slide 4 */
-      .slide-4-graphic { max-height: 16dvh !important; }
-      .slide-4-graphic .glass-strong { padding: 0.375rem 0.625rem !important; }
-      .slide-4-graphic .truck-svg { max-height: 8dvh !important; margin-bottom: 0.25rem !important; }
-      .slide-4-graphic p.text-sm { font-size: 0.625rem !important; margin-bottom: 0.125rem !important; }
-      .slide-4-graphic .h-4 { height: 0.375rem !important; }
-      #capacity-pct { font-size: 1.125rem !important; }
-      #slide4-route-label { font-size: 0.625rem !important; line-height: 1.35 !important; margin-bottom: 0.375rem !important; }
-      #slide4-formulas { gap: 0.25rem !important; flex: 1; min-height: 0; overflow: hidden; }
-      #slide4-formulas .glass { padding: 0.375rem 0.5rem !important; font-size: 0.6875rem !important; line-height: 1.35 !important; }
-
-      #slide-dots { display: none; }
+    .svg-contain {
+      width: 100%;
+      max-width: 28rem;
+      margin-left: auto;
+      margin-right: auto;
+      aspect-ratio: 16 / 9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
     }
-
-    @media (min-width: 768px) {
-      .slide-layout {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-        min-height: 100%;
-        padding-top: 6rem;
-        padding-bottom: 3rem;
-      }
-      .mobile-cards-row {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-      }
-      .mobile-card-snap { flex: none; width: auto; }
+    .svg-contain svg {
+      width: 100%;
+      height: 100%;
+      max-height: 100%;
     }
 
     #progress-fill {
@@ -322,7 +197,8 @@
 
     input[type="range"] { accent-color: #458fff; height: 6px; }
     input[type="number"] { background: rgba(255,255,255,0.08); color: #fff; outline: none; }
-    input[type="number"]:focus { box-shadow: 0 0 0 2px rgba(69,143,255,0.5); }
+    input[type="number"]:focus { background: rgba(255,255,255,0.14); }
+    input[type="range"] { touch-action: manipulation; }
 
     @media (prefers-reduced-motion: reduce) {
       .slide-track, #capacity-fill, .bar-seg, #motorcycle-group, .wf-step-panel { transition: none !important; }
@@ -337,12 +213,12 @@
 <body>
 
   <!-- Progress bar -->
-  <div class="fixed top-0 left-0 right-0 z-50 h-1 bg-white/5">
+  <div class="fixed top-0 left-0 right-0 z-[60] h-1 bg-white/5">
     <div id="progress-fill" class="h-full bg-gradient-to-r from-accent-blue to-accent-orange" style="width:20%"></div>
   </div>
 
-  <!-- Nav chrome: ปุ่มซ้าย-ขวาอยู่ขวาบนสุด -->
-  <header class="fixed top-0 left-0 right-0 z-40 px-3 md:px-10 pt-3 pb-2 flex items-center justify-between pointer-events-none" style="top: var(--progress-h)">
+  <!-- Nav chrome -->
+  <header class="fixed top-0 left-0 right-0 z-50 px-3 md:px-10 pt-2 pb-2 flex items-center justify-between pointer-events-none" style="top: var(--progress-h)">
     <div class="pointer-events-auto flex items-center gap-2 min-w-0">
       <div class="glass rounded-2xl px-3 py-2 flex items-center gap-2 shrink-0">
         <span class="w-8 h-8 rounded-xl bg-accent-blue/30 flex items-center justify-center text-sm font-bold">NS</span>
@@ -365,42 +241,44 @@
     <div id="slide-track" class="slide-track">
 
       <!-- SLIDE 1: THE PROBLEM -->
-      <section class="slide bg-base" data-slide="0" aria-label="ความท้าทายของการคิดต้นทุน">
-        <div class="slide-inner slide-layout lg:flex-row px-4 md:px-16 md:pt-24 md:pb-12 max-w-7xl mx-auto">
-          <div class="slide-graphic w-full max-w-md mx-auto lg:mx-0 lg:flex-1 lg:order-2">
-            <div class="glass-strong rounded-3xl mobile-graphic-sm p-8 relative h-full">
-              <p class="text-sm font-semibold text-white/50 mb-1 md:mb-6 uppercase tracking-wider text-center">Claim & Return</p>
-              <div class="relative conveyor-wrap mt-4 md:mt-16 mb-2 md:mb-8 mx-2 md:mx-4">
-                <div class="conveyor-belt"></div>
-                <div class="parcel-box" style="left:0"></div>
-                <div class="parcel-box" style="left:0"></div>
-                <div class="parcel-box parcel-damaged" style="left:0"></div>
-                <div class="parcel-box" style="left:0"></div>
-                <div class="parcel-box parcel-damaged" style="left:0"></div>
-              </div>
-              <p class="text-center text-white/60 text-xs md:text-sm">กล่องส้ม = เคลม</p>
-            </div>
-          </div>
-          <div class="slide-text lg:flex-1 min-h-0 lg:order-1">
-            <p class="text-accent-orange font-semibold mobile-compact-label text-lg mb-1 md:mb-3 mobile-hide-sm">Slide 1 · The Problem</p>
-            <h1 class="mobile-compact-title text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-2 md:mb-6">
+      <section class="slide bg-base min-h-screen" data-slide="0" aria-label="ความท้าทายของการคิดต้นทุน">
+        <div class="slide-inner slide-layout min-h-screen flex flex-col md:flex-row md:items-center gap-6 md:gap-8 p-6 md:p-8 pt-[calc(var(--nav-total)+1rem)] pb-8 md:pb-12 max-w-7xl mx-auto w-full">
+          <div class="slide-text order-1 w-full md:w-7/12 min-w-0 shrink">
+            <p class="text-accent-orange font-semibold text-sm md:text-lg mb-1 md:mb-3 hidden sm:block">Slide 1 · The Problem</p>
+            <h1 class="text-2xl md:text-4xl lg:text-5xl font-bold leading-tight mb-2 md:mb-6">
               ทำไมคิดต้นทุน<br/>ต่อชิ้นถึงยาก?
             </h1>
-            <p class="mobile-compact-sub mobile-hide-sm text-xl text-white/75 leading-relaxed mb-8 max-w-xl">
+            <p class="text-base md:text-xl text-white/75 leading-relaxed mb-6 md:mb-8 max-w-xl hidden sm:block">
               ธุรกิจขนส่ง LTL ไม่มีราคาทุนคงที่ — ต้นทุนผันแปรตามความหนาแน่น ปริมาณ และเที่ยววิ่งจริง
             </p>
-            <div class="mobile-cards-row md:space-y-4">
-              <div class="glass rounded-2xl mobile-card-snap md:p-5">
-                <p class="font-bold text-lg mb-1">Density & Volume</p>
-                <p class="text-white/70">500 vs 80 ชิ้น — ต้นทุนต่าง 6 เท่า</p>
+            <div class="flex flex-col gap-3 md:gap-4">
+              <div class="glass rounded-2xl p-4 md:p-5 min-w-0 overflow-hidden">
+                <p class="font-bold text-base md:text-lg mb-1">Density & Volume</p>
+                <p class="text-sm md:text-base text-white/70">500 vs 80 ชิ้น — ต้นทุนต่าง 6 เท่า</p>
               </div>
-              <div class="glass rounded-2xl mobile-card-snap md:p-5">
-                <p class="font-bold text-lg mb-1">รถวิ่งเที่ยวเปล่า</p>
-                <p class="text-white/70">ไม่รู้บิลไหนติด underload</p>
+              <div class="glass rounded-2xl p-4 md:p-5 min-w-0 overflow-hidden">
+                <p class="font-bold text-base md:text-lg mb-1">รถวิ่งเที่ยวเปล่า</p>
+                <p class="text-sm md:text-base text-white/70">ไม่รู้บิลไหนติด underload</p>
               </div>
-              <div class="glass rounded-2xl mobile-card-snap md:p-5">
-                <p class="font-bold text-lg mb-1">Hidden Costs</p>
-                <p class="text-white/70">เคลม, ตีกลับ, น้ำมันนอกเส้นทาง</p>
+              <div class="glass rounded-2xl p-4 md:p-5 min-w-0 overflow-hidden">
+                <p class="font-bold text-base md:text-lg mb-1">Hidden Costs</p>
+                <p class="text-sm md:text-base text-white/70">เคลม, ตีกลับ, น้ำมันนอกเส้นทาง</p>
+              </div>
+            </div>
+          </div>
+          <div class="slide-graphic order-2 w-full md:w-5/12 min-w-0 max-sm:hidden shrink-0">
+            <div class="svg-contain">
+              <div class="glass-strong rounded-3xl p-4 md:p-6 w-full h-full flex flex-col justify-center relative overflow-hidden">
+                <p class="text-xs md:text-sm font-semibold text-white/50 mb-2 md:mb-4 uppercase tracking-wider text-center">Claim & Return</p>
+                <div class="relative conveyor-wrap mt-2 md:mt-6 mb-2 md:mb-4 mx-2 md:mx-4">
+                  <div class="conveyor-belt"></div>
+                  <div class="parcel-box" style="left:0"></div>
+                  <div class="parcel-box" style="left:0"></div>
+                  <div class="parcel-box parcel-damaged" style="left:0"></div>
+                  <div class="parcel-box" style="left:0"></div>
+                  <div class="parcel-box parcel-damaged" style="left:0"></div>
+                </div>
+                <p class="text-center text-white/60 text-xs md:text-sm">กล่องส้ม = เคลม</p>
               </div>
             </div>
           </div>
@@ -408,26 +286,23 @@
       </section>
 
       <!-- SLIDE 2: COST CATEGORIZATION (NSS) -->
-      <section class="slide bg-elevated" data-slide="1" aria-label="การแบ่งกลุ่มต้นทุน">
-        <div class="slide-inner slide-2-inner px-4 md:px-16 md:pt-24 md:pb-12 max-w-7xl mx-auto h-full overflow-hidden">
-          <div class="slide-2-header mb-3 md:mb-8">
-            <p class="text-accent-blue font-semibold mobile-compact-label text-lg mb-2 mobile-hide-sm">Slide 2 · Cost Categorization</p>
-            <h2 class="text-3xl md:text-5xl font-bold mb-3">ต้นทุนแปรผันต่อเที่ยว<br class="md:hidden"/>ตามใบเบิกจริง</h2>
-            <p class="mobile-compact-sub mobile-hide-sm text-xl text-white/70 max-w-3xl">ปันส่วนลงบิล LTL ตามตัน-กิโลเมตร</p>
-          </div>
-          <div class="grid lg:grid-cols-3 gap-5 mb-4 md:mb-8 flex-1 min-h-0" id="cost-panels"></div>
-          <div class="mobile-hide-sm flex-1 flex items-center justify-center shrink-0">
-            <svg viewBox="0 0 500 180" class="w-full max-w-2xl" aria-hidden="true">
-              <!-- Person -->
+      <section class="slide bg-elevated min-h-screen" data-slide="1" aria-label="การแบ่งกลุ่มต้นทุน">
+        <div class="slide-inner min-h-screen flex flex-col p-6 md:p-8 pt-[calc(var(--nav-total)+1rem)] pb-8 md:pb-12 max-w-7xl mx-auto w-full">
+          <header class="mb-6 md:mb-8 min-w-0">
+            <p class="text-accent-blue font-semibold text-sm md:text-lg mb-2 hidden sm:block">Slide 2 · Cost Categorization</p>
+            <h2 class="text-2xl md:text-4xl lg:text-5xl font-bold mb-3">ต้นทุนแปรผันต่อเที่ยว<br class="md:hidden"/>ตามใบเบิกจริง</h2>
+            <p class="text-base md:text-xl text-white/70 max-w-3xl hidden sm:block">ปันส่วนลงบิล LTL ตามตัน-กิโลเมตร</p>
+          </header>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-6 md:mb-8" id="cost-panels"></div>
+          <div class="svg-contain max-sm:hidden shrink-0">
+            <svg viewBox="0 0 500 180" class="w-full h-full" aria-hidden="true">
               <circle cx="60" cy="50" r="22" fill="#458fff" opacity="0.8"/>
               <rect x="40" y="78" width="40" height="55" rx="8" fill="#458fff" opacity="0.6"/>
               <rect x="30" y="90" width="18" height="45" rx="6" fill="#458fff" opacity="0.4"/>
               <rect x="72" y="90" width="18" height="45" rx="6" fill="#458fff" opacity="0.4"/>
               <text x="60" y="155" text-anchor="middle" fill="rgba(255,255,255,0.5)" font-size="11" font-family="Inter,sans-serif">พนักงาน / พขร.</text>
-              <!-- Pulse lines -->
               <path class="data-pulse" d="M95 70 L200 70" stroke="#458fff" stroke-width="2" fill="none"/>
               <path class="data-pulse" d="M95 100 L200 100" stroke="#ea580c" stroke-width="2" fill="none" style="animation-delay:0.5s"/>
-              <!-- Server -->
               <rect x="210" y="40" width="100" height="28" rx="6" fill="#1d1f25" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
               <rect x="210" y="76" width="100" height="28" rx="6" fill="#1d1f25" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
               <rect x="210" y="112" width="100" height="28" rx="6" fill="#1d1f25" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
@@ -435,7 +310,6 @@
               <circle class="led" cx="295" cy="90" r="4" fill="#458fff"/>
               <circle class="led" cx="295" cy="126" r="4" fill="#ea580c"/>
               <text x="260" y="155" text-anchor="middle" fill="rgba(255,255,255,0.5)" font-size="11" font-family="Inter,sans-serif">Server / ระบบบัญชี</text>
-              <!-- Cost numbers -->
               <path class="data-pulse" d="M320 70 L400 70" stroke="#458fff" stroke-width="2" fill="none" style="animation-delay:1s"/>
               <text x="430" y="75" fill="#458fff" font-size="22" font-weight="700" font-family="Inter,sans-serif">฿</text>
               <text x="400" y="110" fill="rgba(255,255,255,0.6)" font-size="12" font-family="Inter,sans-serif">ใบเบิก → Manifest</text>
@@ -445,64 +319,70 @@
       </section>
 
       <!-- SLIDE 3: WORKFLOW (NSS) -->
-      <section class="slide bg-base" data-slide="2" aria-label="กระบวนการบันทึกข้อมูล">
-        <div class="slide-inner slide-layout lg:flex-row gap-4 md:gap-8 px-4 md:px-16 md:pt-24 md:pb-12 max-w-7xl mx-auto">
-          <div class="slide-graphic flex items-center justify-center w-full lg:flex-1 lg:order-2">
-            <svg viewBox="0 0 400 200" class="w-full max-w-lg" id="motorcycle-svg" aria-hidden="true">
-              <line class="route-path" x1="30" y1="150" x2="370" y2="150" stroke="rgba(255,255,255,0.2)" stroke-width="3"/>
-              <circle class="waypoint active" id="wp-0" cx="50" cy="150" r="7" fill="#458fff"/>
-              <circle class="waypoint" id="wp-1" cx="150" cy="150" r="7" fill="rgba(255,255,255,0.3)"/>
-              <circle class="waypoint" id="wp-2" cx="250" cy="150" r="7" fill="rgba(255,255,255,0.3)"/>
-              <circle class="waypoint" id="wp-3" cx="350" cy="150" r="7" fill="rgba(255,255,255,0.3)"/>
-              <g id="motorcycle-group" transform="translate(30, 115)">
-                <circle cx="12" cy="35" r="14" fill="none" stroke="#fff" stroke-width="3"/>
-                <circle cx="48" cy="35" r="14" fill="none" stroke="#fff" stroke-width="3"/>
-                <path d="M12 35 L30 15 L48 20 L48 35" fill="none" stroke="#ea580c" stroke-width="4" stroke-linecap="round"/>
-                <rect x="28" y="8" width="16" height="10" rx="3" fill="#458fff"/>
-              </g>
-              <text x="50" y="180" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="10" font-family="Inter,sans-serif">LTL</text>
-              <text x="150" y="180" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="10" font-family="Inter,sans-serif">Manifest</text>
-              <text x="250" y="180" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="10" font-family="Inter,sans-serif">เบิกค่าใช้จ่าย</text>
-              <text x="350" y="180" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="10" font-family="Inter,sans-serif">เคลียร์</text>
-            </svg>
+      <section class="slide bg-base min-h-screen" data-slide="2" aria-label="กระบวนการบันทึกข้อมูล">
+        <div class="slide-inner slide-layout min-h-screen flex flex-col md:flex-row md:items-center gap-6 md:gap-8 p-6 md:p-8 pt-[calc(var(--nav-total)+1rem)] pb-8 md:pb-12 max-w-7xl mx-auto w-full">
+          <div class="slide-text order-1 w-full md:w-7/12 min-w-0 shrink">
+            <p class="text-accent-blue font-semibold text-sm md:text-lg mb-2 hidden sm:block">Slide 3 · Data Ingestion</p>
+            <h2 class="text-2xl md:text-4xl lg:text-5xl font-bold mb-3 md:mb-6">Workflow เอกสารจริง</h2>
+            <div class="overflow-x-auto -mx-1 px-1 mb-3 md:mb-6">
+              <div class="flex flex-nowrap gap-1.5 md:gap-2 min-w-0" id="wf-step-buttons"></div>
+            </div>
+            <div id="wf-step-content" class="glass-strong rounded-3xl p-6 md:p-8 min-w-0 overflow-hidden"></div>
           </div>
-          <div class="slide-text lg:flex-1 min-h-0 lg:order-1">
-            <p class="text-accent-blue font-semibold mobile-compact-label text-lg mb-2 mobile-hide-sm">Slide 3 · Data Ingestion</p>
-            <h2 class="mobile-compact-title text-3xl md:text-5xl font-bold mb-2 md:mb-6">Workflow เอกสารจริง</h2>
-            <div class="flex flex-wrap gap-1.5 md:gap-2 mb-2 md:mb-6" id="wf-step-buttons"></div>
-            <div id="wf-step-content" class="glass-strong rounded-3xl p-6 md:p-8 md:min-h-[280px]"></div>
+          <div class="slide-graphic order-2 w-full md:w-5/12 min-w-0 max-sm:hidden shrink-0">
+            <div class="svg-contain">
+              <svg viewBox="0 0 400 200" id="motorcycle-svg" aria-hidden="true">
+                <line class="route-path" x1="30" y1="150" x2="370" y2="150" stroke="rgba(255,255,255,0.2)" stroke-width="3"/>
+                <circle class="waypoint active" id="wp-0" cx="50" cy="150" r="7" fill="#458fff"/>
+                <circle class="waypoint" id="wp-1" cx="150" cy="150" r="7" fill="rgba(255,255,255,0.3)"/>
+                <circle class="waypoint" id="wp-2" cx="250" cy="150" r="7" fill="rgba(255,255,255,0.3)"/>
+                <circle class="waypoint" id="wp-3" cx="350" cy="150" r="7" fill="rgba(255,255,255,0.3)"/>
+                <g id="motorcycle-group" transform="translate(30, 115)">
+                  <circle cx="12" cy="35" r="14" fill="none" stroke="#fff" stroke-width="3"/>
+                  <circle cx="48" cy="35" r="14" fill="none" stroke="#fff" stroke-width="3"/>
+                  <path d="M12 35 L30 15 L48 20 L48 35" fill="none" stroke="#ea580c" stroke-width="4" stroke-linecap="round"/>
+                  <rect x="28" y="8" width="16" height="10" rx="3" fill="#458fff"/>
+                </g>
+                <text x="50" y="180" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="10" font-family="Inter,sans-serif">LTL</text>
+                <text x="150" y="180" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="10" font-family="Inter,sans-serif">Manifest</text>
+                <text x="250" y="180" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="10" font-family="Inter,sans-serif">เบิกค่าใช้จ่าย</text>
+                <text x="350" y="180" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="10" font-family="Inter,sans-serif">เคลียร์</text>
+              </svg>
+            </div>
           </div>
         </div>
       </section>
 
       <!-- SLIDE 4: TON-KM LOGIC -->
-      <section class="slide bg-elevated" data-slide="3" aria-label="หลักการปันส่วนตัน-กิโลเมตร">
-        <div class="slide-inner slide-layout lg:flex-row items-stretch lg:items-center gap-4 md:gap-10 px-4 md:px-16 md:pt-24 md:pb-12 max-w-7xl mx-auto">
-          <div class="slide-graphic slide-4-graphic w-full max-w-md mx-auto lg:mx-0 lg:flex-1 lg:order-2">
-            <div class="glass-strong rounded-3xl mobile-graphic-sm p-4 md:p-8">
-              <svg viewBox="0 0 300 120" class="w-full truck-svg mb-3 md:mb-6" aria-hidden="true">
-                <rect x="0" y="80" width="300" height="4" rx="2" fill="rgba(255,255,255,0.15)"/>
-                <rect x="20" y="45" width="50" height="35" rx="6" fill="#458fff"/>
-                <rect x="75" y="35" width="180" height="45" rx="6" fill="rgba(255,255,255,0.15)"/>
-                <rect x="85" y="42" width="160" height="30" rx="4" fill="rgba(69,143,255,0.3)" id="truck-load-visual"/>
-                <circle cx="45" cy="85" r="12" fill="#1d1f25" stroke="#fff" stroke-width="2"/>
-                <circle cx="220" cy="85" r="12" fill="#1d1f25" stroke="#fff" stroke-width="2"/>
-              </svg>
-              <p class="text-sm text-white/50 mb-2">ความจุบรรทุก</p>
-              <div class="h-4 rounded-full bg-white/10 overflow-hidden mb-2">
-                <div id="capacity-fill" class="h-full rounded-full bg-gradient-to-r from-accent-blue to-accent-orange" style="width:80%"></div>
-              </div>
-              <p class="text-2xl md:text-3xl font-bold" id="capacity-pct">80%</p>
+      <section class="slide bg-elevated min-h-screen" data-slide="3" aria-label="หลักการปันส่วนตัน-กิโลเมตร">
+        <div class="slide-inner slide-layout min-h-screen flex flex-col md:flex-row md:items-center gap-6 md:gap-8 p-6 md:p-8 pt-[calc(var(--nav-total)+1rem)] pb-8 md:pb-12 max-w-7xl mx-auto w-full">
+          <div class="slide-text order-1 w-full md:w-7/12 min-w-0 shrink overflow-hidden">
+            <p class="text-accent-orange font-semibold text-sm md:text-lg mb-2 hidden sm:block">Slide 4 · Ton-Kilometer</p>
+            <h2 class="text-2xl md:text-4xl lg:text-5xl font-bold mb-2 md:mb-4">Cost-to-Serve<br/>ตัน-กิโลเมตร</h2>
+            <p class="text-sm md:text-lg text-accent-blue font-semibold mb-3 md:mb-6 line-clamp-2" id="slide4-route-label"></p>
+            <div class="space-y-2 md:space-y-4 text-sm md:text-lg min-w-0 overflow-hidden flex flex-col" id="slide4-formulas"></div>
+            <div class="mt-4 md:mt-6 glass rounded-2xl p-4 md:p-5 min-w-0 overflow-hidden hidden sm:block">
+              <p class="font-bold text-accent-orange mb-2">Underload Impact</p>
+              <p class="text-sm md:text-base text-white/70">บรรทุกไม่เต็ม → Ton-Km ต่ำ → ฿/Ton-Km สูง</p>
             </div>
           </div>
-          <div class="slide-text lg:flex-1 min-h-0 overflow-hidden lg:order-1">
-            <p class="text-accent-orange font-semibold mobile-compact-label text-lg mb-2 mobile-hide-sm">Slide 4 · Ton-Kilometer</p>
-            <h2 class="mobile-compact-title text-3xl md:text-5xl font-bold mb-2 md:mb-4">Cost-to-Serve<br/>ตัน-กิโลเมตร</h2>
-            <p class="text-sm md:text-lg text-accent-blue font-semibold mb-3 md:mb-6 line-clamp-2" id="slide4-route-label"></p>
-            <div class="space-y-2 md:space-y-4 text-lg overflow-hidden flex flex-col" id="slide4-formulas"></div>
-            <div class="mt-3 md:mt-6 glass rounded-2xl p-5 mobile-hide-sm">
-              <p class="font-bold text-accent-orange mb-2">Underload Impact</p>
-              <p class="text-white/70">บรรทุกไม่เต็ม → Ton-Km ต่ำ → ฿/Ton-Km สูง</p>
+          <div class="slide-graphic order-2 w-full md:w-5/12 min-w-0 max-sm:hidden shrink-0">
+            <div class="svg-contain">
+              <div class="glass-strong rounded-3xl p-4 md:p-6 w-full h-full flex flex-col justify-center overflow-hidden">
+                <svg viewBox="0 0 300 120" class="w-full truck-svg mb-2 md:mb-4 shrink-0" aria-hidden="true">
+                  <rect x="0" y="80" width="300" height="4" rx="2" fill="rgba(255,255,255,0.15)"/>
+                  <rect x="20" y="45" width="50" height="35" rx="6" fill="#458fff"/>
+                  <rect x="75" y="35" width="180" height="45" rx="6" fill="rgba(255,255,255,0.15)"/>
+                  <rect x="85" y="42" width="160" height="30" rx="4" fill="rgba(69,143,255,0.3)" id="truck-load-visual"/>
+                  <circle cx="45" cy="85" r="12" fill="#1d1f25" stroke="#fff" stroke-width="2"/>
+                  <circle cx="220" cy="85" r="12" fill="#1d1f25" stroke="#fff" stroke-width="2"/>
+                </svg>
+                <p class="text-xs md:text-sm text-white/50 mb-2">ความจุบรรทุก</p>
+                <div class="h-3 md:h-4 rounded-full bg-white/10 overflow-hidden mb-2">
+                  <div id="capacity-fill" class="h-full rounded-full bg-gradient-to-r from-accent-blue to-accent-orange" style="width:80%"></div>
+                </div>
+                <p class="text-xl md:text-3xl font-bold" id="capacity-pct">80%</p>
+              </div>
             </div>
           </div>
         </div>
@@ -513,75 +393,75 @@
 
   <!-- ========== EXECUTIVE DASHBOARD ========== -->
   <div id="executive-dashboard" class="min-h-screen bg-base overflow-y-auto">
-    <div class="px-6 md:px-12 pt-20 pb-16 max-w-7xl mx-auto">
+    <div class="p-6 md:p-8 pt-[calc(var(--nav-total)+1.5rem)] pb-16 max-w-7xl mx-auto w-full">
       <!-- Header -->
-      <div class="mb-8">
-        <p class="text-accent-orange font-semibold text-lg mb-2">Executive Dashboard</p>
-        <h2 class="text-3xl md:text-4xl font-bold mb-2">Simulation Playground</h2>
-        <div class="glass inline-block rounded-2xl px-4 py-2 text-sm font-medium text-white/80" id="dash-route-badge"></div>
+      <div class="mb-6 md:mb-8 min-w-0">
+        <p class="text-accent-orange font-semibold text-sm md:text-lg mb-2">Executive Dashboard</p>
+        <h2 class="text-2xl md:text-4xl font-bold mb-2">Simulation Playground</h2>
+        <div class="glass inline-block rounded-2xl px-4 py-2 text-sm font-medium text-white/80 max-w-full truncate" id="dash-route-badge"></div>
       </div>
 
       <!-- Alerts -->
-      <div id="dash-alert" class="hidden glass rounded-2xl px-5 py-4 mb-6 text-accent-orange font-semibold text-lg" role="alert"></div>
+      <div id="dash-alert" class="hidden glass rounded-2xl px-5 py-4 mb-6 text-accent-orange font-semibold text-base md:text-lg min-w-0 overflow-hidden" role="alert"></div>
 
       <!-- KPI Row -->
-      <div class="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
-        <div class="glass rounded-2xl p-5">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-6 md:mb-8">
+        <div class="glass rounded-2xl p-6 min-w-0 overflow-hidden">
           <p class="text-white/50 text-sm mb-1">รายได้เที่ยว</p>
-          <p id="kpi-revenue" class="text-2xl font-bold font-mono" aria-live="polite">—</p>
+          <p id="kpi-revenue" class="text-xl md:text-2xl font-bold font-mono truncate" aria-live="polite">—</p>
         </div>
-        <div class="glass rounded-2xl p-5">
+        <div class="glass rounded-2xl p-6 min-w-0 overflow-hidden">
           <p class="text-white/50 text-sm mb-1">ต้นทุนรวม</p>
-          <p id="kpi-total-cost" class="text-2xl font-bold font-mono" aria-live="polite">—</p>
+          <p id="kpi-total-cost" class="text-xl md:text-2xl font-bold font-mono truncate" aria-live="polite">—</p>
         </div>
-        <div class="glass-strong rounded-2xl p-5">
+        <div class="glass-strong rounded-2xl p-6 min-w-0 overflow-hidden">
           <p class="text-white/50 text-sm mb-1">CM / เที่ยว</p>
-          <p id="kpi-cm-trip" class="text-2xl font-bold font-mono" aria-live="polite">—</p>
+          <p id="kpi-cm-trip" class="text-xl md:text-2xl font-bold font-mono truncate" aria-live="polite">—</p>
         </div>
-        <div class="glass-strong rounded-2xl p-5">
+        <div class="glass-strong rounded-2xl p-6 min-w-0 overflow-hidden">
           <p class="text-white/50 text-sm mb-1">Margin / Ton-Km</p>
-          <p id="kpi-margin-tonkm" class="text-2xl font-bold font-mono text-accent-blue" aria-live="polite">—</p>
+          <p id="kpi-margin-tonkm" class="text-xl md:text-2xl font-bold font-mono text-accent-blue truncate" aria-live="polite">—</p>
         </div>
-        <div class="glass rounded-2xl p-5 col-span-2 lg:col-span-1">
+        <div class="glass rounded-2xl p-6 min-w-0 overflow-hidden sm:col-span-2 lg:col-span-1">
           <p class="text-white/50 text-sm mb-1">Cost / Ton-Km</p>
-          <p id="kpi-cost-tonkm" class="text-2xl font-bold font-mono" aria-live="polite">—</p>
+          <p id="kpi-cost-tonkm" class="text-xl md:text-2xl font-bold font-mono truncate" aria-live="polite">—</p>
         </div>
       </div>
 
-      <div class="grid lg:grid-cols-2 gap-8">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <!-- Inputs -->
-        <div class="space-y-4">
-          <div class="glass-strong rounded-3xl p-6">
-            <h3 class="text-xl font-bold mb-5">ตัวแปรจำลอง</h3>
+        <div class="lg:col-span-1 space-y-4 min-w-0">
+          <div class="glass-strong rounded-3xl p-6 md:p-8 min-w-0 overflow-hidden">
+            <h3 class="text-lg md:text-xl font-bold mb-5">ตัวแปรจำลอง</h3>
             <div class="space-y-5" id="dash-inputs"></div>
           </div>
-          <div class="glass rounded-2xl p-5 grid grid-cols-3 gap-4 text-center">
-            <div>
-              <p class="text-white/50 text-xs mb-1">Ton-Km</p>
-              <p id="mini-tonkm" class="text-lg font-bold font-mono">—</p>
+          <div class="glass rounded-2xl p-6 md:p-8 grid grid-cols-3 gap-4 text-center min-w-0 overflow-hidden">
+            <div class="min-w-0">
+              <p class="text-white/50 text-xs mb-1 truncate">Ton-Km</p>
+              <p id="mini-tonkm" class="text-base md:text-lg font-bold font-mono truncate">—</p>
             </div>
-            <div>
-              <p class="text-white/50 text-xs mb-1">Load Factor</p>
-              <p id="mini-load" class="text-lg font-bold font-mono">—</p>
+            <div class="min-w-0">
+              <p class="text-white/50 text-xs mb-1 truncate">Load Factor</p>
+              <p id="mini-load" class="text-base md:text-lg font-bold font-mono truncate">—</p>
             </div>
-            <div>
-              <p class="text-white/50 text-xs mb-1">บิล LTL</p>
-              <p id="mini-bills" class="text-lg font-bold font-mono">—</p>
+            <div class="min-w-0">
+              <p class="text-white/50 text-xs mb-1 truncate">บิล LTL</p>
+              <p id="mini-bills" class="text-base md:text-lg font-bold font-mono truncate">—</p>
             </div>
           </div>
         </div>
 
         <!-- Outputs -->
-        <div class="space-y-4">
-          <div class="glass-strong rounded-3xl p-6">
-            <h3 class="text-xl font-bold mb-4">Cost Breakdown</h3>
-            <div id="dash-bar" class="h-8 flex rounded-2xl overflow-hidden bg-white/5 mb-4"></div>
-            <div id="dash-bar-legend" class="grid grid-cols-2 gap-2 text-sm"></div>
+        <div class="lg:col-span-2 space-y-4 min-w-0">
+          <div class="glass-strong rounded-3xl p-6 md:p-8 min-w-0 overflow-hidden">
+            <h3 class="text-lg md:text-xl font-bold mb-4">Cost Breakdown</h3>
+            <div id="dash-bar" class="h-8 flex rounded-2xl overflow-hidden bg-white/5 mb-4 min-w-0"></div>
+            <div id="dash-bar-legend" class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm min-w-0"></div>
           </div>
-          <div class="glass rounded-2xl p-5">
+          <div class="glass rounded-2xl p-6 md:p-8 min-w-0 overflow-hidden">
             <p class="text-white/50 text-sm mb-2">ต้นทุนน้ำมัน (คำนวณอัตโนมัติ)</p>
-            <p id="fuel-cost-display" class="text-3xl font-bold font-mono text-accent-blue">—</p>
-            <p class="text-white/40 text-sm mt-1" id="fuel-formula-display"></p>
+            <p id="fuel-cost-display" class="text-2xl md:text-3xl font-bold font-mono text-accent-blue truncate">—</p>
+            <p class="text-white/40 text-sm mt-1 truncate" id="fuel-formula-display"></p>
           </div>
         </div>
       </div>
@@ -767,6 +647,15 @@
       let wheelTimeout = null;
       document.addEventListener('wheel', (e) => {
         if (wheelTimeout) return;
+        if (currentView < 4) {
+          const slide = document.querySelector(`[data-slide="${currentView}"]`);
+          if (slide) {
+            const atTop = slide.scrollTop <= 0;
+            const atBottom = slide.scrollTop + slide.clientHeight >= slide.scrollHeight - 2;
+            if (e.deltaY > 30 && !atBottom) return;
+            if (e.deltaY < -30 && !atTop) return;
+          }
+        }
         wheelTimeout = setTimeout(() => { wheelTimeout = null; }, 600);
         if (e.deltaY > 30) goToView(currentView + 1);
         else if (e.deltaY < -30) goToView(currentView - 1);
@@ -776,7 +665,17 @@
       document.addEventListener('touchstart', (e) => { touchStartY = e.touches[0].clientY; }, { passive: true });
       document.addEventListener('touchend', (e) => {
         const diff = touchStartY - e.changedTouches[0].clientY;
-        if (Math.abs(diff) > 50) goToView(diff > 0 ? currentView + 1 : currentView - 1);
+        if (Math.abs(diff) <= 50) return;
+        if (currentView < 4) {
+          const slide = document.querySelector(`[data-slide="${currentView}"]`);
+          if (slide) {
+            const atTop = slide.scrollTop <= 0;
+            const atBottom = slide.scrollTop + slide.clientHeight >= slide.scrollHeight - 2;
+            if (diff > 0 && !atBottom) return;
+            if (diff < 0 && !atTop) return;
+          }
+        }
+        goToView(diff > 0 ? currentView + 1 : currentView - 1);
       }, { passive: true });
     }
 
@@ -787,15 +686,15 @@
       const container = document.getElementById('cost-panels');
       Object.values(NSS_COMPANY_DATA.costCategories).forEach((cat) => {
         const panel = document.createElement('div');
-        panel.className = 'glass rounded-3xl p-6';
+        panel.className = 'glass rounded-3xl p-6 md:p-8 min-w-0 overflow-hidden';
         panel.innerHTML = `
-          <div class="flex items-center gap-2 mb-4">
-            <span class="w-3 h-3 rounded-full" style="background:${cat.accent}"></span>
-            <h3 class="text-xl font-bold">${cat.title}</h3>
+          <div class="flex items-center gap-2 mb-4 min-w-0">
+            <span class="w-3 h-3 rounded-full shrink-0" style="background:${cat.accent}"></span>
+            <h3 class="text-lg md:text-xl font-bold truncate">${cat.title}</h3>
           </div>
           <p class="text-xs text-white/40 mb-3 uppercase tracking-wider">Variable · Trip · ผูก Manifest</p>
-          <div class="flex flex-wrap gap-2">
-            ${cat.items.map((item) => `<span class="px-3 py-1.5 rounded-xl text-sm font-medium bg-white/8 text-white/80">${item}</span>`).join('')}
+          <div class="flex flex-wrap gap-2 overflow-hidden">
+            ${cat.items.map((item) => `<span class="px-3 py-1.5 rounded-xl text-xs md:text-sm font-medium bg-white/8 text-white/80">${item}</span>`).join('')}
           </div>`;
         container.appendChild(panel);
       });
@@ -815,7 +714,7 @@
       NSS_COMPANY_DATA.workflowDocs.forEach((doc, i) => {
         const btn = document.createElement('button');
         btn.type = 'button';
-        btn.className = 'px-4 py-2 rounded-2xl text-sm font-semibold transition-all duration-300 ' + (i === 0 ? 'glass-strong text-white' : 'glass text-white/60');
+        btn.className = 'shrink-0 px-3 md:px-4 py-2 rounded-2xl text-xs md:text-sm font-semibold transition-all duration-300 ' + (i === 0 ? 'glass-strong text-white' : 'glass text-white/60');
         btn.textContent = `Step ${doc.step}`;
         btn.dataset.step = i;
         btn.addEventListener('click', () => setWorkflowStep(i));
@@ -829,7 +728,7 @@
       const doc = NSS_COMPANY_DATA.workflowDocs[index];
 
       document.querySelectorAll('#wf-step-buttons button').forEach((btn, i) => {
-        btn.className = 'px-4 py-2 rounded-2xl text-sm font-semibold transition-all duration-300 ' +
+        btn.className = 'shrink-0 px-3 md:px-4 py-2 rounded-2xl text-xs md:text-sm font-semibold transition-all duration-300 ' +
           (i === index ? 'glass-strong text-white' : 'glass text-white/60');
       });
 
@@ -873,11 +772,11 @@
         `${route.name} · ${route.distanceKm} กม. · ${veh.name} · ${veh.fuelLitersPerTrip} ล./เที่ยว`;
 
       document.getElementById('slide4-formulas').innerHTML = `
-        <div class="glass rounded-2xl p-4"><span class="text-white/50">Ton-Km</span> = <strong>น้ำหนัก(ตัน) × ${route.distanceKm} กม.</strong></div>
-        <div class="glass rounded-2xl p-4"><span class="text-white/50">ต้นทุนน้ำมันมาตรฐาน</span> = <strong>${veh.fuelLitersPerTrip} ล. × ${diesel} ฿</strong> ≈ <strong class="text-accent-blue">${fuelCost.toLocaleString('th-TH', { minimumFractionDigits: 2 })} ฿</strong></div>
-        <div class="glass rounded-2xl p-4 mobile-hide-sm"><span class="text-white/50">ปันส่วน Manifest → บิล LTL</span> = <strong>(น้ำหนักบิล ÷ น้ำหนักรวม) × ต้นทุนรวม</strong></div>
-        <div class="glass rounded-2xl p-4 mobile-hide-sm"><span class="text-white/50">Cost/Ton-Km</span> = <strong>ต้นทุนรวม ÷ Ton-Km</strong></div>
-        <div class="glass rounded-2xl p-4"><span class="text-white/50">Margin/Ton-Km</span> = <strong>Contribution Margin ÷ Ton-Km</strong></div>`;
+        <div class="glass rounded-2xl p-4 min-w-0 overflow-hidden"><span class="text-white/50">Ton-Km</span> = <strong>น้ำหนัก(ตัน) × ${route.distanceKm} กม.</strong></div>
+        <div class="glass rounded-2xl p-4 min-w-0 overflow-hidden"><span class="text-white/50">ต้นทุนน้ำมันมาตรฐาน</span> = <strong>${veh.fuelLitersPerTrip} ล. × ${diesel} ฿</strong> ≈ <strong class="text-accent-blue">${fuelCost.toLocaleString('th-TH', { minimumFractionDigits: 2 })} ฿</strong></div>
+        <div class="glass rounded-2xl p-4 min-w-0 overflow-hidden hidden sm:block"><span class="text-white/50">ปันส่วน Manifest → บิล LTL</span> = <strong>(น้ำหนักบิล ÷ น้ำหนักรวม) × ต้นทุนรวม</strong></div>
+        <div class="glass rounded-2xl p-4 min-w-0 overflow-hidden hidden sm:block"><span class="text-white/50">Cost/Ton-Km</span> = <strong>ต้นทุนรวม ÷ Ton-Km</strong></div>
+        <div class="glass rounded-2xl p-4 min-w-0 overflow-hidden"><span class="text-white/50">Margin/Ton-Km</span> = <strong>Contribution Margin ÷ Ton-Km</strong></div>`;
     }
 
     function startCapacityDemo() {
@@ -971,7 +870,7 @@
 
       const cmEl = document.getElementById('kpi-cm-trip');
       cmEl.textContent = formatBaht(r.contributionMargin);
-      cmEl.className = 'text-2xl font-bold font-mono ' + (r.contributionMargin >= 0 ? 'text-green-400' : 'text-red-400');
+      cmEl.className = 'text-xl md:text-2xl font-bold font-mono truncate ' + (r.contributionMargin >= 0 ? 'text-green-400' : 'text-red-400');
 
       document.getElementById('kpi-margin-tonkm').textContent =
         r.marginPerTonKm != null ? formatBaht(r.marginPerTonKm) + '/Ton-Km' : '—';
@@ -996,11 +895,11 @@
       ];
 
       document.getElementById('dash-bar').innerHTML = segments.map((seg) =>
-        `<div class="bar-seg h-full" style="width:${(seg.val / total) * 100}%;background:${seg.color}" title="${seg.label}"></div>`
+        `<div class="bar-seg h-full min-w-0 shrink-0" style="width:${(seg.val / total) * 100}%;background:${seg.color}" title="${seg.label}"></div>`
       ).join('');
 
       document.getElementById('dash-bar-legend').innerHTML = segments.map((seg) =>
-        `<span class="flex items-center gap-2"><span class="w-3 h-3 rounded-full" style="background:${seg.color}"></span>${seg.label} <span class="ml-auto font-mono text-white/60">${((seg.val / total) * 100).toFixed(1)}%</span></span>`
+        `<span class="flex items-center gap-2 min-w-0 overflow-hidden"><span class="w-3 h-3 rounded-full shrink-0" style="background:${seg.color}"></span><span class="truncate">${seg.label}</span> <span class="ml-auto font-mono text-white/60 shrink-0">${((seg.val / total) * 100).toFixed(1)}%</span></span>`
       ).join('');
 
       // Alerts
@@ -1044,12 +943,13 @@
 
       DASH_INPUTS.forEach((inp) => {
         const div = document.createElement('div');
+        div.className = 'min-w-0';
         div.innerHTML = `
-          <label class="flex justify-between text-sm mb-2">
-            <span class="text-white/70">${inp.label}</span>
-            <span class="font-mono text-accent-blue" id="lbl-${inp.key}">${dashState[inp.key]}</span>
+          <label class="flex justify-between text-sm mb-2 gap-2 min-w-0">
+            <span class="text-white/70 truncate">${inp.label}</span>
+            <span class="font-mono text-accent-blue shrink-0" id="lbl-${inp.key}">${dashState[inp.key]}</span>
           </label>
-          <input type="range" id="range-${inp.key}" min="${inp.min}" max="${inp.max}" step="${inp.step}" value="${dashState[inp.key]}" class="w-full mb-2" />
+          <input type="range" id="range-${inp.key}" min="${inp.min}" max="${inp.max}" step="${inp.step}" value="${dashState[inp.key]}" class="w-full mb-2 touch-manipulation" />
           <input type="number" id="num-${inp.key}" min="${inp.min}" max="${inp.max}" step="${inp.step}" value="${dashState[inp.key]}" class="w-full h-11 px-4 rounded-xl" />`;
         container.appendChild(div);
 
