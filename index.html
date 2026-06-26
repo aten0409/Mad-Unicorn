@@ -42,10 +42,13 @@
     }
 
     :root {
-      --header-h: 52px;
+      --header-h: 68px;
       --progress-h: 4px;
       --nav-total: calc(var(--progress-h) + var(--header-h));
     }
+
+    .card-body { color: #e5e7eb; }
+    .card-muted { color: #d1d5db; }
 
     #slide-deck {
       height: 100dvh;
@@ -97,17 +100,17 @@
     }
 
     .svg-contain {
-      width: 100%;
-      max-width: 28rem;
-      margin-left: auto;
-      margin-right: auto;
-      aspect-ratio: 16 / 9;
       display: flex;
       align-items: center;
       justify-content: center;
       overflow: hidden;
     }
     .svg-contain svg {
+      width: 100%;
+      height: 100%;
+      max-height: 100%;
+    }
+    .graphic-frame svg {
       width: 100%;
       height: 100%;
       max-height: 100%;
@@ -123,8 +126,8 @@
       100% { background-position: 40px 0; }
     }
     @keyframes parcelMove {
-      0% { transform: translateX(-20px); }
-      100% { transform: translateX(280px); }
+      0% { left: -10px; }
+      100% { left: calc(100% - 36px); }
     }
     @keyframes shake {
       0%, 100% { transform: translateX(0) rotate(0); }
@@ -137,9 +140,6 @@
     }
     .conveyor-panel {
       width: 100%;
-      max-width: 28rem;
-      margin-left: auto;
-      margin-right: auto;
     }
     .conveyor-wrap {
       position: relative;
@@ -237,15 +237,15 @@
   </div>
 
   <!-- Nav chrome -->
-  <header class="fixed top-0 left-0 right-0 z-50 px-3 md:px-10 pt-2 pb-2 flex items-center justify-between pointer-events-none" style="top: var(--progress-h)">
-    <div class="pointer-events-auto flex items-center gap-2 min-w-0">
+  <header class="fixed top-0 left-0 right-0 z-50 px-3 md:px-10 pt-2 pb-2 grid grid-cols-[1fr_auto_1fr] items-center pointer-events-none" style="top: var(--progress-h)">
+    <div class="pointer-events-auto flex items-center min-w-0 justify-self-start">
       <div class="glass rounded-2xl px-3 py-2 flex items-center gap-2 shrink-0">
         <span class="w-8 h-8 rounded-xl bg-accent-blue/30 flex items-center justify-center text-sm font-bold">NS</span>
         <span class="text-xs sm:text-sm font-semibold text-white/90 truncate max-w-[100px] sm:max-w-none hidden sm:inline">นิ่มซี่เส็งขนส่ง 1988</span>
       </div>
-      <div id="slide-dots" class="glass rounded-2xl px-3 py-2 flex gap-2 pointer-events-auto"></div>
     </div>
-    <div class="pointer-events-auto flex items-center gap-1.5 shrink-0">
+    <div id="slide-dots" class="glass rounded-2xl px-3 py-2 flex gap-2 pointer-events-auto justify-self-center"></div>
+    <div class="pointer-events-auto flex items-center gap-1.5 shrink-0 justify-self-end">
       <button id="btn-prev" type="button" class="glass rounded-2xl w-10 h-10 md:w-11 md:h-11 flex items-center justify-center text-white/80" aria-label="สไลด์ก่อนหน้า">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
       </button>
@@ -261,8 +261,8 @@
 
       <!-- SLIDE 1: THE PROBLEM -->
       <section class="slide bg-base min-h-screen" data-slide="0" aria-label="ความท้าทายของการคิดต้นทุน">
-        <div class="slide-inner slide-layout min-h-screen flex flex-col md:flex-row md:items-center gap-6 md:gap-8 p-6 md:p-8 pt-[calc(var(--nav-total)+1rem)] pb-8 md:pb-12 max-w-7xl mx-auto w-full">
-          <div class="slide-text order-1 w-full md:w-7/12 min-w-0 shrink">
+        <div class="slide-inner min-h-screen py-12 px-6 flex flex-col justify-start lg:flex-row lg:items-start gap-6 lg:gap-8 pt-[calc(var(--nav-total)+1.25rem)] lg:pt-[calc(var(--nav-total)+2rem)] pb-12 lg:p-8 max-w-7xl mx-auto w-full">
+          <div class="slide-text order-1 w-full lg:w-7/12 min-w-0 shrink">
             <p class="text-accent-orange font-semibold text-sm md:text-lg mb-1 md:mb-3 hidden sm:block">Slide 1 · The Problem</p>
             <h1 class="text-2xl md:text-4xl lg:text-5xl font-bold leading-tight mb-2 md:mb-6">
               ทำไมคิดต้นทุน<br/>ต่อชิ้นถึงยาก?
@@ -273,31 +273,33 @@
             <div class="flex flex-col gap-3 md:gap-4">
               <div class="glass rounded-2xl p-4 md:p-5 min-w-0 overflow-hidden">
                 <p class="font-bold text-base md:text-lg mb-1 text-white">Density & Volume</p>
-                <p class="text-sm md:text-base text-white/70">500 vs 80 ชิ้น — ต้นทุนต่าง 6 เท่า</p>
+                <p class="text-sm md:text-base card-body">500 vs 80 ชิ้น — ต้นทุนต่าง 6 เท่า</p>
               </div>
               <div class="glass rounded-2xl p-4 md:p-5 min-w-0 overflow-hidden">
                 <p class="font-bold text-base md:text-lg mb-1 text-white">รถวิ่งเที่ยวเปล่า</p>
-                <p class="text-sm md:text-base text-white/70">ไม่รู้บิลไหนติด underload</p>
+                <p class="text-sm md:text-base card-body">ไม่รู้บิลไหนติด underload</p>
               </div>
               <div class="glass rounded-2xl p-4 md:p-5 min-w-0 overflow-hidden">
                 <p class="font-bold text-base md:text-lg mb-1 text-white">Hidden Costs</p>
-                <p class="text-sm md:text-base text-white/70">เคลม, ตีกลับ, น้ำมันนอกเส้นทาง</p>
+                <p class="text-sm md:text-base card-body">เคลม, ตีกลับ, น้ำมันนอกเส้นทาง</p>
               </div>
             </div>
           </div>
-          <div class="slide-graphic order-2 w-full md:w-5/12 min-w-0 max-sm:hidden shrink-0">
-            <div class="conveyor-panel">
-              <div class="glass-strong rounded-3xl p-4 md:p-6 w-full relative overflow-visible">
-                <p class="relative z-10 text-xs md:text-sm font-semibold text-white/80 mb-2 md:mb-4 uppercase tracking-wider text-center">Claim & Return</p>
-                <div class="conveyor-wrap mx-2 md:mx-4">
-                  <div class="conveyor-belt"></div>
-                  <div class="parcel-box" style="left:0"></div>
-                  <div class="parcel-box" style="left:0"></div>
-                  <div class="parcel-box parcel-damaged" style="left:0"></div>
-                  <div class="parcel-box" style="left:0"></div>
-                  <div class="parcel-box parcel-damaged" style="left:0"></div>
+          <div class="slide-graphic order-2 w-full lg:w-5/12 min-w-0 shrink-0">
+            <div class="graphic-frame w-full max-w-[280px] sm:max-w-md mx-auto mt-6 lg:mt-0">
+              <div class="conveyor-panel">
+                <div class="glass-strong rounded-3xl p-4 md:p-6 w-full relative overflow-visible">
+                  <p class="relative z-10 text-xs md:text-sm font-semibold text-white/80 mb-2 md:mb-4 uppercase tracking-wider text-center">Claim & Return</p>
+                  <div class="conveyor-wrap mx-2 md:mx-4">
+                    <div class="conveyor-belt"></div>
+                    <div class="parcel-box" style="left:0"></div>
+                    <div class="parcel-box" style="left:0"></div>
+                    <div class="parcel-box parcel-damaged" style="left:0"></div>
+                    <div class="parcel-box" style="left:0"></div>
+                    <div class="parcel-box parcel-damaged" style="left:0"></div>
+                  </div>
+                  <p class="relative z-10 text-center text-white/70 text-xs md:text-sm mt-2 md:mt-4">กล่องส้ม = เคลม</p>
                 </div>
-                <p class="relative z-10 text-center text-white/70 text-xs md:text-sm mt-2 md:mt-4">กล่องส้ม = เคลม</p>
               </div>
             </div>
           </div>
@@ -306,14 +308,14 @@
 
       <!-- SLIDE 2: COST CATEGORIZATION (NSS) -->
       <section class="slide bg-elevated min-h-screen" data-slide="1" aria-label="การแบ่งกลุ่มต้นทุน">
-        <div class="slide-inner min-h-screen flex flex-col p-6 md:p-8 pt-[calc(var(--nav-total)+1rem)] pb-8 md:pb-12 max-w-7xl mx-auto w-full">
+        <div class="slide-inner min-h-screen py-12 px-6 flex flex-col justify-start pt-[calc(var(--nav-total)+1.25rem)] lg:pt-[calc(var(--nav-total)+2rem)] pb-12 lg:p-8 max-w-7xl mx-auto w-full">
           <header class="mb-6 md:mb-8 min-w-0">
             <p class="text-accent-blue font-semibold text-sm md:text-lg mb-2 hidden sm:block">Slide 2 · Cost Categorization</p>
             <h2 class="text-2xl md:text-4xl lg:text-5xl font-bold mb-3">ต้นทุนแปรผันต่อเที่ยว<br class="md:hidden"/>ตามใบเบิกจริง</h2>
             <p class="text-base md:text-xl text-white/70 max-w-3xl hidden sm:block">ปันส่วนลงบิล LTL ตามตัน-กิโลเมตร</p>
           </header>
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-6 md:mb-8" id="cost-panels"></div>
-          <div class="svg-contain max-sm:hidden shrink-0">
+          <div class="graphic-frame w-full max-w-[280px] sm:max-w-md mx-auto aspect-video mt-6 lg:mt-0 shrink-0 svg-contain">
             <svg viewBox="0 0 500 180" class="w-full h-full" aria-hidden="true">
               <circle cx="60" cy="50" r="22" fill="#458fff" opacity="0.8"/>
               <rect x="40" y="78" width="40" height="55" rx="8" fill="#458fff" opacity="0.6"/>
@@ -339,8 +341,8 @@
 
       <!-- SLIDE 3: WORKFLOW (NSS) -->
       <section class="slide bg-base min-h-screen" data-slide="2" aria-label="กระบวนการบันทึกข้อมูล">
-        <div class="slide-inner slide-layout min-h-screen flex flex-col md:flex-row md:items-center gap-6 md:gap-8 p-6 md:p-8 pt-[calc(var(--nav-total)+1rem)] pb-8 md:pb-12 max-w-7xl mx-auto w-full">
-          <div class="slide-text order-1 w-full md:w-7/12 min-w-0 shrink">
+        <div class="slide-inner min-h-screen py-12 px-6 flex flex-col justify-start lg:flex-row lg:items-start gap-6 lg:gap-8 pt-[calc(var(--nav-total)+1.25rem)] lg:pt-[calc(var(--nav-total)+2rem)] pb-12 lg:p-8 max-w-7xl mx-auto w-full">
+          <div class="slide-text order-1 w-full lg:w-7/12 min-w-0 shrink">
             <p class="text-accent-blue font-semibold text-sm md:text-lg mb-2 hidden sm:block">Slide 3 · Data Ingestion</p>
             <h2 class="text-2xl md:text-4xl lg:text-5xl font-bold mb-3 md:mb-6">Workflow เอกสารจริง</h2>
             <div class="overflow-x-auto -mx-1 px-1 mb-3 md:mb-6">
@@ -348,8 +350,8 @@
             </div>
             <div id="wf-step-content" class="glass-strong rounded-3xl p-6 md:p-8 min-w-0 overflow-hidden"></div>
           </div>
-          <div class="slide-graphic order-2 w-full md:w-5/12 min-w-0 max-sm:hidden shrink-0">
-            <div class="svg-contain">
+          <div class="slide-graphic order-2 w-full lg:w-5/12 min-w-0 shrink-0 lg:sticky lg:top-[calc(var(--nav-total)+1rem)]">
+            <div class="graphic-frame w-full max-w-[280px] sm:max-w-md mx-auto aspect-video mt-6 lg:mt-0 svg-contain">
               <svg viewBox="0 0 400 200" id="motorcycle-svg" aria-hidden="true">
                 <line class="route-path" x1="30" y1="150" x2="370" y2="150" stroke="rgba(255,255,255,0.2)" stroke-width="3"/>
                 <circle class="waypoint active" id="wp-0" cx="50" cy="150" r="7" fill="#458fff"/>
@@ -362,10 +364,10 @@
                   <path d="M12 35 L30 15 L48 20 L48 35" fill="none" stroke="#ea580c" stroke-width="4" stroke-linecap="round"/>
                   <rect x="28" y="8" width="16" height="10" rx="3" fill="#458fff"/>
                 </g>
-                <text x="50" y="180" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="10" font-family="Inter,sans-serif">LTL</text>
-                <text x="150" y="180" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="10" font-family="Inter,sans-serif">Manifest</text>
-                <text x="250" y="180" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="10" font-family="Inter,sans-serif">เบิกค่าใช้จ่าย</text>
-                <text x="350" y="180" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="10" font-family="Inter,sans-serif">เคลียร์</text>
+                <text x="50" y="180" text-anchor="middle" fill="rgba(255,255,255,0.65)" font-size="10" font-family="Inter,sans-serif">LTL</text>
+                <text x="150" y="180" text-anchor="middle" fill="rgba(255,255,255,0.65)" font-size="10" font-family="Inter,sans-serif">Manifest</text>
+                <text x="250" y="180" text-anchor="middle" fill="rgba(255,255,255,0.65)" font-size="10" font-family="Inter,sans-serif">เบิกค่าใช้จ่าย</text>
+                <text x="350" y="180" text-anchor="middle" fill="rgba(255,255,255,0.65)" font-size="10" font-family="Inter,sans-serif">เคลียร์</text>
               </svg>
             </div>
           </div>
@@ -374,21 +376,21 @@
 
       <!-- SLIDE 4: TON-KM LOGIC -->
       <section class="slide bg-elevated min-h-screen" data-slide="3" aria-label="หลักการปันส่วนตัน-กิโลเมตร">
-        <div class="slide-inner slide-layout min-h-screen flex flex-col md:flex-row md:items-center gap-6 md:gap-8 p-6 md:p-8 pt-[calc(var(--nav-total)+1rem)] pb-8 md:pb-12 max-w-7xl mx-auto w-full">
-          <div class="slide-text order-1 w-full md:w-7/12 min-w-0 shrink overflow-hidden">
+        <div class="slide-inner min-h-screen py-12 px-6 flex flex-col justify-start lg:flex-row lg:items-start gap-6 lg:gap-8 pt-[calc(var(--nav-total)+1.25rem)] lg:pt-[calc(var(--nav-total)+2rem)] pb-12 lg:p-8 max-w-7xl mx-auto w-full">
+          <div class="slide-text order-1 w-full lg:w-7/12 min-w-0 shrink overflow-hidden">
             <p class="text-accent-orange font-semibold text-sm md:text-lg mb-2 hidden sm:block">Slide 4 · Ton-Kilometer</p>
             <h2 class="text-2xl md:text-4xl lg:text-5xl font-bold mb-2 md:mb-4">Cost-to-Serve<br/>ตัน-กิโลเมตร</h2>
             <p class="text-sm md:text-lg text-accent-blue font-semibold mb-3 md:mb-6 line-clamp-2" id="slide4-route-label"></p>
             <div class="space-y-2 md:space-y-4 text-sm md:text-lg min-w-0 overflow-hidden flex flex-col" id="slide4-formulas"></div>
-            <div class="mt-4 md:mt-6 glass rounded-2xl p-4 md:p-5 min-w-0 overflow-hidden hidden sm:block">
+            <div class="mt-4 md:mt-6 glass rounded-2xl p-4 md:p-5 min-w-0 overflow-hidden">
               <p class="font-bold text-accent-orange mb-2">Underload Impact</p>
-              <p class="text-sm md:text-base text-white/70">บรรทุกไม่เต็ม → Ton-Km ต่ำ → ฿/Ton-Km สูง</p>
+              <p class="text-sm md:text-base card-body">บรรทุกไม่เต็ม → Ton-Km ต่ำ → ฿/Ton-Km สูง</p>
             </div>
           </div>
-          <div class="slide-graphic order-2 w-full md:w-5/12 min-w-0 max-sm:hidden shrink-0">
-            <div class="svg-contain">
-              <div class="glass-strong rounded-3xl p-4 md:p-6 w-full h-full flex flex-col justify-center overflow-hidden">
-                <svg viewBox="0 0 300 120" class="w-full truck-svg mb-2 md:mb-4 shrink-0" aria-hidden="true">
+          <div class="slide-graphic order-2 w-full lg:w-5/12 min-w-0 shrink-0 lg:sticky lg:top-[calc(var(--nav-total)+1rem)]">
+            <div class="graphic-frame w-full max-w-[280px] sm:max-w-md mx-auto mt-6 lg:mt-0">
+              <div class="glass-strong rounded-3xl p-4 md:p-5 w-full overflow-visible">
+                <svg viewBox="0 0 300 120" class="w-full h-auto max-h-[80px] truck-svg mb-2 md:mb-4 shrink-0" aria-hidden="true">
                   <rect x="0" y="80" width="300" height="4" rx="2" fill="rgba(255,255,255,0.15)"/>
                   <rect x="20" y="45" width="50" height="35" rx="6" fill="#458fff"/>
                   <rect x="75" y="35" width="180" height="45" rx="6" fill="rgba(255,255,255,0.15)"/>
@@ -396,11 +398,11 @@
                   <circle cx="45" cy="85" r="12" fill="#1d1f25" stroke="#fff" stroke-width="2"/>
                   <circle cx="220" cy="85" r="12" fill="#1d1f25" stroke="#fff" stroke-width="2"/>
                 </svg>
-                <p class="text-xs md:text-sm text-white/50 mb-2">ความจุบรรทุก</p>
+                <p class="text-xs md:text-sm card-muted mb-2">ความจุบรรทุก</p>
                 <div class="h-3 md:h-4 rounded-full bg-white/10 overflow-hidden mb-2">
                   <div id="capacity-fill" class="h-full rounded-full bg-gradient-to-r from-accent-blue to-accent-orange" style="width:80%"></div>
                 </div>
-                <p class="text-xl md:text-3xl font-bold" id="capacity-pct">80%</p>
+                <p class="text-lg md:text-2xl font-bold text-white leading-none pb-1" id="capacity-pct">80%</p>
               </div>
             </div>
           </div>
@@ -761,7 +763,7 @@
             <p class="text-accent-blue font-mono text-sm mb-2">${doc.doc}</p>
             <h3 class="text-xl md:text-2xl font-bold mb-4 text-white">${doc.title}</h3>
             <p class="text-white/50 text-sm mb-1">พนักงาน</p>
-            <p class="text-lg mb-4">${doc.staff}</p>
+            <p class="text-lg mb-4 text-white">${doc.staff}</p>
             <p class="text-white/50 text-sm mb-2">ข้อมูลที่คีย์</p>
             <ul class="space-y-2 mb-4">${doc.keys.map((k) => `<li class="text-white/80 text-lg">• ${k}</li>`).join('')}</ul>
             <p class="text-white/50 text-sm mb-2">Data Destination</p>
@@ -791,11 +793,11 @@
         `${route.name} · ${route.distanceKm} กม. · ${veh.name} · ${veh.fuelLitersPerTrip} ล./เที่ยว`;
 
       document.getElementById('slide4-formulas').innerHTML = `
-        <div class="glass rounded-2xl p-4 min-w-0 overflow-hidden"><span class="text-white/50">Ton-Km</span> = <strong>น้ำหนัก(ตัน) × ${route.distanceKm} กม.</strong></div>
-        <div class="glass rounded-2xl p-4 min-w-0 overflow-hidden"><span class="text-white/50">ต้นทุนน้ำมันมาตรฐาน</span> = <strong>${veh.fuelLitersPerTrip} ล. × ${diesel} ฿</strong> ≈ <strong class="text-accent-blue">${fuelCost.toLocaleString('th-TH', { minimumFractionDigits: 2 })} ฿</strong></div>
-        <div class="glass rounded-2xl p-4 min-w-0 overflow-hidden hidden sm:block"><span class="text-white/50">ปันส่วน Manifest → บิล LTL</span> = <strong>(น้ำหนักบิล ÷ น้ำหนักรวม) × ต้นทุนรวม</strong></div>
-        <div class="glass rounded-2xl p-4 min-w-0 overflow-hidden hidden sm:block"><span class="text-white/50">Cost/Ton-Km</span> = <strong>ต้นทุนรวม ÷ Ton-Km</strong></div>
-        <div class="glass rounded-2xl p-4 min-w-0 overflow-hidden"><span class="text-white/50">Margin/Ton-Km</span> = <strong>Contribution Margin ÷ Ton-Km</strong></div>`;
+        <div class="glass rounded-2xl p-4 min-w-0 overflow-hidden text-white text-sm md:text-base"><span class="card-muted">Ton-Km</span> = <strong class="text-white">น้ำหนัก(ตัน) × ${route.distanceKm} กม.</strong></div>
+        <div class="glass rounded-2xl p-4 min-w-0 overflow-hidden text-white text-sm md:text-base"><span class="card-muted">ต้นทุนน้ำมันมาตรฐาน</span> = <strong class="text-white">${veh.fuelLitersPerTrip} ล. × ${diesel} ฿</strong> ≈ <strong class="text-accent-blue whitespace-nowrap">${fuelCost.toLocaleString('th-TH', { minimumFractionDigits: 2 })} ฿</strong></div>
+        <div class="glass rounded-2xl p-4 min-w-0 overflow-hidden text-white text-sm md:text-base hidden sm:block"><span class="card-muted">ปันส่วน Manifest → บิล LTL</span> = <strong class="text-white">(น้ำหนักบิล ÷ น้ำหนักรวม) × ต้นทุนรวม</strong></div>
+        <div class="glass rounded-2xl p-4 min-w-0 overflow-hidden text-white text-sm md:text-base hidden sm:block"><span class="card-muted">Cost/Ton-Km</span> = <strong class="text-white">ต้นทุนรวม ÷ Ton-Km</strong></div>
+        <div class="glass rounded-2xl p-4 min-w-0 overflow-hidden text-white text-sm md:text-base"><span class="card-muted">Margin/Ton-Km</span> = <strong class="text-white">Contribution Margin ÷ Ton-Km</strong></div>`;
     }
 
     function startCapacityDemo() {
