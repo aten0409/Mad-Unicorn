@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="th" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>นิ่มซี่เส็งขนส่ง 1988 · Cost-to-Serve Presentation</title>
+  <meta name="description" content="Interactive Presentation & Executive Dashboard — ต้นทุนต่อเที่ยว ตัน-กิโลเมตร บริษัท นิ่มซี่เส็งขนส่ง 1988 จำกัด" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            base: '#0d1218',
+            elevated: '#181d26',
+            card: '#1d1f25',
+            accent: { blue: '#458fff', orange: '#ea580c', coral: '#aa2d00' },
+          },
+          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+        },
+      },
+    };
+  </script>
+  <style>
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+    body { background: #0d1218; color: #fff; overflow: hidden; }
+
+    .glass {
+      background: rgba(255,255,255,0.06);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+    .glass-strong {
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(24px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+    }
+
+    :root {
+      --header-h: 52px;
+      --progress-h: 4px;
+      --slide-safe-top: calc(var(--progress-h) + var(--header-h) + 6px);
+    }
+
+    .slide-track {
+      display: flex;
+      width: 400vw;
+      height: 100dvh;
+      transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .slide {
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+    .slide-inner {
+      height: 100%;
+      max-height: 100dvh;
+      overflow: hidden;
+    }
+
+    /* Select — dark theme (fix white-on-white dropdown) */
+    select.select-dark,
+    select.select-dark option {
+      background-color: #1d1f25;
+      color: #ffffff;
+    }
+    select.select-dark {
+      appearance: none;
+      -webkit-appearance: none;
+      color-scheme: dark;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      padding-right: 2.5rem;
+    }
+    #executive-dashboard { color-scheme: dark; }
+
+    .line-clamp-2 {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* Mobile: CSS Grid shell — graphic บน, content ล่าง, fit 1 screen */
+    @media (max-width: 767px) {
+      header.fixed { top: var(--progress-h); padding-top: 0.375rem !important; padding-bottom: 0.375rem !important; }
+
+      .slide-layout {
+        display: grid !important;
+        grid-template-rows: auto minmax(0, 1fr);
+        grid-template-areas: "graphic" "content";
+        height: 100dvh !important;
+        max-height: 100dvh !important;
+        padding-top: var(--slide-safe-top) !important;
+        padding-bottom: max(8px, env(safe-area-inset-bottom)) !important;
+        gap: 6px !important;
+        overflow: hidden !important;
+        align-items: stretch !important;
+        justify-content: start !important;
+      }
+      .slide-graphic {
+        grid-area: graphic;
+        grid-row: 1;
+        flex: none !important;
+        max-height: 20dvh;
+        overflow: hidden;
+        width: 100%;
+      }
+      .slide-text {
+        grid-area: content;
+        grid-row: 2;
+        flex: none !important;
+        min-height: 0;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .slide-2-inner {
+        display: grid !important;
+        grid-template-rows: auto minmax(0, 1fr);
+        height: 100dvh !important;
+        max-height: 100dvh !important;
+        padding-top: var(--slide-safe-top) !important;
+        padding-bottom: max(8px, env(safe-area-inset-bottom)) !important;
+        gap: 6px !important;
+        overflow: hidden !important;
+      }
+      .slide-2-header { flex-shrink: 0; }
+      .slide-2-inner #cost-panels {
+        min-height: 0;
+        overflow-x: auto;
+        overflow-y: hidden;
+        align-content: start;
+      }
+
+      .mobile-compact-title { font-size: 1.25rem !important; line-height: 1.2 !important; margin-bottom: 0.375rem !important; }
+      .mobile-compact-sub { font-size: 0.75rem !important; margin-bottom: 0.375rem !important; }
+      .mobile-compact-label { font-size: 0.625rem !important; margin-bottom: 0.125rem !important; }
+      .mobile-hide-sm { display: none !important; }
+
+      /* Slide 1 — compact conveyor */
+      .mobile-graphic-sm { padding: 0.5rem 0.75rem !important; }
+      .mobile-graphic-sm .conveyor-wrap {
+        margin-top: 0.25rem !important;
+        margin-bottom: 0.25rem !important;
+        transform: scale(0.72);
+        transform-origin: center top;
+        height: 36px;
+      }
+      .parcel-box { top: -28px !important; width: 28px !important; height: 28px !important; }
+
+      /* Slide 1 — horizontal cards */
+      .mobile-cards-row {
+        display: flex !important;
+        flex-direction: row !important;
+        gap: 0.5rem;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 2px;
+        flex: 1;
+        min-height: 0;
+        align-items: stretch;
+      }
+      .mobile-card-snap {
+        flex: 0 0 72vw;
+        scroll-snap-align: start;
+        padding: 0.5rem 0.625rem !important;
+      }
+      .mobile-card-snap p { font-size: 0.6875rem !important; line-height: 1.3 !important; }
+      .mobile-card-snap .font-bold { font-size: 0.75rem !important; margin-bottom: 0.125rem !important; }
+
+      /* Slide 2 panels */
+      #cost-panels { display: flex !important; flex-direction: row !important; gap: 0.5rem; }
+      #cost-panels > div { min-width: 78vw; scroll-snap-align: start; padding: 0.625rem !important; flex-shrink: 0; }
+      #cost-panels h3 { font-size: 0.8125rem !important; margin-bottom: 0.25rem !important; }
+      #cost-panels .text-xs { display: none; }
+      #cost-panels span { font-size: 0.625rem !important; padding: 0.2rem 0.4rem !important; }
+      .slide-2-inner h2 { font-size: 1.125rem !important; line-height: 1.25 !important; margin-bottom: 0.25rem !important; }
+
+      /* Slide 3 */
+      #wf-step-buttons {
+        flex-wrap: nowrap !important;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        margin-bottom: 0.375rem !important;
+      }
+      #wf-step-buttons button { flex-shrink: 0; padding: 0.375rem 0.625rem !important; font-size: 0.6875rem !important; }
+      #wf-step-content {
+        min-height: 0 !important;
+        padding: 0.625rem !important;
+        flex: 1;
+        overflow: hidden;
+      }
+      #wf-step-content h3 { font-size: 0.875rem !important; margin-bottom: 0.25rem !important; }
+      #motorcycle-svg { max-height: 14dvh !important; }
+      .slide-graphic .max-h-\[28vh\] { max-height: 14dvh !important; }
+
+      /* Slide 4 */
+      .slide-4-graphic { max-height: 16dvh !important; }
+      .slide-4-graphic .glass-strong { padding: 0.375rem 0.625rem !important; }
+      .slide-4-graphic .truck-svg { max-height: 8dvh !important; margin-bottom: 0.25rem !important; }
+      .slide-4-graphic p.text-sm { font-size: 0.625rem !important; margin-bottom: 0.125rem !important; }
+      .slide-4-graphic .h-4 { height: 0.375rem !important; }
+      #capacity-pct { font-size: 1.125rem !important; }
+      #slide4-route-label { font-size: 0.625rem !important; line-height: 1.35 !important; margin-bottom: 0.375rem !important; }
+      #slide4-formulas { gap: 0.25rem !important; flex: 1; min-height: 0; overflow: hidden; }
+      #slide4-formulas .glass { padding: 0.375rem 0.5rem !important; font-size: 0.6875rem !important; line-height: 1.35 !important; }
+
+      #slide-dots { display: none; }
+    }
+
+    @media (min-width: 768px) {
+      .slide-layout {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        min-height: 100%;
+        padding-top: 6rem;
+        padding-bottom: 3rem;
+      }
+      .mobile-cards-row {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+      .mobile-card-snap { flex: none; width: auto; }
+    }
+
+    #progress-fill {
+      transition: width 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Slide 1 — Conveyor */
+    @keyframes beltMove {
+      0% { background-position: 0 0; }
+      100% { background-position: 40px 0; }
+    }
+    @keyframes parcelMove {
+      0% { transform: translateX(-20px); }
+      100% { transform: translateX(280px); }
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0) rotate(0); }
+      25% { transform: translateX(-3px) rotate(-2deg); }
+      75% { transform: translateX(3px) rotate(2deg); }
+    }
+    @keyframes blinkRed {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(234,88,12,0); }
+      50% { box-shadow: 0 0 20px 4px rgba(234,88,12,0.7); }
+    }
+    .conveyor-belt {
+      height: 12px;
+      background: repeating-linear-gradient(90deg, #334155 0, #334155 20px, #475569 20px, #475569 40px);
+      animation: beltMove 1s linear infinite;
+      border-radius: 6px;
+    }
+    .parcel-box {
+      width: 36px; height: 36px;
+      background: linear-gradient(135deg, #458fff, #1e40af);
+      border-radius: 6px;
+      position: absolute;
+      top: -42px;
+      animation: parcelMove 4s linear infinite;
+    }
+    .parcel-damaged {
+      background: linear-gradient(135deg, #ea580c, #c2410c);
+      animation: parcelMove 4s linear infinite, shake 0.4s ease-in-out infinite, blinkRed 1s ease-in-out infinite;
+    }
+    .parcel-box:nth-child(2) { animation-delay: 0.8s; }
+    .parcel-box:nth-child(3) { animation-delay: 1.6s; }
+    .parcel-box:nth-child(4) { animation-delay: 2.4s; }
+    .parcel-box:nth-child(5) { animation-delay: 3.2s; }
+
+    /* Slide 2 — Data pulse */
+    @keyframes pulseTravel {
+      0% { stroke-dashoffset: 200; opacity: 0; }
+      20% { opacity: 1; }
+      100% { stroke-dashoffset: 0; opacity: 0.3; }
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.2; }
+    }
+    .data-pulse { stroke-dasharray: 200; animation: pulseTravel 2s ease-in-out infinite; }
+    .led { animation: blink 1.5s ease-in-out infinite; }
+    .led:nth-child(2) { animation-delay: 0.3s; }
+    .led:nth-child(3) { animation-delay: 0.6s; }
+
+    /* Slide 3 — Motorcycle */
+    .route-path { stroke-dasharray: 8 6; }
+    .waypoint { transition: all 0.5s ease; }
+    .waypoint.active { r: 10; filter: drop-shadow(0 0 8px #458fff); }
+    #motorcycle-group { transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1); }
+
+    /* Slide 4 — Truck */
+    @keyframes truckDrive {
+      0% { transform: translateX(-10px); }
+      50% { transform: translateX(10px); }
+      100% { transform: translateX(-10px); }
+    }
+    .truck-svg { animation: truckDrive 4s ease-in-out infinite; }
+    #capacity-fill { transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1); }
+
+    /* Dashboard bar */
+    .bar-seg { transition: width 0.4s ease, opacity 0.3s ease; min-width: 2px; }
+
+    /* Step content */
+    .wf-step-panel { opacity: 0; transform: translateY(12px); transition: opacity 0.4s ease, transform 0.4s ease; }
+    .wf-step-panel.active { opacity: 1; transform: translateY(0); }
+
+    input[type="range"] { accent-color: #458fff; height: 6px; }
+    input[type="number"] { background: rgba(255,255,255,0.08); color: #fff; outline: none; }
+    input[type="number"]:focus { box-shadow: 0 0 0 2px rgba(69,143,255,0.5); }
+
+    @media (prefers-reduced-motion: reduce) {
+      .slide-track, #capacity-fill, .bar-seg, #motorcycle-group, .wf-step-panel { transition: none !important; }
+      .conveyor-belt, .parcel-box, .data-pulse, .led, .truck-svg { animation: none !important; }
+    }
+
+    #executive-dashboard { display: none; }
+    #executive-dashboard.active { display: block; }
+    #slide-deck.hidden { display: none; }
+  </style>
+</head>
+<body>
+
+  <!-- Progress bar -->
+  <div class="fixed top-0 left-0 right-0 z-50 h-1 bg-white/5">
+    <div id="progress-fill" class="h-full bg-gradient-to-r from-accent-blue to-accent-orange" style="width:20%"></div>
+  </div>
+
+  <!-- Nav chrome: ปุ่มซ้าย-ขวาอยู่ขวาบนสุด -->
+  <header class="fixed top-0 left-0 right-0 z-40 px-3 md:px-10 pt-3 pb-2 flex items-center justify-between pointer-events-none" style="top: var(--progress-h)">
+    <div class="pointer-events-auto flex items-center gap-2 min-w-0">
+      <div class="glass rounded-2xl px-3 py-2 flex items-center gap-2 shrink-0">
+        <span class="w-8 h-8 rounded-xl bg-accent-blue/30 flex items-center justify-center text-sm font-bold">NS</span>
+        <span class="text-xs sm:text-sm font-semibold text-white/90 truncate max-w-[100px] sm:max-w-none hidden sm:inline">นิ่มซี่เส็งขนส่ง 1988</span>
+      </div>
+      <div id="slide-dots" class="glass rounded-2xl px-3 py-2 flex gap-2 pointer-events-auto"></div>
+    </div>
+    <div class="pointer-events-auto flex items-center gap-1.5 shrink-0">
+      <button id="btn-prev" type="button" class="glass rounded-2xl w-10 h-10 md:w-11 md:h-11 flex items-center justify-center text-white/80" aria-label="สไลด์ก่อนหน้า">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+      </button>
+      <button id="btn-next" type="button" class="glass-strong rounded-2xl w-10 h-10 md:w-11 md:h-11 flex items-center justify-center text-lg font-semibold" aria-label="สไลด์ถัดไป">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- ========== SLIDE DECK ========== -->
+  <div id="slide-deck">
+    <div id="slide-track" class="slide-track">
+
+      <!-- SLIDE 1: THE PROBLEM -->
+      <section class="slide bg-base" data-slide="0" aria-label="ความท้าทายของการคิดต้นทุน">
+        <div class="slide-inner slide-layout lg:flex-row px-4 md:px-16 md:pt-24 md:pb-12 max-w-7xl mx-auto">
+          <div class="slide-graphic w-full max-w-md mx-auto lg:mx-0 lg:flex-1 lg:order-2">
+            <div class="glass-strong rounded-3xl mobile-graphic-sm p-8 relative h-full">
+              <p class="text-sm font-semibold text-white/50 mb-1 md:mb-6 uppercase tracking-wider text-center">Claim & Return</p>
+              <div class="relative conveyor-wrap mt-4 md:mt-16 mb-2 md:mb-8 mx-2 md:mx-4">
+                <div class="conveyor-belt"></div>
+                <div class="parcel-box" style="left:0"></div>
+                <div class="parcel-box" style="left:0"></div>
+                <div class="parcel-box parcel-damaged" style="left:0"></div>
+                <div class="parcel-box" style="left:0"></div>
+                <div class="parcel-box parcel-damaged" style="left:0"></div>
+              </div>
+              <p class="text-center text-white/60 text-xs md:text-sm">กล่องส้ม = เคลม</p>
+            </div>
+          </div>
+          <div class="slide-text lg:flex-1 min-h-0 lg:order-1">
+            <p class="text-accent-orange font-semibold mobile-compact-label text-lg mb-1 md:mb-3 mobile-hide-sm">Slide 1 · The Problem</p>
+            <h1 class="mobile-compact-title text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-2 md:mb-6">
+              ทำไมคิดต้นทุน<br/>ต่อชิ้นถึงยาก?
+            </h1>
+            <p class="mobile-compact-sub mobile-hide-sm text-xl text-white/75 leading-relaxed mb-8 max-w-xl">
+              ธุรกิจขนส่ง LTL ไม่มีราคาทุนคงที่ — ต้นทุนผันแปรตามความหนาแน่น ปริมาณ และเที่ยววิ่งจริง
+            </p>
+            <div class="mobile-cards-row md:space-y-4">
+              <div class="glass rounded-2xl mobile-card-snap md:p-5">
+                <p class="font-bold text-lg mb-1">Density & Volume</p>
+                <p class="text-white/70">500 vs 80 ชิ้น — ต้นทุนต่าง 6 เท่า</p>
+              </div>
+              <div class="glass rounded-2xl mobile-card-snap md:p-5">
+                <p class="font-bold text-lg mb-1">รถวิ่งเที่ยวเปล่า</p>
+                <p class="text-white/70">ไม่รู้บิลไหนติด underload</p>
+              </div>
+              <div class="glass rounded-2xl mobile-card-snap md:p-5">
+                <p class="font-bold text-lg mb-1">Hidden Costs</p>
+                <p class="text-white/70">เคลม, ตีกลับ, น้ำมันนอกเส้นทาง</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 2: COST CATEGORIZATION (NSS) -->
+      <section class="slide bg-elevated" data-slide="1" aria-label="การแบ่งกลุ่มต้นทุน">
+        <div class="slide-inner slide-2-inner px-4 md:px-16 md:pt-24 md:pb-12 max-w-7xl mx-auto h-full overflow-hidden">
+          <div class="slide-2-header mb-3 md:mb-8">
+            <p class="text-accent-blue font-semibold mobile-compact-label text-lg mb-2 mobile-hide-sm">Slide 2 · Cost Categorization</p>
+            <h2 class="text-3xl md:text-5xl font-bold mb-3">ต้นทุนแปรผันต่อเที่ยว<br class="md:hidden"/>ตามใบเบิกจริง</h2>
+            <p class="mobile-compact-sub mobile-hide-sm text-xl text-white/70 max-w-3xl">ปันส่วนลงบิล LTL ตามตัน-กิโลเมตร</p>
+          </div>
+          <div class="grid lg:grid-cols-3 gap-5 mb-4 md:mb-8 flex-1 min-h-0" id="cost-panels"></div>
+          <div class="mobile-hide-sm flex-1 flex items-center justify-center shrink-0">
+            <svg viewBox="0 0 500 180" class="w-full max-w-2xl" aria-hidden="true">
+              <!-- Person -->
+              <circle cx="60" cy="50" r="22" fill="#458fff" opacity="0.8"/>
+              <rect x="40" y="78" width="40" height="55" rx="8" fill="#458fff" opacity="0.6"/>
+              <rect x="30" y="90" width="18" height="45" rx="6" fill="#458fff" opacity="0.4"/>
+              <rect x="72" y="90" width="18" height="45" rx="6" fill="#458fff" opacity="0.4"/>
+              <text x="60" y="155" text-anchor="middle" fill="rgba(255,255,255,0.5)" font-size="11" font-family="Inter,sans-serif">พนักงาน / พขร.</text>
+              <!-- Pulse lines -->
+              <path class="data-pulse" d="M95 70 L200 70" stroke="#458fff" stroke-width="2" fill="none"/>
+              <path class="data-pulse" d="M95 100 L200 100" stroke="#ea580c" stroke-width="2" fill="none" style="animation-delay:0.5s"/>
+              <!-- Server -->
+              <rect x="210" y="40" width="100" height="28" rx="6" fill="#1d1f25" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+              <rect x="210" y="76" width="100" height="28" rx="6" fill="#1d1f25" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+              <rect x="210" y="112" width="100" height="28" rx="6" fill="#1d1f25" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+              <circle class="led" cx="295" cy="54" r="4" fill="#39bf45"/>
+              <circle class="led" cx="295" cy="90" r="4" fill="#458fff"/>
+              <circle class="led" cx="295" cy="126" r="4" fill="#ea580c"/>
+              <text x="260" y="155" text-anchor="middle" fill="rgba(255,255,255,0.5)" font-size="11" font-family="Inter,sans-serif">Server / ระบบบัญชี</text>
+              <!-- Cost numbers -->
+              <path class="data-pulse" d="M320 70 L400 70" stroke="#458fff" stroke-width="2" fill="none" style="animation-delay:1s"/>
+              <text x="430" y="75" fill="#458fff" font-size="22" font-weight="700" font-family="Inter,sans-serif">฿</text>
+              <text x="400" y="110" fill="rgba(255,255,255,0.6)" font-size="12" font-family="Inter,sans-serif">ใบเบิก → Manifest</text>
+            </svg>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 3: WORKFLOW (NSS) -->
+      <section class="slide bg-base" data-slide="2" aria-label="กระบวนการบันทึกข้อมูล">
+        <div class="slide-inner slide-layout lg:flex-row gap-4 md:gap-8 px-4 md:px-16 md:pt-24 md:pb-12 max-w-7xl mx-auto">
+          <div class="slide-graphic flex items-center justify-center w-full lg:flex-1 lg:order-2">
+            <svg viewBox="0 0 400 200" class="w-full max-w-lg" id="motorcycle-svg" aria-hidden="true">
+              <line class="route-path" x1="30" y1="150" x2="370" y2="150" stroke="rgba(255,255,255,0.2)" stroke-width="3"/>
+              <circle class="waypoint active" id="wp-0" cx="50" cy="150" r="7" fill="#458fff"/>
+              <circle class="waypoint" id="wp-1" cx="150" cy="150" r="7" fill="rgba(255,255,255,0.3)"/>
+              <circle class="waypoint" id="wp-2" cx="250" cy="150" r="7" fill="rgba(255,255,255,0.3)"/>
+              <circle class="waypoint" id="wp-3" cx="350" cy="150" r="7" fill="rgba(255,255,255,0.3)"/>
+              <g id="motorcycle-group" transform="translate(30, 115)">
+                <circle cx="12" cy="35" r="14" fill="none" stroke="#fff" stroke-width="3"/>
+                <circle cx="48" cy="35" r="14" fill="none" stroke="#fff" stroke-width="3"/>
+                <path d="M12 35 L30 15 L48 20 L48 35" fill="none" stroke="#ea580c" stroke-width="4" stroke-linecap="round"/>
+                <rect x="28" y="8" width="16" height="10" rx="3" fill="#458fff"/>
+              </g>
+              <text x="50" y="180" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="10" font-family="Inter,sans-serif">LTL</text>
+              <text x="150" y="180" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="10" font-family="Inter,sans-serif">Manifest</text>
+              <text x="250" y="180" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="10" font-family="Inter,sans-serif">เบิกค่าใช้จ่าย</text>
+              <text x="350" y="180" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="10" font-family="Inter,sans-serif">เคลียร์</text>
+            </svg>
+          </div>
+          <div class="slide-text lg:flex-1 min-h-0 lg:order-1">
+            <p class="text-accent-blue font-semibold mobile-compact-label text-lg mb-2 mobile-hide-sm">Slide 3 · Data Ingestion</p>
+            <h2 class="mobile-compact-title text-3xl md:text-5xl font-bold mb-2 md:mb-6">Workflow เอกสารจริง</h2>
+            <div class="flex flex-wrap gap-1.5 md:gap-2 mb-2 md:mb-6" id="wf-step-buttons"></div>
+            <div id="wf-step-content" class="glass-strong rounded-3xl p-6 md:p-8 md:min-h-[280px]"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 4: TON-KM LOGIC -->
+      <section class="slide bg-elevated" data-slide="3" aria-label="หลักการปันส่วนตัน-กิโลเมตร">
+        <div class="slide-inner slide-layout lg:flex-row items-stretch lg:items-center gap-4 md:gap-10 px-4 md:px-16 md:pt-24 md:pb-12 max-w-7xl mx-auto">
+          <div class="slide-graphic slide-4-graphic w-full max-w-md mx-auto lg:mx-0 lg:flex-1 lg:order-2">
+            <div class="glass-strong rounded-3xl mobile-graphic-sm p-4 md:p-8">
+              <svg viewBox="0 0 300 120" class="w-full truck-svg mb-3 md:mb-6" aria-hidden="true">
+                <rect x="0" y="80" width="300" height="4" rx="2" fill="rgba(255,255,255,0.15)"/>
+                <rect x="20" y="45" width="50" height="35" rx="6" fill="#458fff"/>
+                <rect x="75" y="35" width="180" height="45" rx="6" fill="rgba(255,255,255,0.15)"/>
+                <rect x="85" y="42" width="160" height="30" rx="4" fill="rgba(69,143,255,0.3)" id="truck-load-visual"/>
+                <circle cx="45" cy="85" r="12" fill="#1d1f25" stroke="#fff" stroke-width="2"/>
+                <circle cx="220" cy="85" r="12" fill="#1d1f25" stroke="#fff" stroke-width="2"/>
+              </svg>
+              <p class="text-sm text-white/50 mb-2">ความจุบรรทุก</p>
+              <div class="h-4 rounded-full bg-white/10 overflow-hidden mb-2">
+                <div id="capacity-fill" class="h-full rounded-full bg-gradient-to-r from-accent-blue to-accent-orange" style="width:80%"></div>
+              </div>
+              <p class="text-2xl md:text-3xl font-bold" id="capacity-pct">80%</p>
+            </div>
+          </div>
+          <div class="slide-text lg:flex-1 min-h-0 overflow-hidden lg:order-1">
+            <p class="text-accent-orange font-semibold mobile-compact-label text-lg mb-2 mobile-hide-sm">Slide 4 · Ton-Kilometer</p>
+            <h2 class="mobile-compact-title text-3xl md:text-5xl font-bold mb-2 md:mb-4">Cost-to-Serve<br/>ตัน-กิโลเมตร</h2>
+            <p class="text-sm md:text-lg text-accent-blue font-semibold mb-3 md:mb-6 line-clamp-2" id="slide4-route-label"></p>
+            <div class="space-y-2 md:space-y-4 text-lg overflow-hidden flex flex-col" id="slide4-formulas"></div>
+            <div class="mt-3 md:mt-6 glass rounded-2xl p-5 mobile-hide-sm">
+              <p class="font-bold text-accent-orange mb-2">Underload Impact</p>
+              <p class="text-white/70">บรรทุกไม่เต็ม → Ton-Km ต่ำ → ฿/Ton-Km สูง</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- ========== EXECUTIVE DASHBOARD ========== -->
+  <div id="executive-dashboard" class="min-h-screen bg-base overflow-y-auto">
+    <div class="px-6 md:px-12 pt-20 pb-16 max-w-7xl mx-auto">
+      <!-- Header -->
+      <div class="mb-8">
+        <p class="text-accent-orange font-semibold text-lg mb-2">Executive Dashboard</p>
+        <h2 class="text-3xl md:text-4xl font-bold mb-2">Simulation Playground</h2>
+        <div class="glass inline-block rounded-2xl px-4 py-2 text-sm font-medium text-white/80" id="dash-route-badge"></div>
+      </div>
+
+      <!-- Alerts -->
+      <div id="dash-alert" class="hidden glass rounded-2xl px-5 py-4 mb-6 text-accent-orange font-semibold text-lg" role="alert"></div>
+
+      <!-- KPI Row -->
+      <div class="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
+        <div class="glass rounded-2xl p-5">
+          <p class="text-white/50 text-sm mb-1">รายได้เที่ยว</p>
+          <p id="kpi-revenue" class="text-2xl font-bold font-mono" aria-live="polite">—</p>
+        </div>
+        <div class="glass rounded-2xl p-5">
+          <p class="text-white/50 text-sm mb-1">ต้นทุนรวม</p>
+          <p id="kpi-total-cost" class="text-2xl font-bold font-mono" aria-live="polite">—</p>
+        </div>
+        <div class="glass-strong rounded-2xl p-5">
+          <p class="text-white/50 text-sm mb-1">CM / เที่ยว</p>
+          <p id="kpi-cm-trip" class="text-2xl font-bold font-mono" aria-live="polite">—</p>
+        </div>
+        <div class="glass-strong rounded-2xl p-5">
+          <p class="text-white/50 text-sm mb-1">Margin / Ton-Km</p>
+          <p id="kpi-margin-tonkm" class="text-2xl font-bold font-mono text-accent-blue" aria-live="polite">—</p>
+        </div>
+        <div class="glass rounded-2xl p-5 col-span-2 lg:col-span-1">
+          <p class="text-white/50 text-sm mb-1">Cost / Ton-Km</p>
+          <p id="kpi-cost-tonkm" class="text-2xl font-bold font-mono" aria-live="polite">—</p>
+        </div>
+      </div>
+
+      <div class="grid lg:grid-cols-2 gap-8">
+        <!-- Inputs -->
+        <div class="space-y-4">
+          <div class="glass-strong rounded-3xl p-6">
+            <h3 class="text-xl font-bold mb-5">ตัวแปรจำลอง</h3>
+            <div class="space-y-5" id="dash-inputs"></div>
+          </div>
+          <div class="glass rounded-2xl p-5 grid grid-cols-3 gap-4 text-center">
+            <div>
+              <p class="text-white/50 text-xs mb-1">Ton-Km</p>
+              <p id="mini-tonkm" class="text-lg font-bold font-mono">—</p>
+            </div>
+            <div>
+              <p class="text-white/50 text-xs mb-1">Load Factor</p>
+              <p id="mini-load" class="text-lg font-bold font-mono">—</p>
+            </div>
+            <div>
+              <p class="text-white/50 text-xs mb-1">บิล LTL</p>
+              <p id="mini-bills" class="text-lg font-bold font-mono">—</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Outputs -->
+        <div class="space-y-4">
+          <div class="glass-strong rounded-3xl p-6">
+            <h3 class="text-xl font-bold mb-4">Cost Breakdown</h3>
+            <div id="dash-bar" class="h-8 flex rounded-2xl overflow-hidden bg-white/5 mb-4"></div>
+            <div id="dash-bar-legend" class="grid grid-cols-2 gap-2 text-sm"></div>
+          </div>
+          <div class="glass rounded-2xl p-5">
+            <p class="text-white/50 text-sm mb-2">ต้นทุนน้ำมัน (คำนวณอัตโนมัติ)</p>
+            <p id="fuel-cost-display" class="text-3xl font-bold font-mono text-accent-blue">—</p>
+            <p class="text-white/40 text-sm mt-1" id="fuel-formula-display"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ================================================================
+       นิ่มซี่เส็งขนส่ง 1988 — NSS_COMPANY_DATA (Single Source of Truth)
+       ================================================================ */
+    const NSS_COMPANY_DATA = {
+      companyName: 'บริษัท นิ่มซี่เส็งขนส่ง 1988 จำกัด',
+      defaultRoute: {
+        id: 'CNX-MHN',
+        name: 'เชียงใหม่ → สี่แยกมหานาค',
+        origin: 'เชียงใหม่',
+        destination: 'สี่แยกมหานาค',
+        distanceKm: 720.0,
+      },
+      vehicles: [
+        { id: '10W-REF', name: 'รถ 10 ล้อตู้เย็น', fuelLitersPerTrip: 194.59, maxPayloadTons: 15 },
+        { id: '6W', name: 'รถ 6 ล้อ', fuelLitersPerTrip: 120.0, maxPayloadTons: 8 },
+        { id: '18W', name: 'รถ 18 ล้อ', fuelLitersPerTrip: 280.0, maxPayloadTons: 25 },
+      ],
+      get defaultVehicle() { return this.vehicles[0]; },
+      dieselPrice: { min: 31.0, max: 33.0, default: 32.0 },
+      costCategories: {
+        fuel: {
+          title: 'น้ำมัน & พลังงาน',
+          accent: '#458fff',
+          items: [
+            'ค่าน้ำมันเดินทาง (เงินสด)',
+            'ค่าน้ำมันขาล่อง (บิลน้ำมัน)',
+            'ค่าน้ำมัน Fleet Card',
+            'น้ำมันนอกเส้นทาง / รถวิ่งอ้อม',
+            'ค่าแก๊สเดินทาง',
+          ],
+        },
+        allowance: {
+          title: 'เบี้ยเลี้ยง',
+          accent: '#ea580c',
+          items: [
+            'เบี้ยเลี้ยง พขร.',
+            'เบี้ยเลี้ยง พขร. สำรอง',
+            'เบี้ยเลี้ยงนอกเส้นทาง',
+          ],
+        },
+        siteFees: {
+          title: 'หน้างาน & ค่าธรรมเนียม',
+          accent: '#d9a441',
+          items: [
+            'ค่าธรรมเนียมคืนตู้',
+            'ค่าเข้าท่าเรือ',
+            'ค่าทางด่วน',
+            'ค่าปิดเปิดผ้าใบเทเลอร์',
+            'ค่าซ่อมแซม (แยกรายอู่)',
+          ],
+        },
+      },
+      workflowDocs: [
+        {
+          step: 1,
+          title: 'สร้าง Order (LTL)',
+          doc: 'บิลขนส่งสินค้า LTL (รายชิ้น)',
+          staff: 'พนักงานหน้าร้าน / ระบบคีย์บิล',
+          keys: ['หัวบิล: เลขที่บิล, ต้นทาง, ปลายทาง, สายกระจาย, เงินสด/เงินเชื่อ', 'รายละเอียดบิล: ชื่อสินค้า, น้ำหนักรวม, จำนวนหน่วย, กว้าง×ยาว×สูง'],
+          tables: ['bill_header', 'bill_detail'],
+        },
+        {
+          step: 2,
+          title: 'จัด Manifest',
+          doc: 'เลขที่ใบรายการ (Manifest ID)',
+          staff: 'ฝ่ายจัดรถ / Dispatch',
+          keys: ['ผูกบิล LTL → Manifest ID', 'ระบุสาย เชียงใหม่–มหานาค', 'เลือกประเภทรถ (10 ล้อตู้เย็น)'],
+          tables: ['manifests', 'manifest_bills'],
+        },
+        {
+          step: 3,
+          title: 'เบิกค่าใช้จ่ายเที่ยว',
+          doc: 'ใบเบิกค่าเดินทาง',
+          staff: 'พขร. / ฝ่ายบัญชีหน้างาน',
+          keys: ['ค่าน้ำมัน (เงินสด/บิล/Fleet Card)', 'เบี้ยเลี้ยง พขร.', 'ทางด่วน, ท่าเรือ, คืนตู้'],
+          tables: ['expense_vouchers', 'fleet_card_logs'],
+        },
+        {
+          step: 4,
+          title: 'เคลียร์ & ปันส่วน',
+          doc: 'สรุปต้นทุน Manifest',
+          staff: 'บัญชี / ผู้บริหาร',
+          keys: ['รวมต้นทุน 3 กลุ่มจากใบเบิก', 'ปันส่วนลงบิล LTL ตามน้ำหนัก', 'คำนวณ Ton-Km, CM/Trip, CM/Ton-Km'],
+          tables: ['manifest_cost_summary', 'bill_cost_allocation'],
+        },
+      ],
+      dashboardDefaults: {
+        distanceKm: 720.0,
+        vehicleId: '10W-REF',
+        fuelLitersPerTrip: 194.59,
+        dieselPricePerLiter: 32.0,
+        weightTons: 12,
+        maxCapacityTons: 15,
+        allowanceCost: 1200,
+        siteFeesCost: 2800,
+        repairCost: 0,
+        ltlBillCount: 45,
+        revenue: 42000,
+      },
+      getDefaultFuelCost(liters, price) {
+        return (liters || this.defaultVehicle.fuelLitersPerTrip) * (price || this.dieselPrice.default);
+      },
+    };
+
+    /* ================================================================
+       STATE
+       ================================================================ */
+    const TOTAL_VIEWS = 5; // slides 0-3 + dashboard
+    let currentView = 0;
+    let wfStep = 0;
+    let capacityDemoInterval = null;
+
+    const dashState = { ...NSS_COMPANY_DATA.dashboardDefaults };
+
+    /* ================================================================
+       SLIDE CONTROLLER
+       ================================================================ */
+    function goToView(n) {
+      n = Math.max(0, Math.min(TOTAL_VIEWS - 1, n));
+      currentView = n;
+
+      const deck = document.getElementById('slide-deck');
+      const dashboard = document.getElementById('executive-dashboard');
+      const track = document.getElementById('slide-track');
+      const progress = document.getElementById('progress-fill');
+      const btnNext = document.getElementById('btn-next');
+
+      if (n < 4) {
+        deck.classList.remove('hidden');
+        dashboard.classList.remove('active');
+        document.body.style.overflow = 'hidden';
+        track.style.transform = `translateX(-${n * 100}vw)`;
+        progress.style.width = `${((n + 1) / TOTAL_VIEWS) * 100}%`;
+        if (n === 3) startCapacityDemo();
+        else stopCapacityDemo();
+      } else {
+        deck.classList.add('hidden');
+        dashboard.classList.add('active');
+        document.body.style.overflow = 'auto';
+        progress.style.width = '100%';
+        stopCapacityDemo();
+        renderDashboard();
+      }
+
+      updateDots();
+    }
+
+    function updateDots() {
+      document.querySelectorAll('.slide-dot').forEach((dot, i) => {
+        dot.classList.toggle('bg-accent-blue', i === currentView);
+        dot.classList.toggle('bg-white/20', i !== currentView);
+        dot.classList.toggle('w-6', i === currentView);
+        dot.classList.toggle('w-2', i !== currentView);
+      });
+    }
+
+    function initSlideController() {
+      const dotsEl = document.getElementById('slide-dots');
+      for (let i = 0; i < TOTAL_VIEWS; i++) {
+        const dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = 'slide-dot h-2 rounded-full transition-all duration-300 ' + (i === 0 ? 'bg-accent-blue w-6' : 'bg-white/20 w-2');
+        dot.setAttribute('aria-label', i < 4 ? `สไลด์ ${i + 1}` : 'Dashboard');
+        dot.addEventListener('click', () => goToView(i));
+        dotsEl.appendChild(dot);
+      }
+
+      document.getElementById('btn-prev').addEventListener('click', () => goToView(currentView - 1));
+      document.getElementById('btn-next').addEventListener('click', () => goToView(currentView + 1));
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goToView(currentView + 1);
+        if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') goToView(currentView - 1);
+      });
+
+      let wheelTimeout = null;
+      document.addEventListener('wheel', (e) => {
+        if (wheelTimeout) return;
+        wheelTimeout = setTimeout(() => { wheelTimeout = null; }, 600);
+        if (e.deltaY > 30) goToView(currentView + 1);
+        else if (e.deltaY < -30) goToView(currentView - 1);
+      }, { passive: true });
+
+      let touchStartY = 0;
+      document.addEventListener('touchstart', (e) => { touchStartY = e.touches[0].clientY; }, { passive: true });
+      document.addEventListener('touchend', (e) => {
+        const diff = touchStartY - e.changedTouches[0].clientY;
+        if (Math.abs(diff) > 50) goToView(diff > 0 ? currentView + 1 : currentView - 1);
+      }, { passive: true });
+    }
+
+    /* ================================================================
+       SLIDE 2 — Render cost panels
+       ================================================================ */
+    function renderCostPanels() {
+      const container = document.getElementById('cost-panels');
+      Object.values(NSS_COMPANY_DATA.costCategories).forEach((cat) => {
+        const panel = document.createElement('div');
+        panel.className = 'glass rounded-3xl p-6';
+        panel.innerHTML = `
+          <div class="flex items-center gap-2 mb-4">
+            <span class="w-3 h-3 rounded-full" style="background:${cat.accent}"></span>
+            <h3 class="text-xl font-bold">${cat.title}</h3>
+          </div>
+          <p class="text-xs text-white/40 mb-3 uppercase tracking-wider">Variable · Trip · ผูก Manifest</p>
+          <div class="flex flex-wrap gap-2">
+            ${cat.items.map((item) => `<span class="px-3 py-1.5 rounded-xl text-sm font-medium bg-white/8 text-white/80">${item}</span>`).join('')}
+          </div>`;
+        container.appendChild(panel);
+      });
+    }
+
+    /* ================================================================
+       SLIDE 3 — Workflow stepper + motorcycle
+       ================================================================ */
+    const WF_WAYPOINTS = [30, 150, 250, 350];
+
+    function isMobileView() {
+      return window.innerWidth < 768;
+    }
+
+    function renderWorkflow() {
+      const btnContainer = document.getElementById('wf-step-buttons');
+      NSS_COMPANY_DATA.workflowDocs.forEach((doc, i) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'px-4 py-2 rounded-2xl text-sm font-semibold transition-all duration-300 ' + (i === 0 ? 'glass-strong text-white' : 'glass text-white/60');
+        btn.textContent = `Step ${doc.step}`;
+        btn.dataset.step = i;
+        btn.addEventListener('click', () => setWorkflowStep(i));
+        btnContainer.appendChild(btn);
+      });
+      setWorkflowStep(0);
+    }
+
+    function setWorkflowStep(index) {
+      wfStep = index;
+      const doc = NSS_COMPANY_DATA.workflowDocs[index];
+
+      document.querySelectorAll('#wf-step-buttons button').forEach((btn, i) => {
+        btn.className = 'px-4 py-2 rounded-2xl text-sm font-semibold transition-all duration-300 ' +
+          (i === index ? 'glass-strong text-white' : 'glass text-white/60');
+      });
+
+      document.getElementById('wf-step-content').innerHTML = isMobileView()
+        ? `<div class="wf-step-panel active">
+            <p class="text-accent-blue font-mono text-xs mb-1">${doc.doc}</p>
+            <h3 class="text-2xl font-bold mb-2">${doc.title}</h3>
+            <p class="text-white/80 text-sm leading-snug">• ${doc.keys[0]}</p>
+          </div>`
+        : `<div class="wf-step-panel active">
+            <p class="text-accent-blue font-mono text-sm mb-2">${doc.doc}</p>
+            <h3 class="text-2xl font-bold mb-4">${doc.title}</h3>
+            <p class="text-white/50 text-sm mb-1">พนักงาน</p>
+            <p class="text-lg mb-4">${doc.staff}</p>
+            <p class="text-white/50 text-sm mb-2">ข้อมูลที่คีย์</p>
+            <ul class="space-y-2 mb-4">${doc.keys.map((k) => `<li class="text-white/80 text-lg">• ${k}</li>`).join('')}</ul>
+            <p class="text-white/50 text-sm mb-2">Data Destination</p>
+            <div class="flex flex-wrap gap-2">${doc.tables.map((t) => `<code class="px-3 py-1 rounded-xl bg-white/10 font-mono text-sm text-accent-blue">${t}</code>`).join('')}</div>
+          </div>`;
+
+      document.querySelectorAll('.waypoint').forEach((wp, i) => {
+        wp.classList.toggle('active', i === index);
+        wp.setAttribute('fill', i === index ? '#458fff' : 'rgba(255,255,255,0.3)');
+        wp.setAttribute('r', i === index ? '10' : '7');
+      });
+
+      const mc = document.getElementById('motorcycle-group');
+      if (mc) mc.setAttribute('transform', `translate(${WF_WAYPOINTS[index] - 20}, 115)`);
+    }
+
+    /* ================================================================
+       SLIDE 4 — Formulas + capacity demo
+       ================================================================ */
+    function renderSlide4Content() {
+      const route = NSS_COMPANY_DATA.defaultRoute;
+      const veh = NSS_COMPANY_DATA.defaultVehicle;
+      const diesel = NSS_COMPANY_DATA.dieselPrice.default;
+      const fuelCost = NSS_COMPANY_DATA.getDefaultFuelCost();
+
+      document.getElementById('slide4-route-label').textContent =
+        `${route.name} · ${route.distanceKm} กม. · ${veh.name} · ${veh.fuelLitersPerTrip} ล./เที่ยว`;
+
+      document.getElementById('slide4-formulas').innerHTML = `
+        <div class="glass rounded-2xl p-4"><span class="text-white/50">Ton-Km</span> = <strong>น้ำหนัก(ตัน) × ${route.distanceKm} กม.</strong></div>
+        <div class="glass rounded-2xl p-4"><span class="text-white/50">ต้นทุนน้ำมันมาตรฐาน</span> = <strong>${veh.fuelLitersPerTrip} ล. × ${diesel} ฿</strong> ≈ <strong class="text-accent-blue">${fuelCost.toLocaleString('th-TH', { minimumFractionDigits: 2 })} ฿</strong></div>
+        <div class="glass rounded-2xl p-4 mobile-hide-sm"><span class="text-white/50">ปันส่วน Manifest → บิล LTL</span> = <strong>(น้ำหนักบิล ÷ น้ำหนักรวม) × ต้นทุนรวม</strong></div>
+        <div class="glass rounded-2xl p-4 mobile-hide-sm"><span class="text-white/50">Cost/Ton-Km</span> = <strong>ต้นทุนรวม ÷ Ton-Km</strong></div>
+        <div class="glass rounded-2xl p-4"><span class="text-white/50">Margin/Ton-Km</span> = <strong>Contribution Margin ÷ Ton-Km</strong></div>`;
+    }
+
+    function startCapacityDemo() {
+      stopCapacityDemo();
+      const levels = [40, 80, 30, 65];
+      let i = 0;
+      const update = () => {
+        const pct = levels[i % levels.length];
+        document.getElementById('capacity-fill').style.width = pct + '%';
+        document.getElementById('capacity-pct').textContent = pct + '%';
+        const tv = document.getElementById('truck-load-visual');
+        if (tv) tv.setAttribute('width', (160 * pct) / 100);
+        i++;
+      };
+      update();
+      capacityDemoInterval = setInterval(update, 2200);
+    }
+
+    function stopCapacityDemo() {
+      if (capacityDemoInterval) { clearInterval(capacityDemoInterval); capacityDemoInterval = null; }
+    }
+
+    /* ================================================================
+       EXECUTIVE DASHBOARD ENGINE
+       ================================================================ */
+    const DASH_INPUTS = [
+      { key: 'distanceKm', label: 'ระยะทาง (Km)', min: 50, max: 2000, step: 1 },
+      { key: 'fuelLitersPerTrip', label: 'อัตราสิ้นเปลือง (ล./เที่ยว)', min: 50, max: 400, step: 0.01 },
+      { key: 'dieselPricePerLiter', label: 'ราคาดีเซล (฿/ล.)', min: 31, max: 33, step: 0.01 },
+      { key: 'weightTons', label: 'น้ำหนักบรรทุก (ตัน)', min: 0.5, max: 15, step: 0.1 },
+      { key: 'maxCapacityTons', label: 'ความจุสูงสุด (ตัน)', min: 5, max: 20, step: 0.5 },
+      { key: 'allowanceCost', label: 'ค่าเบี้ยเลี้ยง พขร. (฿)', min: 0, max: 5000, step: 50 },
+      { key: 'siteFeesCost', label: 'หน้างาน/ทางด่วน/ท่าเรือ (฿)', min: 0, max: 15000, step: 100 },
+      { key: 'repairCost', label: 'ค่าซ่อมแซม (฿)', min: 0, max: 20000, step: 100 },
+      { key: 'ltlBillCount', label: 'จำนวนบิล LTL ใน Manifest', min: 1, max: 200, step: 1 },
+      { key: 'revenue', label: 'รายได้รวมเที่ยว (฿)', min: 0, max: 300000, step: 500 },
+    ];
+
+    /**
+     * คำนวณต้นทุนและ KPI ระดับเที่ยว (Manifest) — นิ่มซี่เส็ง
+     */
+    function calculateDashboard(s) {
+      // ต้นทุนน้ำมันอัตโนมัติจากมาตรฐาน NSS
+      const fuelCost = s.fuelLitersPerTrip * s.dieselPricePerLiter;
+
+      // Ton-Kilometer = น้ำหนัก(ตัน) × ระยะทาง(กม.)
+      const tonKm = s.weightTons * s.distanceKm;
+
+      // ต้นทุนรวมเที่ยว — 4 กลุ่มจากใบเบิกจริง
+      const totalCost = fuelCost + s.allowanceCost + s.siteFeesCost + s.repairCost;
+
+      // กำไรส่วนเกินต่อเที่ยว (Contribution Margin per Trip)
+      const contributionMargin = s.revenue - totalCost;
+
+      // กำไรส่วนเกิน / ต้นทุนต่อตัน-กิโลเมตร
+      const marginPerTonKm = tonKm > 0 ? contributionMargin / tonKm : null;
+      const costPerTonKm = tonKm > 0 ? totalCost / tonKm : null;
+
+      // Load factor — underload alert
+      const loadFactor = s.maxCapacityTons > 0 ? s.weightTons / s.maxCapacityTons : 0;
+      const isUnderloaded = loadFactor < 0.4;
+      const isLowTonKm = tonKm < 5000;
+
+      return {
+        fuelCost, tonKm, totalCost, contributionMargin,
+        marginPerTonKm, costPerTonKm, loadFactor,
+        isUnderloaded, isLowTonKm,
+        breakdown: {
+          fuel: fuelCost,
+          allowance: s.allowanceCost,
+          siteFees: s.siteFeesCost,
+          repair: s.repairCost,
+        },
+      };
+    }
+
+    function formatBaht(n) {
+      if (n == null || !isFinite(n)) return '—';
+      return '฿' + n.toLocaleString('th-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function renderDashboard() {
+      const r = calculateDashboard(dashState);
+      const route = NSS_COMPANY_DATA.defaultRoute;
+
+      document.getElementById('dash-route-badge').textContent =
+        `${NSS_COMPANY_DATA.companyName} · ${route.name} · ${dashState.distanceKm} กม. · ${NSS_COMPANY_DATA.defaultVehicle.name}`;
+
+      document.getElementById('kpi-revenue').textContent = formatBaht(dashState.revenue);
+      document.getElementById('kpi-total-cost').textContent = formatBaht(r.totalCost);
+
+      const cmEl = document.getElementById('kpi-cm-trip');
+      cmEl.textContent = formatBaht(r.contributionMargin);
+      cmEl.className = 'text-2xl font-bold font-mono ' + (r.contributionMargin >= 0 ? 'text-green-400' : 'text-red-400');
+
+      document.getElementById('kpi-margin-tonkm').textContent =
+        r.marginPerTonKm != null ? formatBaht(r.marginPerTonKm) + '/Ton-Km' : '—';
+      document.getElementById('kpi-cost-tonkm').textContent =
+        r.costPerTonKm != null ? formatBaht(r.costPerTonKm) + '/Ton-Km' : '—';
+
+      document.getElementById('mini-tonkm').textContent = r.tonKm.toLocaleString('th-TH', { maximumFractionDigits: 0 });
+      document.getElementById('mini-load').textContent = (r.loadFactor * 100).toFixed(0) + '%';
+      document.getElementById('mini-bills').textContent = dashState.ltlBillCount;
+
+      document.getElementById('fuel-cost-display').textContent = formatBaht(r.fuelCost);
+      document.getElementById('fuel-formula-display').textContent =
+        `${dashState.fuelLitersPerTrip} ล. × ${dashState.dieselPricePerLiter} ฿/ล. = ${formatBaht(r.fuelCost)}`;
+
+      // Bar chart — 4 segments borderless
+      const total = r.totalCost || 1;
+      const segments = [
+        { key: 'fuel', label: 'น้ำมัน & พลังงาน', color: '#458fff', val: r.breakdown.fuel },
+        { key: 'allowance', label: 'เบี้ยเลี้ยง พขร.', color: '#ea580c', val: r.breakdown.allowance },
+        { key: 'siteFees', label: 'หน้างาน & ค่าธรรมเนียม', color: '#d9a441', val: r.breakdown.siteFees },
+        { key: 'repair', label: 'ซ่อมแซม', color: '#aa2d00', val: r.breakdown.repair },
+      ];
+
+      document.getElementById('dash-bar').innerHTML = segments.map((seg) =>
+        `<div class="bar-seg h-full" style="width:${(seg.val / total) * 100}%;background:${seg.color}" title="${seg.label}"></div>`
+      ).join('');
+
+      document.getElementById('dash-bar-legend').innerHTML = segments.map((seg) =>
+        `<span class="flex items-center gap-2"><span class="w-3 h-3 rounded-full" style="background:${seg.color}"></span>${seg.label} <span class="ml-auto font-mono text-white/60">${((seg.val / total) * 100).toFixed(1)}%</span></span>`
+      ).join('');
+
+      // Alerts
+      const alertEl = document.getElementById('dash-alert');
+      const alerts = [];
+      if (r.isUnderloaded) alerts.push('เตือน: รถ 10 ล้อตู้เย็นบรรทุกต่ำกว่า 40% ความจุ — ต้นทุนต่อ Ton-Km พุ่งสูง!');
+      if (r.isLowTonKm) alerts.push('เตือน: น้ำหนักบรรทุกต่ำ — ตัน-กิโลเมตรไม่คุ้มต้นทุนเที่ยว');
+      if (alerts.length) {
+        alertEl.classList.remove('hidden');
+        alertEl.textContent = alerts.join(' · ');
+      } else {
+        alertEl.classList.add('hidden');
+      }
+    }
+
+    function initDashboardInputs() {
+      const container = document.getElementById('dash-inputs');
+
+      // Vehicle selector
+      const vehDiv = document.createElement('div');
+      vehDiv.className = 'mb-2';
+      vehDiv.innerHTML = `
+        <label class="block text-sm text-white/50 mb-2">ชนิดรถ</label>
+        <select id="vehicle-select" class="select-dark w-full h-12 px-4 rounded-2xl font-semibold outline-none">
+          ${NSS_COMPANY_DATA.vehicles.map((v) => `<option value="${v.id}"${v.id === NSS_COMPANY_DATA.dashboardDefaults.vehicleId ? ' selected' : ''}>${v.name}</option>`).join('')}
+        </select>`;
+      container.appendChild(vehDiv);
+
+      document.getElementById('vehicle-select').addEventListener('change', (e) => {
+        const veh = NSS_COMPANY_DATA.vehicles.find((v) => v.id === e.target.value);
+        if (veh) {
+          dashState.fuelLitersPerTrip = veh.fuelLitersPerTrip;
+          dashState.maxCapacityTons = veh.maxPayloadTons;
+          document.getElementById('range-fuelLitersPerTrip').value = veh.fuelLitersPerTrip;
+          document.getElementById('num-fuelLitersPerTrip').value = veh.fuelLitersPerTrip;
+          document.getElementById('range-maxCapacityTons').value = veh.maxPayloadTons;
+          document.getElementById('num-maxCapacityTons').value = veh.maxPayloadTons;
+          renderDashboard();
+        }
+      });
+
+      DASH_INPUTS.forEach((inp) => {
+        const div = document.createElement('div');
+        div.innerHTML = `
+          <label class="flex justify-between text-sm mb-2">
+            <span class="text-white/70">${inp.label}</span>
+            <span class="font-mono text-accent-blue" id="lbl-${inp.key}">${dashState[inp.key]}</span>
+          </label>
+          <input type="range" id="range-${inp.key}" min="${inp.min}" max="${inp.max}" step="${inp.step}" value="${dashState[inp.key]}" class="w-full mb-2" />
+          <input type="number" id="num-${inp.key}" min="${inp.min}" max="${inp.max}" step="${inp.step}" value="${dashState[inp.key]}" class="w-full h-11 px-4 rounded-xl" />`;
+        container.appendChild(div);
+
+        const update = (val) => {
+          let v = parseFloat(val);
+          if (isNaN(v)) v = inp.min;
+          v = Math.min(inp.max, Math.max(inp.min, v));
+          dashState[inp.key] = v;
+          document.getElementById('range-' + inp.key).value = v;
+          document.getElementById('num-' + inp.key).value = v;
+          document.getElementById('lbl-' + inp.key).textContent =
+            v.toLocaleString('th-TH', { maximumFractionDigits: inp.step < 1 ? 2 : 0 });
+          renderDashboard();
+        };
+
+        document.getElementById('range-' + inp.key).addEventListener('input', (e) => update(e.target.value));
+        document.getElementById('num-' + inp.key).addEventListener('input', (e) => update(e.target.value));
+      });
+    }
+
+    /* ================================================================
+       INIT
+       ================================================================ */
+    document.addEventListener('DOMContentLoaded', () => {
+      renderCostPanels();
+      renderWorkflow();
+      renderSlide4Content();
+      initSlideController();
+      initDashboardInputs();
+      goToView(0);
+
+      window.addEventListener('resize', () => {
+        if (currentView === 2) setWorkflowStep(wfStep);
+      });
+    });
+  </script>
+</body>
+</html>
