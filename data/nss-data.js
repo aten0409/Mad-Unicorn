@@ -93,6 +93,29 @@ const NSS_COMPANY_DATA = {
     },
   },
 
+  allocationGroupOrder: ['direct', 'trip', 'abc'],
+
+  /* ── Scatter layout — shared by Slide ① cloud & Slide ② entry animation ── */
+  scatterLayout: {
+    fuel_travel:       { x: 8,  y: 12, r: -6,  delay: 0 },
+    fuel_fleet:        { x: 62, y: 6,  r: 4,   delay: 0.3 },
+    allowance_driver:  { x: 28, y: 28, r: -3,  delay: 0.6 },
+    allowance_backup:  { x: 78, y: 22, r: 7,   delay: 0.2 },
+    toll:              { x: 45, y: 18, r: -5,  delay: 0.8 },
+    port:              { x: 15, y: 48, r: 3,   delay: 0.4 },
+    container_return:  { x: 55, y: 42, r: -8,  delay: 0.5 },
+    tarpaulin:         { x: 82, y: 38, r: 5,   delay: 0.7 },
+    repair_trip:       { x: 35, y: 55, r: -4,  delay: 0.9 },
+    dispatch_salary:   { x: 68, y: 52, r: 6,   delay: 0.1 },
+    vehicle_lease:     { x: 5,  y: 68, r: -7,  delay: 0.55 },
+    insurance:         { x: 38, y: 72, r: 2,   delay: 0.35 },
+    maintenance_pool:  { x: 72, y: 65, r: -3,  delay: 0.65 },
+    office_overhead:   { x: 88, y: 78, r: 8,   delay: 0.45 },
+    special_delivery:  { x: 22, y: 82, r: -5,  delay: 0.75 },
+    goods_insurance:   { x: 52, y: 88, r: 4,   delay: 0.15 },
+    cod_fee:           { x: 75, y: 85, r: -6,  delay: 0.85 },
+  },
+
   /* ── Golden Manifest (Slides ③–④ — prepared) ── */
   goldenManifest: {
     id: 'M-2024-0892',
@@ -223,6 +246,19 @@ const NSS_COMPANY_DATA = {
   /* ── Helpers ── */
   getCostItemsByLevel(levelId) {
     return this.tripCostItems.filter((item) => item.level === levelId);
+  },
+
+  getAllCostChipItems() {
+    return this.tripCostItems;
+  },
+
+  getScatterStyle(itemId) {
+    const pos = this.scatterLayout[itemId] || { x: 50, y: 50, r: 0, delay: 0 };
+    return pos;
+  },
+
+  getItemsByAllocationGroup(groupId) {
+    return this.tripCostItems.filter((item) => item.allocationGroup === groupId);
   },
 
   getLevelTotal(levelId) {

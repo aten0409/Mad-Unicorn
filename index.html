@@ -79,40 +79,21 @@
             <p id="s1-trip-context" class="text-sm md:text-base text-muted"></p>
           </header>
 
-          <div id="s1-cost-buckets" class="flex flex-col gap-4 md:gap-5"></div>
+          <div id="s1-float-cloud" class="cost-float-cloud" aria-label="รายการต้นทุนทั้งหมด"></div>
         </div>
       </section>
 
-      <!-- SLIDE 2: COST CATEGORIZATION (NSS) -->
-      <section class="slide bg-elevated min-h-screen" data-slide="1" aria-label="การแบ่งกลุ่มต้นทุน">
-        <div class="slide-inner min-h-screen py-12 px-6 flex flex-col justify-start pt-[calc(var(--nav-total)+1.25rem)] lg:pt-[calc(var(--nav-total)+2rem)] pb-12 lg:p-8 max-w-7xl mx-auto w-full">
-          <header class="mb-6 md:mb-8 min-w-0">
-            <p class="text-accent-blue font-semibold text-sm md:text-lg mb-2 hidden sm:block">Slide 2 · Cost Categorization</p>
-            <h2 class="text-2xl md:text-4xl lg:text-5xl font-bold mb-3">ต้นทุนแปรผันต่อเที่ยว<br class="md:hidden"/>ตามใบเบิกจริง</h2>
-            <p class="text-base md:text-xl text-muted max-w-3xl hidden sm:block">ปันส่วนลงบิล LTL ตามตัน-กิโลเมตร</p>
+      <!-- SLIDE 2: จัดกลุ่มตามวิธีปันส่วน -->
+      <section class="slide bg-elevated min-h-screen" data-slide="1" aria-label="การจัดกลุ่มต้นทุน">
+        <div class="slide-inner min-h-screen py-10 px-4 md:px-6 pt-[calc(var(--nav-total)+1rem)] md:pt-[calc(var(--nav-total)+1.5rem)] pb-24 max-w-3xl mx-auto w-full flex flex-col">
+          <header class="mb-4 md:mb-5 min-w-0 shrink-0">
+            <p class="text-accent-blue font-semibold text-sm md:text-base mb-1 md:mb-2">Slide 2 · Grouping</p>
+            <h2 class="text-2xl md:text-4xl font-bold leading-tight mb-2">
+              แต่ละต้นทุน<br/>จัดกลุ่มยังไง?
+            </h2>
+            <p class="text-sm md:text-base text-muted">แยกได้เลย · ปันส่วนจากเที่ยว · ปันส่วนรายเดือน (ABC)</p>
           </header>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-6 md:mb-8" id="cost-panels"></div>
-          <div class="graphic-frame w-full max-w-[280px] sm:max-w-md mx-auto aspect-video mt-6 lg:mt-0 shrink-0 svg-contain">
-            <svg viewBox="0 0 500 180" class="w-full h-full" aria-hidden="true">
-              <circle cx="60" cy="50" r="22" fill="#458fff" opacity="0.8"/>
-              <rect x="40" y="78" width="40" height="55" rx="8" fill="#458fff" opacity="0.6"/>
-              <rect x="30" y="90" width="18" height="45" rx="6" fill="#458fff" opacity="0.4"/>
-              <rect x="72" y="90" width="18" height="45" rx="6" fill="#458fff" opacity="0.4"/>
-              <text x="60" y="155" text-anchor="middle" fill="rgba(255,255,255,0.5)" font-size="11" font-family="Inter,sans-serif">พนักงาน / พขร.</text>
-              <path class="data-pulse" d="M95 70 L200 70" stroke="#458fff" stroke-width="2" fill="none"/>
-              <path class="data-pulse" d="M95 100 L200 100" stroke="#ea580c" stroke-width="2" fill="none" style="animation-delay:0.5s"/>
-              <rect x="210" y="40" width="100" height="28" rx="6" fill="#1d1f25" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
-              <rect x="210" y="76" width="100" height="28" rx="6" fill="#1d1f25" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
-              <rect x="210" y="112" width="100" height="28" rx="6" fill="#1d1f25" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
-              <circle class="led" cx="295" cy="54" r="4" fill="#39bf45"/>
-              <circle class="led" cx="295" cy="90" r="4" fill="#458fff"/>
-              <circle class="led" cx="295" cy="126" r="4" fill="#ea580c"/>
-              <text x="260" y="155" text-anchor="middle" fill="rgba(255,255,255,0.5)" font-size="11" font-family="Inter,sans-serif">Server / ระบบบัญชี</text>
-              <path class="data-pulse" d="M320 70 L400 70" stroke="#458fff" stroke-width="2" fill="none" style="animation-delay:1s"/>
-              <text x="430" y="75" fill="#458fff" font-size="22" font-weight="700" font-family="Inter,sans-serif">฿</text>
-              <text x="400" y="110" fill="rgba(255,255,255,0.6)" font-size="12" font-family="Inter,sans-serif">ใบเบิก → Manifest</text>
-            </svg>
-          </div>
+          <div id="s2-stage" class="s2-stage flex-1 min-h-0"></div>
         </div>
       </section>
 
@@ -309,8 +290,11 @@
       }
     }
 
+    let slide2AnimTimer = null;
+
     function goToSlide(n) {
       if (appMode !== 'slides') return;
+      const prev = currentSlide;
       n = Math.max(0, Math.min(TOTAL_SLIDES - 1, n));
       currentSlide = n;
 
@@ -323,6 +307,12 @@
 
       if (n === TOTAL_SLIDES - 1) startCapacityDemo();
       else stopCapacityDemo();
+
+      if (n === 1) {
+        playSlide2Grouping();
+      } else if (prev === 1) {
+        resetSlide2();
+      }
 
       btnNext.disabled = n === TOTAL_SLIDES - 1;
       btnNext.classList.toggle('opacity-40', n === TOTAL_SLIDES - 1);
@@ -424,63 +414,112 @@
     }
 
     /* ================================================================
-       SLIDE 1 — Wide view: การขนส่ง 1 ครั้ง มีค่าอะไรบ้าง
+       SLIDES 1 & 2 — Floating cost chips + grouping animation
        ================================================================ */
+    function floatChipHtml(item) {
+      const pos = NSS_COMPANY_DATA.getScatterStyle(item.id);
+      return `<span class="cost-float-chip" data-cost-id="${item.id}" data-group="${item.allocationGroup}"
+        style="left:${pos.x}%;top:${pos.y}%;--chip-rot:${pos.r}deg;--float-delay:${pos.delay}s">${item.name}</span>`;
+    }
+
     function renderWideViewSlide() {
       const trip = NSS_COMPANY_DATA.getExampleTrip();
       const route = NSS_COMPANY_DATA.defaultRoute;
 
       document.getElementById('s1-trip-context').textContent =
-        `${route.name} · ${trip.distanceKm} กม. · ${trip.billCount} orders ในเที่ยวนี้`;
+        `${route.name} · ${trip.distanceKm} กม. · ${trip.billCount} orders`;
 
-      document.getElementById('s1-cost-buckets').innerHTML = NSS_COMPANY_DATA.getSlide1Buckets().map((bucket) => {
-        const { meta, items, total } = bucket;
-        const isVariable = bucket.id === 'trip';
-        const totalLabel = isVariable
-          ? formatBaht(total, { compact: true, decimals: 0 })
-          : formatBaht(total, { compact: true, decimals: 0 }) + '/เดือน';
-        const totalClass = isVariable ? 'text-accent-orange' : 'text-accent-blue';
-
-        return `
-          <div class="glass rounded-3xl p-5 md:p-6 min-w-0 overflow-hidden">
-            <div class="flex items-start gap-3 mb-4 min-w-0">
-              <span class="text-xl md:text-2xl shrink-0 leading-none" aria-hidden="true">${meta.icon}</span>
-              <div class="min-w-0 flex-1">
-                <h3 class="text-lg md:text-xl font-bold text-primary">${meta.label}</h3>
-                <p class="text-xs md:text-sm text-subtle">${meta.subtitle}</p>
-              </div>
-              <span class="font-mono text-base md:text-lg font-bold shrink-0 ${totalClass}">${totalLabel}</span>
-            </div>
-            <div class="s1-chip-grid">
-              ${items.map((item) => `
-                <div class="s1-chip">
-                  <span class="s1-chip-label">${item.name}</span>
-                  <span class="s1-chip-amount">${formatBaht(item.exampleAmount, { compact: true, decimals: 0 })}</span>
-                </div>`).join('')}
-            </div>
-          </div>`;
-      }).join('');
+      document.getElementById('s1-float-cloud').innerHTML =
+        NSS_COMPANY_DATA.getAllCostChipItems().map(floatChipHtml).join('');
     }
 
-    /* ================================================================
-       SLIDE 2 — Render cost panels (placeholder — next phase)
-       ================================================================ */
-    function renderCostPanels() {
-      const container = document.getElementById('cost-panels');
-      Object.values(NSS_COMPANY_DATA.costCategories).forEach((cat) => {
-        const panel = document.createElement('div');
-        panel.className = 'glass rounded-3xl p-6 md:p-8 min-w-0 overflow-hidden';
-        panel.innerHTML = `
-          <div class="flex items-center gap-2 mb-4 min-w-0">
-            <span class="w-3 h-3 rounded-full shrink-0" style="background:${cat.accent}"></span>
-            <h3 class="text-lg md:text-xl font-bold truncate text-primary">${cat.title}</h3>
-          </div>
-          <p class="text-xs text-subtle mb-3 uppercase tracking-wider">Variable · Trip · ผูก Manifest</p>
-          <div class="flex flex-wrap gap-2 overflow-hidden">
-            ${cat.items.map((item) => `<span class="px-3 py-1.5 rounded-xl text-xs md:text-sm font-medium bg-white/8 text-muted">${item}</span>`).join('')}
-          </div>`;
-        container.appendChild(panel);
+    function renderSlide2() {
+      const items = NSS_COMPANY_DATA.getAllCostChipItems();
+      const groups = NSS_COMPANY_DATA.allocationGroupOrder.map((id) => ({
+        id,
+        meta: NSS_COMPANY_DATA.allocationGroups[id],
+      }));
+
+      document.getElementById('s2-stage').innerHTML = `
+        <div id="s2-scatter-layer" class="s2-scatter-layer" aria-hidden="true">
+          ${items.map(floatChipHtml).join('')}
+        </div>
+        <div id="s2-groups" class="s2-groups">
+          ${groups.map(({ id, meta }) => `
+            <div class="s2-group glass rounded-3xl p-4 md:p-5" id="s2-group-${id}" data-group="${id}" style="--group-color:${meta.color}">
+              <div class="s2-group-header mb-3">
+                <span class="s2-group-dot" style="background:${meta.color}"></span>
+                <div class="min-w-0 flex-1">
+                  <h3 class="text-sm md:text-base font-bold text-primary">${meta.label}</h3>
+                  <p class="text-xs text-subtle leading-snug">${meta.description}</p>
+                </div>
+              </div>
+              <div class="s2-group-chips flex flex-wrap gap-2 min-h-[2.5rem]"></div>
+            </div>`).join('')}
+        </div>`;
+    }
+
+    function resetSlide2() {
+      clearTimeout(slide2AnimTimer);
+      const scatter = document.getElementById('s2-scatter-layer');
+      const groups = document.getElementById('s2-groups');
+      if (!scatter || !groups) return;
+
+      groups.classList.remove('is-visible', 'is-settled');
+
+      document.querySelectorAll('#s2-stage .cost-float-chip').forEach((chip) => {
+        const pos = NSS_COMPANY_DATA.getScatterStyle(chip.dataset.costId);
+        chip.classList.remove('is-settled');
+        chip.style.transition = '';
+        chip.style.transform = '';
+        chip.style.left = pos.x + '%';
+        chip.style.top = pos.y + '%';
+        scatter.appendChild(chip);
       });
+    }
+
+    function playSlide2Grouping() {
+      resetSlide2();
+      const scatter = document.getElementById('s2-scatter-layer');
+      const groupsEl = document.getElementById('s2-groups');
+      if (!scatter || !groupsEl) return;
+
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      slide2AnimTimer = setTimeout(() => {
+        groupsEl.classList.add('is-visible');
+        const chips = [...scatter.querySelectorAll('.cost-float-chip')];
+
+        if (prefersReduced) {
+          chips.forEach((chip) => {
+            const slot = document.querySelector(`#s2-group-${chip.dataset.group} .s2-group-chips`);
+            chip.classList.add('is-settled');
+            slot.appendChild(chip);
+          });
+          groupsEl.classList.add('is-settled');
+          return;
+        }
+
+        chips.forEach((chip, i) => {
+          const slot = document.querySelector(`#s2-group-${chip.dataset.group} .s2-group-chips`);
+          const first = chip.getBoundingClientRect();
+          slot.appendChild(chip);
+          chip.classList.add('is-settled');
+          const last = chip.getBoundingClientRect();
+          const dx = first.left - last.left;
+          const dy = first.top - last.top;
+          chip.style.transform = `translate(${dx}px, ${dy}px)`;
+          chip.style.transition = 'none';
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              chip.style.transition = `transform 0.7s cubic-bezier(0.34, 1.15, 0.64, 1) ${i * 0.035}s`;
+              chip.style.transform = 'translate(0, 0)';
+            });
+          });
+        });
+
+        slide2AnimTimer = setTimeout(() => groupsEl.classList.add('is-settled'), 900);
+      }, 450);
     }
 
     /* ================================================================
@@ -757,7 +796,7 @@
        ================================================================ */
     document.addEventListener('DOMContentLoaded', () => {
       renderWideViewSlide();
-      renderCostPanels();
+      renderSlide2();
       renderWorkflow();
       renderSlide4Content();
       initSlideController();
