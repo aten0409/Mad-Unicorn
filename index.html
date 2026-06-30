@@ -25,6 +25,7 @@
     };
   </script>
   <link rel="stylesheet" href="style.css" />
+  <script src="data/nss-data.js"></script>
 </head>
 <body class="mode-slides">
 
@@ -67,49 +68,32 @@
   <div id="slide-deck">
     <div id="slide-track" class="slide-track">
 
-      <!-- SLIDE 1: THE PROBLEM -->
-      <section class="slide bg-base min-h-screen" data-slide="0" aria-label="ความท้าทายของการคิดต้นทุน">
-        <div class="slide-inner min-h-screen py-12 px-6 flex flex-col justify-start lg:flex-row lg:items-start gap-6 lg:gap-8 pt-[calc(var(--nav-total)+1.25rem)] lg:pt-[calc(var(--nav-total)+2rem)] pb-12 lg:p-8 max-w-7xl mx-auto w-full">
-          <div class="slide-text order-1 w-full lg:w-7/12 min-w-0 shrink">
-            <p class="text-accent-orange font-semibold text-sm md:text-lg mb-1 md:mb-3 hidden sm:block">Slide 1 · The Problem</p>
-            <h1 class="text-2xl md:text-4xl lg:text-5xl font-bold leading-tight mb-2 md:mb-6">
-              ทำไมคิดต้นทุน<br/>ต่อชิ้นถึงยาก?
+      <!-- SLIDE 1: WIDE VIEW — การขนส่ง 1 ครั้ง มีค่าอะไรบ้าง -->
+      <section class="slide bg-base min-h-screen" data-slide="0" aria-label="ภาพกว้างต้นทุนการขนส่ง">
+        <div class="slide-inner min-h-screen py-10 px-4 md:px-6 pt-[calc(var(--nav-total)+1rem)] md:pt-[calc(var(--nav-total)+1.5rem)] pb-12 md:pb-16 max-w-7xl mx-auto w-full">
+          <header class="mb-5 md:mb-8 min-w-0">
+            <p class="text-accent-orange font-semibold text-sm md:text-base mb-1 md:mb-2">Slide 1 · Big Picture</p>
+            <h1 class="text-2xl md:text-4xl lg:text-5xl font-bold leading-tight mb-2 md:mb-3">
+              การขนส่ง 1 ครั้ง<br class="hidden sm:block"/> มีค่าอะไรบ้าง?
             </h1>
-            <p class="text-base md:text-xl text-muted leading-relaxed mb-6 md:mb-8 max-w-xl hidden sm:block">
-              ธุรกิจขนส่ง LTL ไม่มีราคาทุนคงที่ — ต้นทุนผันแปรตามความหนาแน่น ปริมาณ และเที่ยววิ่งจริง
+            <p class="text-sm md:text-lg text-muted max-w-2xl">
+              มองภาพรวมก่อน — ต้นทุนทั้งหมดที่เกี่ยวกับเที่ยวขนส่ง 1 ครั้ง
             </p>
-            <div class="flex flex-col gap-3 md:gap-4">
-              <div class="glass rounded-2xl p-4 md:p-5 min-w-0 overflow-hidden">
-                <p class="font-bold text-base md:text-lg mb-1 text-primary">Density & Volume</p>
-                <p class="text-sm md:text-base text-muted">500 vs 80 ชิ้น — ต้นทุนต่าง 6 เท่า</p>
-              </div>
-              <div class="glass rounded-2xl p-4 md:p-5 min-w-0 overflow-hidden">
-                <p class="font-bold text-base md:text-lg mb-1 text-primary">รถวิ่งเที่ยวเปล่า</p>
-                <p class="text-sm md:text-base text-muted">ไม่รู้บิลไหนติด underload</p>
-              </div>
-              <div class="glass rounded-2xl p-4 md:p-5 min-w-0 overflow-hidden">
-                <p class="font-bold text-base md:text-lg mb-1 text-primary">Hidden Costs</p>
-                <p class="text-sm md:text-base text-muted">เคลม, ตีกลับ, น้ำมันนอกเส้นทาง</p>
-              </div>
-            </div>
-          </div>
-          <div class="slide-graphic order-2 w-full lg:w-5/12 min-w-0 shrink-0">
-            <div class="graphic-frame w-full max-w-[280px] sm:max-w-md mx-auto mt-6 lg:mt-0">
-              <div class="conveyor-panel">
-                <div class="glass-strong rounded-3xl p-4 md:p-6 w-full relative overflow-visible">
-                  <p class="relative z-10 text-xs md:text-sm font-semibold text-muted mb-2 md:mb-4 uppercase tracking-wider text-center">Claim & Return</p>
-                  <div class="conveyor-wrap mx-2 md:mx-4">
-                    <div class="conveyor-belt"></div>
-                    <div class="parcel-box" style="left:0"></div>
-                    <div class="parcel-box" style="left:0"></div>
-                    <div class="parcel-box parcel-damaged" style="left:0"></div>
-                    <div class="parcel-box" style="left:0"></div>
-                    <div class="parcel-box parcel-damaged" style="left:0"></div>
-                  </div>
-                  <p class="relative z-10 text-center text-muted text-xs md:text-sm mt-2 md:mt-4">กล่องส้ม = เคลม</p>
-                </div>
-              </div>
-            </div>
+          </header>
+
+          <!-- Trip context bar -->
+          <div id="s1-trip-bar" class="trip-context-bar glass-strong rounded-2xl md:rounded-3xl p-4 md:p-5 mb-5 md:mb-6"></div>
+
+          <!-- Route visual -->
+          <div id="s1-route-visual" class="trip-route-visual glass rounded-2xl md:rounded-3xl p-4 md:p-6 mb-5 md:mb-6"></div>
+
+          <!-- 3 cost level panels -->
+          <div id="s1-cost-levels" class="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-5 mb-5 md:mb-6"></div>
+
+          <!-- Summary + bridge -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
+            <div id="s1-summary" class="glass-strong rounded-2xl md:rounded-3xl p-5 md:p-6"></div>
+            <div id="s1-bridge" class="glass rounded-2xl md:rounded-3xl p-5 md:p-6 border border-accent-orange/20"></div>
           </div>
         </div>
       </section>
@@ -305,110 +289,6 @@
 
   <script>
     /* ================================================================
-       นิ่มซี่เส็งขนส่ง 1988 — NSS_COMPANY_DATA (Single Source of Truth)
-       ================================================================ */
-    const NSS_COMPANY_DATA = {
-      companyName: 'บริษัท นิ่มซี่เส็งขนส่ง 1988 จำกัด',
-      defaultRoute: {
-        id: 'CNX-MHN',
-        name: 'เชียงใหม่ → สี่แยกมหานาค',
-        origin: 'เชียงใหม่',
-        destination: 'สี่แยกมหานาค',
-        distanceKm: 720.0,
-      },
-      vehicles: [
-        { id: '10W-REF', name: 'รถ 10 ล้อตู้เย็น', fuelLitersPerTrip: 194.59, maxPayloadTons: 15 },
-        { id: '6W', name: 'รถ 6 ล้อ', fuelLitersPerTrip: 120.0, maxPayloadTons: 8 },
-        { id: '18W', name: 'รถ 18 ล้อ', fuelLitersPerTrip: 280.0, maxPayloadTons: 25 },
-      ],
-      get defaultVehicle() { return this.vehicles[0]; },
-      dieselPrice: { min: 31.0, max: 33.0, default: 32.0 },
-      costCategories: {
-        fuel: {
-          title: 'น้ำมัน & พลังงาน',
-          accent: '#458fff',
-          items: [
-            'ค่าน้ำมันเดินทาง (เงินสด)',
-            'ค่าน้ำมันขาล่อง (บิลน้ำมัน)',
-            'ค่าน้ำมัน Fleet Card',
-            'น้ำมันนอกเส้นทาง / รถวิ่งอ้อม',
-            'ค่าแก๊สเดินทาง',
-          ],
-        },
-        allowance: {
-          title: 'เบี้ยเลี้ยง',
-          accent: '#ea580c',
-          items: [
-            'เบี้ยเลี้ยง พขร.',
-            'เบี้ยเลี้ยง พขร. สำรอง',
-            'เบี้ยเลี้ยงนอกเส้นทาง',
-          ],
-        },
-        siteFees: {
-          title: 'หน้างาน & ค่าธรรมเนียม',
-          accent: '#d9a441',
-          items: [
-            'ค่าธรรมเนียมคืนตู้',
-            'ค่าเข้าท่าเรือ',
-            'ค่าทางด่วน',
-            'ค่าปิดเปิดผ้าใบเทเลอร์',
-            'ค่าซ่อมแซม (แยกรายอู่)',
-          ],
-        },
-      },
-      workflowDocs: [
-        {
-          step: 1,
-          title: 'สร้าง Order (LTL)',
-          doc: 'บิลขนส่งสินค้า LTL (รายชิ้น)',
-          staff: 'พนักงานหน้าร้าน / ระบบคีย์บิล',
-          keys: ['หัวบิล: เลขที่บิล, ต้นทาง, ปลายทาง, สายกระจาย, เงินสด/เงินเชื่อ', 'รายละเอียดบิล: ชื่อสินค้า, น้ำหนักรวม, จำนวนหน่วย, กว้าง×ยาว×สูง'],
-          tables: ['bill_header', 'bill_detail'],
-        },
-        {
-          step: 2,
-          title: 'จัด Manifest',
-          doc: 'เลขที่ใบรายการ (Manifest ID)',
-          staff: 'ฝ่ายจัดรถ / Dispatch',
-          keys: ['ผูกบิล LTL → Manifest ID', 'ระบุสาย เชียงใหม่–มหานาค', 'เลือกประเภทรถ (10 ล้อตู้เย็น)'],
-          tables: ['manifests', 'manifest_bills'],
-        },
-        {
-          step: 3,
-          title: 'เบิกค่าใช้จ่ายเที่ยว',
-          doc: 'ใบเบิกค่าเดินทาง',
-          staff: 'พขร. / ฝ่ายบัญชีหน้างาน',
-          keys: ['ค่าน้ำมัน (เงินสด/บิล/Fleet Card)', 'เบี้ยเลี้ยง พขร.', 'ทางด่วน, ท่าเรือ, คืนตู้'],
-          tables: ['expense_vouchers', 'fleet_card_logs'],
-        },
-        {
-          step: 4,
-          title: 'เคลียร์ & ปันส่วน',
-          doc: 'สรุปต้นทุน Manifest',
-          staff: 'บัญชี / ผู้บริหาร',
-          keys: ['รวมต้นทุน 3 กลุ่มจากใบเบิก', 'ปันส่วนลงบิล LTL ตามน้ำหนัก', 'คำนวณ Ton-Km, CM/Trip, CM/Ton-Km'],
-          tables: ['manifest_cost_summary', 'bill_cost_allocation'],
-        },
-      ],
-      dashboardDefaults: {
-        distanceKm: 720.0,
-        vehicleId: '10W-REF',
-        fuelLitersPerTrip: 194.59,
-        dieselPricePerLiter: 32.0,
-        weightTons: 12,
-        maxCapacityTons: 15,
-        allowanceCost: 1200,
-        siteFeesCost: 2800,
-        repairCost: 0,
-        ltlBillCount: 45,
-        revenue: 42000,
-      },
-      getDefaultFuelCost(liters, price) {
-        return (liters || this.defaultVehicle.fuelLitersPerTrip) * (price || this.dieselPrice.default);
-      },
-    };
-
-    /* ================================================================
        STATE
        ================================================================ */
     const TOTAL_SLIDES = 4;
@@ -559,7 +439,207 @@
     }
 
     /* ================================================================
-       SLIDE 2 — Render cost panels
+       SLIDE 1 — Wide view: การขนส่ง 1 ครั้ง มีค่าอะไรบ้าง
+       ================================================================ */
+    let s1ActiveChip = null;
+
+    function renderCostChip(item) {
+      const hasAmount = item.exampleAmount != null && item.exampleAmount > 0;
+      const amountLabel = hasAmount
+        ? formatBaht(item.exampleAmount, { compact: true, decimals: 0 })
+        : (item.level === 'order' ? 'ต่อ bill' : '—');
+      return `
+        <button type="button"
+          class="cost-chip ${hasAmount ? 'has-amount' : 'no-amount'}"
+          data-cost-id="${item.id}"
+          data-level="${item.level}"
+          aria-pressed="false">
+          <span class="cost-chip-name">${item.name}</span>
+          <span class="cost-chip-amount">${amountLabel}</span>
+        </button>`;
+    }
+
+    function renderWideViewSlide() {
+      const trip = NSS_COMPANY_DATA.getExampleTrip();
+      const levels = NSS_COMPANY_DATA.costLevels;
+
+      document.getElementById('s1-trip-bar').innerHTML = `
+        <div class="flex flex-wrap items-center gap-x-4 gap-y-2 md:gap-x-6">
+          <div class="flex items-center gap-2 min-w-0">
+            <span class="text-xs text-subtle uppercase tracking-wider shrink-0">Manifest</span>
+            <span class="font-mono text-sm md:text-base font-semibold text-accent-blue truncate">${trip.manifestId}</span>
+          </div>
+          <div class="hidden sm:block w-px h-5 bg-white/10 shrink-0"></div>
+          <div class="flex items-center gap-2 min-w-0">
+            <span class="text-xs text-subtle shrink-0">รถ</span>
+            <span class="text-sm md:text-base text-primary truncate">${trip.vehicle}</span>
+          </div>
+          <div class="hidden md:block w-px h-5 bg-white/10 shrink-0"></div>
+          <div class="flex items-center gap-2">
+            <span class="text-xs text-subtle shrink-0">บรรทุก</span>
+            <span class="text-sm md:text-base font-mono text-primary">${trip.weightTons} / ${trip.maxCapacityTons} ตัน</span>
+            <span class="text-xs px-2 py-0.5 rounded-lg bg-accent-blue/20 text-accent-blue font-semibold">${trip.loadPercent}%</span>
+          </div>
+          <div class="hidden lg:block w-px h-5 bg-white/10 shrink-0"></div>
+          <div class="flex items-center gap-2">
+            <span class="text-xs text-subtle shrink-0">Orders</span>
+            <span class="text-sm md:text-base font-bold text-primary">${trip.billCount} บิล</span>
+          </div>
+          <div class="ml-auto flex items-center gap-2 shrink-0">
+            <span class="text-xs text-subtle">รายได้เที่ยว</span>
+            <span class="font-mono text-base md:text-lg font-bold text-green-400">${formatBaht(trip.revenue, { compact: true, decimals: 0 })}</span>
+          </div>
+        </div>`;
+
+      document.getElementById('s1-route-visual').innerHTML = `
+        <div class="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+          <div class="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
+            <span class="route-node shrink-0">${NSS_COMPANY_DATA.defaultRoute.origin}</span>
+            <div class="route-line flex-1 min-w-[60px]">
+              <div class="route-line-track"></div>
+              <span class="route-truck" aria-hidden="true">🚛</span>
+            </div>
+            <span class="route-node shrink-0">${NSS_COMPANY_DATA.defaultRoute.destination}</span>
+          </div>
+          <div class="flex items-center gap-3 sm:gap-4 text-sm shrink-0">
+            <span class="text-muted"><strong class="text-primary font-mono">${trip.distanceKm}</strong> กม.</span>
+            <span class="text-muted hidden sm:inline">·</span>
+            <span class="text-muted"><strong class="text-primary font-mono">${trip.billCount}</strong> orders ในเที่ยวนี้</span>
+          </div>
+        </div>`;
+
+      const levelOrder = ['trip', 'period', 'order'];
+      document.getElementById('s1-cost-levels').innerHTML = levelOrder.map((levelId) => {
+        const meta = levels[levelId];
+        const items = NSS_COMPANY_DATA.getCostItemsByLevel(levelId);
+        const total = NSS_COMPANY_DATA.getLevelTotal(levelId);
+        const totalLabel = levelId === 'order'
+          ? 'ขึ้นกับ bill'
+          : formatBaht(total, { compact: true, decimals: 0 }) + (levelId === 'period' ? '/เดือน' : '');
+
+        return `
+          <div class="cost-level-panel" data-level="${levelId}" style="--level-accent: ${meta.accent}">
+            <div class="cost-level-header">
+              <span class="cost-level-icon" aria-hidden="true">${meta.icon}</span>
+              <div class="min-w-0 flex-1">
+                <h3 class="text-base md:text-lg font-bold text-primary">${meta.label}</h3>
+                <p class="text-xs md:text-sm text-muted truncate">${meta.subtitle}</p>
+              </div>
+              <span class="cost-level-total font-mono text-sm md:text-base font-bold shrink-0" style="color: ${meta.accent}">${totalLabel}</span>
+            </div>
+            <div class="cost-chip-grid">
+              ${items.map((item) => renderCostChip(item)).join('')}
+            </div>
+          </div>`;
+      }).join('');
+
+      const tripTotal = trip.tripCostTotal;
+      const periodTotal = trip.periodCostTotal;
+
+      document.getElementById('s1-summary').innerHTML = `
+        <p class="text-xs text-subtle uppercase tracking-wider mb-3">สรุปต้นทุนเที่ยวนี้</p>
+        <div class="space-y-3">
+          <div class="flex justify-between items-center gap-2">
+            <span class="text-sm text-muted flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full shrink-0" style="background: ${levels.trip.accent}"></span>
+              ต่อเที่ยว (ใบเบิก)
+            </span>
+            <span class="font-mono font-bold text-primary">${formatBaht(tripTotal)}</span>
+          </div>
+          <div class="flex justify-between items-center gap-2">
+            <span class="text-sm text-muted flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full shrink-0" style="background: ${levels.period.accent}"></span>
+              รายเดือน (แบ่งมา)
+            </span>
+            <span class="font-mono font-bold text-muted">${formatBaht(periodTotal, { compact: true, decimals: 0 })}/เดือน</span>
+          </div>
+          <div class="flex justify-between items-center gap-2">
+            <span class="text-sm text-muted flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full shrink-0" style="background: ${levels.order.accent}"></span>
+              ต่อ order (direct)
+            </span>
+            <span class="text-sm text-muted">บาง bill มี</span>
+          </div>
+          <div class="pt-3 border-t border-white/10 flex justify-between items-center">
+            <span class="font-semibold text-primary">รายได้เที่ยว</span>
+            <span class="font-mono text-lg font-bold text-green-400">${formatBaht(trip.revenue, { compact: true, decimals: 0 })}</span>
+          </div>
+        </div>`;
+
+      document.getElementById('s1-bridge').innerHTML = `
+        <p class="text-xs text-accent-orange font-semibold uppercase tracking-wider mb-2">คำถามถัดไป →</p>
+        <p class="text-base md:text-lg font-bold text-primary mb-2">
+          ${trip.billCount} orders ในเที่ยวนี้ —<br/>
+          <span class="text-accent-orange">ยังไม่รู้ว่าแต่ละ order กินต้นทุนเท่าไหร่</span>
+        </p>
+        <p class="text-sm text-muted leading-relaxed">
+          ต้นทุน ฿${tripTotal.toLocaleString('th-TH', { maximumFractionDigits: 0 })} อยู่ที่ระดับเที่ยว
+          + ค่ารายเดือนอีก ฿${periodTotal.toLocaleString('th-TH', { maximumFractionDigits: 0 })}
+          — สไลด์ถัดไปจะจัดกลุ่มว่าแต่ละค่า <strong class="text-primary">แยกได้เลยหรือต้องปันส่วน</strong>
+        </p>`;
+
+      initWideViewInteractions();
+    }
+
+    function initWideViewInteractions() {
+      const detailEl = document.getElementById('s1-chip-detail');
+      if (!detailEl) {
+        const bridge = document.getElementById('s1-bridge');
+        const detail = document.createElement('div');
+        detail.id = 's1-chip-detail';
+        detail.className = 's1-chip-detail hidden glass rounded-xl px-4 py-3 mt-3 text-sm';
+        detail.setAttribute('role', 'status');
+        detail.setAttribute('aria-live', 'polite');
+        bridge.appendChild(detail);
+      }
+
+      document.querySelectorAll('.cost-chip').forEach((chip) => {
+        chip.addEventListener('click', () => {
+          const id = chip.dataset.costId;
+          const item = NSS_COMPANY_DATA.tripCostItems.find((c) => c.id === id);
+          if (!item) return;
+
+          if (s1ActiveChip === id) {
+            s1ActiveChip = null;
+            chip.classList.remove('is-active');
+            chip.setAttribute('aria-pressed', 'false');
+            document.querySelectorAll('.cost-level-panel').forEach((p) => p.classList.remove('is-highlight'));
+            document.getElementById('s1-chip-detail').classList.add('hidden');
+            return;
+          }
+
+          document.querySelectorAll('.cost-chip').forEach((c) => {
+            c.classList.remove('is-active');
+            c.setAttribute('aria-pressed', 'false');
+          });
+          document.querySelectorAll('.cost-level-panel').forEach((p) => {
+            p.classList.toggle('is-highlight', p.dataset.level === item.level);
+          });
+
+          chip.classList.add('is-active');
+          chip.setAttribute('aria-pressed', 'true');
+          s1ActiveChip = id;
+
+          const group = NSS_COMPANY_DATA.allocationGroups[item.allocationGroup];
+          const amountText = item.exampleAmount != null && item.exampleAmount > 0
+            ? formatBaht(item.exampleAmount, { compact: true, decimals: 0 }) + (item.level === 'period' ? '/เดือน' : '')
+            : 'ขึ้นกับ bill';
+
+          const detail = document.getElementById('s1-chip-detail');
+          detail.classList.remove('hidden');
+          detail.innerHTML = `
+            <strong class="text-primary">${item.name}</strong>
+            <span class="text-muted"> · </span>
+            <span class="font-mono text-accent-blue">${amountText}</span>
+            ${item.note ? `<span class="text-subtle"> (${item.note})</span>` : ''}
+            <span class="text-muted"> · กลุ่ม </span>
+            <span style="color: ${group.color}">${group.shortLabel}</span>`;
+        });
+      });
+    }
+
+    /* ================================================================
+       SLIDE 2 — Render cost panels (placeholder — next phase)
        ================================================================ */
     function renderCostPanels() {
       const container = document.getElementById('cost-panels');
@@ -732,9 +812,8 @@
       };
     }
 
-    function formatBaht(n) {
-      if (n == null || !isFinite(n)) return '—';
-      return '฿' + n.toLocaleString('th-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    function formatBahtDashboard(n) {
+      return formatBaht(n);
     }
 
     function renderDashboard() {
@@ -744,25 +823,25 @@
       document.getElementById('dash-route-badge').textContent =
         `${NSS_COMPANY_DATA.companyName} · ${route.name} · ${dashState.distanceKm} กม. · ${NSS_COMPANY_DATA.defaultVehicle.name}`;
 
-      document.getElementById('kpi-revenue').textContent = formatBaht(dashState.revenue);
-      document.getElementById('kpi-total-cost').textContent = formatBaht(r.totalCost);
+      document.getElementById('kpi-revenue').textContent = formatBahtDashboard(dashState.revenue);
+      document.getElementById('kpi-total-cost').textContent = formatBahtDashboard(r.totalCost);
 
       const cmEl = document.getElementById('kpi-cm-trip');
-      cmEl.textContent = formatBaht(r.contributionMargin);
+      cmEl.textContent = formatBahtDashboard(r.contributionMargin);
       cmEl.className = 'text-xl md:text-2xl font-bold font-mono truncate ' + (r.contributionMargin >= 0 ? 'text-green-400' : 'text-red-400');
 
       document.getElementById('kpi-margin-tonkm').textContent =
-        r.marginPerTonKm != null ? formatBaht(r.marginPerTonKm) + '/Ton-Km' : '—';
+        r.marginPerTonKm != null ? formatBahtDashboard(r.marginPerTonKm) + '/Ton-Km' : '—';
       document.getElementById('kpi-cost-tonkm').textContent =
-        r.costPerTonKm != null ? formatBaht(r.costPerTonKm) + '/Ton-Km' : '—';
+        r.costPerTonKm != null ? formatBahtDashboard(r.costPerTonKm) + '/Ton-Km' : '—';
 
       document.getElementById('mini-tonkm').textContent = r.tonKm.toLocaleString('th-TH', { maximumFractionDigits: 0 });
       document.getElementById('mini-load').textContent = (r.loadFactor * 100).toFixed(0) + '%';
       document.getElementById('mini-bills').textContent = dashState.ltlBillCount;
 
-      document.getElementById('fuel-cost-display').textContent = formatBaht(r.fuelCost);
+      document.getElementById('fuel-cost-display').textContent = formatBahtDashboard(r.fuelCost);
       document.getElementById('fuel-formula-display').textContent =
-        `${dashState.fuelLitersPerTrip} ล. × ${dashState.dieselPricePerLiter} ฿/ล. = ${formatBaht(r.fuelCost)}`;
+        `${dashState.fuelLitersPerTrip} ล. × ${dashState.dieselPricePerLiter} ฿/ล. = ${formatBahtDashboard(r.fuelCost)}`;
 
       // Bar chart — 4 segments borderless
       const total = r.totalCost || 1;
@@ -853,6 +932,7 @@
        INIT
        ================================================================ */
     document.addEventListener('DOMContentLoaded', () => {
+      renderWideViewSlide();
       renderCostPanels();
       renderWorkflow();
       renderSlide4Content();
