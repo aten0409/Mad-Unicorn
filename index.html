@@ -70,31 +70,16 @@
 
       <!-- SLIDE 1: WIDE VIEW — การขนส่ง 1 ครั้ง มีค่าอะไรบ้าง -->
       <section class="slide bg-base min-h-screen" data-slide="0" aria-label="ภาพกว้างต้นทุนการขนส่ง">
-        <div class="slide-inner min-h-screen py-10 px-4 md:px-6 pt-[calc(var(--nav-total)+1rem)] md:pt-[calc(var(--nav-total)+1.5rem)] pb-12 md:pb-16 max-w-7xl mx-auto w-full">
-          <header class="mb-5 md:mb-8 min-w-0">
+        <div class="slide-inner min-h-screen py-10 px-4 md:px-6 pt-[calc(var(--nav-total)+1rem)] md:pt-[calc(var(--nav-total)+1.5rem)] pb-24 max-w-3xl mx-auto w-full">
+          <header class="mb-6 md:mb-8 min-w-0">
             <p class="text-accent-orange font-semibold text-sm md:text-base mb-1 md:mb-2">Slide 1 · Big Picture</p>
-            <h1 class="text-2xl md:text-4xl lg:text-5xl font-bold leading-tight mb-2 md:mb-3">
-              การขนส่ง 1 ครั้ง<br class="hidden sm:block"/> มีค่าอะไรบ้าง?
+            <h1 class="text-2xl md:text-4xl font-bold leading-tight mb-2">
+              การขนส่ง 1 ครั้ง<br/>มีค่าอะไรบ้าง?
             </h1>
-            <p class="text-sm md:text-lg text-muted max-w-2xl">
-              มองภาพรวมก่อน — ต้นทุนทั้งหมดที่เกี่ยวกับเที่ยวขนส่ง 1 ครั้ง
-            </p>
+            <p id="s1-trip-context" class="text-sm md:text-base text-muted"></p>
           </header>
 
-          <!-- Trip context bar -->
-          <div id="s1-trip-bar" class="trip-context-bar glass-strong rounded-2xl md:rounded-3xl p-4 md:p-5 mb-5 md:mb-6"></div>
-
-          <!-- Route visual -->
-          <div id="s1-route-visual" class="trip-route-visual glass rounded-2xl md:rounded-3xl p-4 md:p-6 mb-5 md:mb-6"></div>
-
-          <!-- 3 cost level panels -->
-          <div id="s1-cost-levels" class="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-5 mb-5 md:mb-6"></div>
-
-          <!-- Summary + bridge -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
-            <div id="s1-summary" class="glass-strong rounded-2xl md:rounded-3xl p-5 md:p-6"></div>
-            <div id="s1-bridge" class="glass rounded-2xl md:rounded-3xl p-5 md:p-6 border border-accent-orange/20"></div>
-          </div>
+          <div id="s1-cost-buckets" class="flex flex-col gap-4 md:gap-5"></div>
         </div>
       </section>
 
@@ -441,201 +426,40 @@
     /* ================================================================
        SLIDE 1 — Wide view: การขนส่ง 1 ครั้ง มีค่าอะไรบ้าง
        ================================================================ */
-    let s1ActiveChip = null;
-
-    function renderCostChip(item) {
-      const hasAmount = item.exampleAmount != null && item.exampleAmount > 0;
-      const amountLabel = hasAmount
-        ? formatBaht(item.exampleAmount, { compact: true, decimals: 0 })
-        : (item.level === 'order' ? 'ต่อ bill' : '—');
-      return `
-        <button type="button"
-          class="cost-chip ${hasAmount ? 'has-amount' : 'no-amount'}"
-          data-cost-id="${item.id}"
-          data-level="${item.level}"
-          aria-pressed="false">
-          <span class="cost-chip-name">${item.name}</span>
-          <span class="cost-chip-amount">${amountLabel}</span>
-        </button>`;
-    }
-
     function renderWideViewSlide() {
       const trip = NSS_COMPANY_DATA.getExampleTrip();
-      const levels = NSS_COMPANY_DATA.costLevels;
+      const route = NSS_COMPANY_DATA.defaultRoute;
 
-      document.getElementById('s1-trip-bar').innerHTML = `
-        <div class="flex flex-wrap items-center gap-x-4 gap-y-2 md:gap-x-6">
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="text-xs text-subtle uppercase tracking-wider shrink-0">Manifest</span>
-            <span class="font-mono text-sm md:text-base font-semibold text-accent-blue truncate">${trip.manifestId}</span>
-          </div>
-          <div class="hidden sm:block w-px h-5 bg-white/10 shrink-0"></div>
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="text-xs text-subtle shrink-0">รถ</span>
-            <span class="text-sm md:text-base text-primary truncate">${trip.vehicle}</span>
-          </div>
-          <div class="hidden md:block w-px h-5 bg-white/10 shrink-0"></div>
-          <div class="flex items-center gap-2">
-            <span class="text-xs text-subtle shrink-0">บรรทุก</span>
-            <span class="text-sm md:text-base font-mono text-primary">${trip.weightTons} / ${trip.maxCapacityTons} ตัน</span>
-            <span class="text-xs px-2 py-0.5 rounded-lg bg-accent-blue/20 text-accent-blue font-semibold">${trip.loadPercent}%</span>
-          </div>
-          <div class="hidden lg:block w-px h-5 bg-white/10 shrink-0"></div>
-          <div class="flex items-center gap-2">
-            <span class="text-xs text-subtle shrink-0">Orders</span>
-            <span class="text-sm md:text-base font-bold text-primary">${trip.billCount} บิล</span>
-          </div>
-          <div class="ml-auto flex items-center gap-2 shrink-0">
-            <span class="text-xs text-subtle">รายได้เที่ยว</span>
-            <span class="font-mono text-base md:text-lg font-bold text-green-400">${formatBaht(trip.revenue, { compact: true, decimals: 0 })}</span>
-          </div>
-        </div>`;
+      document.getElementById('s1-trip-context').textContent =
+        `${route.name} · ${trip.distanceKm} กม. · ${trip.billCount} orders ในเที่ยวนี้`;
 
-      document.getElementById('s1-route-visual').innerHTML = `
-        <div class="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
-          <div class="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
-            <span class="route-node shrink-0">${NSS_COMPANY_DATA.defaultRoute.origin}</span>
-            <div class="route-line flex-1 min-w-[60px]">
-              <div class="route-line-track"></div>
-              <span class="route-truck" aria-hidden="true">🚛</span>
-            </div>
-            <span class="route-node shrink-0">${NSS_COMPANY_DATA.defaultRoute.destination}</span>
-          </div>
-          <div class="flex items-center gap-3 sm:gap-4 text-sm shrink-0">
-            <span class="text-muted"><strong class="text-primary font-mono">${trip.distanceKm}</strong> กม.</span>
-            <span class="text-muted hidden sm:inline">·</span>
-            <span class="text-muted"><strong class="text-primary font-mono">${trip.billCount}</strong> orders ในเที่ยวนี้</span>
-          </div>
-        </div>`;
-
-      const levelOrder = ['trip', 'period', 'order'];
-      document.getElementById('s1-cost-levels').innerHTML = levelOrder.map((levelId) => {
-        const meta = levels[levelId];
-        const items = NSS_COMPANY_DATA.getCostItemsByLevel(levelId);
-        const total = NSS_COMPANY_DATA.getLevelTotal(levelId);
-        const totalLabel = levelId === 'order'
-          ? 'ขึ้นกับ bill'
-          : formatBaht(total, { compact: true, decimals: 0 }) + (levelId === 'period' ? '/เดือน' : '');
+      document.getElementById('s1-cost-buckets').innerHTML = NSS_COMPANY_DATA.getSlide1Buckets().map((bucket) => {
+        const { meta, items, total } = bucket;
+        const isVariable = bucket.id === 'trip';
+        const totalLabel = isVariable
+          ? formatBaht(total, { compact: true, decimals: 0 })
+          : formatBaht(total, { compact: true, decimals: 0 }) + '/เดือน';
+        const totalClass = isVariable ? 'text-accent-orange' : 'text-accent-blue';
 
         return `
-          <div class="cost-level-panel" data-level="${levelId}" style="--level-accent: ${meta.accent}">
-            <div class="cost-level-header">
-              <span class="cost-level-icon" aria-hidden="true">${meta.icon}</span>
+          <div class="glass rounded-3xl p-5 md:p-6 min-w-0 overflow-hidden">
+            <div class="flex items-start gap-3 mb-4 min-w-0">
+              <span class="text-xl md:text-2xl shrink-0 leading-none" aria-hidden="true">${meta.icon}</span>
               <div class="min-w-0 flex-1">
-                <h3 class="text-base md:text-lg font-bold text-primary">${meta.label}</h3>
-                <p class="text-xs md:text-sm text-muted truncate">${meta.subtitle}</p>
+                <h3 class="text-lg md:text-xl font-bold text-primary">${meta.label}</h3>
+                <p class="text-xs md:text-sm text-subtle">${meta.subtitle}</p>
               </div>
-              <span class="cost-level-total font-mono text-sm md:text-base font-bold shrink-0" style="color: ${meta.accent}">${totalLabel}</span>
+              <span class="font-mono text-base md:text-lg font-bold shrink-0 ${totalClass}">${totalLabel}</span>
             </div>
-            <div class="cost-chip-grid">
-              ${items.map((item) => renderCostChip(item)).join('')}
+            <div class="s1-chip-grid">
+              ${items.map((item) => `
+                <div class="s1-chip">
+                  <span class="s1-chip-label">${item.name}</span>
+                  <span class="s1-chip-amount">${formatBaht(item.exampleAmount, { compact: true, decimals: 0 })}</span>
+                </div>`).join('')}
             </div>
           </div>`;
       }).join('');
-
-      const tripTotal = trip.tripCostTotal;
-      const periodTotal = trip.periodCostTotal;
-
-      document.getElementById('s1-summary').innerHTML = `
-        <p class="text-xs text-subtle uppercase tracking-wider mb-3">สรุปต้นทุนเที่ยวนี้</p>
-        <div class="space-y-3">
-          <div class="flex justify-between items-center gap-2">
-            <span class="text-sm text-muted flex items-center gap-2">
-              <span class="w-2 h-2 rounded-full shrink-0" style="background: ${levels.trip.accent}"></span>
-              ต่อเที่ยว (ใบเบิก)
-            </span>
-            <span class="font-mono font-bold text-primary">${formatBaht(tripTotal)}</span>
-          </div>
-          <div class="flex justify-between items-center gap-2">
-            <span class="text-sm text-muted flex items-center gap-2">
-              <span class="w-2 h-2 rounded-full shrink-0" style="background: ${levels.period.accent}"></span>
-              รายเดือน (แบ่งมา)
-            </span>
-            <span class="font-mono font-bold text-muted">${formatBaht(periodTotal, { compact: true, decimals: 0 })}/เดือน</span>
-          </div>
-          <div class="flex justify-between items-center gap-2">
-            <span class="text-sm text-muted flex items-center gap-2">
-              <span class="w-2 h-2 rounded-full shrink-0" style="background: ${levels.order.accent}"></span>
-              ต่อ order (direct)
-            </span>
-            <span class="text-sm text-muted">บาง bill มี</span>
-          </div>
-          <div class="pt-3 border-t border-white/10 flex justify-between items-center">
-            <span class="font-semibold text-primary">รายได้เที่ยว</span>
-            <span class="font-mono text-lg font-bold text-green-400">${formatBaht(trip.revenue, { compact: true, decimals: 0 })}</span>
-          </div>
-        </div>`;
-
-      document.getElementById('s1-bridge').innerHTML = `
-        <p class="text-xs text-accent-orange font-semibold uppercase tracking-wider mb-2">คำถามถัดไป →</p>
-        <p class="text-base md:text-lg font-bold text-primary mb-2">
-          ${trip.billCount} orders ในเที่ยวนี้ —<br/>
-          <span class="text-accent-orange">ยังไม่รู้ว่าแต่ละ order กินต้นทุนเท่าไหร่</span>
-        </p>
-        <p class="text-sm text-muted leading-relaxed">
-          ต้นทุน ฿${tripTotal.toLocaleString('th-TH', { maximumFractionDigits: 0 })} อยู่ที่ระดับเที่ยว
-          + ค่ารายเดือนอีก ฿${periodTotal.toLocaleString('th-TH', { maximumFractionDigits: 0 })}
-          — สไลด์ถัดไปจะจัดกลุ่มว่าแต่ละค่า <strong class="text-primary">แยกได้เลยหรือต้องปันส่วน</strong>
-        </p>`;
-
-      initWideViewInteractions();
-    }
-
-    function initWideViewInteractions() {
-      const detailEl = document.getElementById('s1-chip-detail');
-      if (!detailEl) {
-        const bridge = document.getElementById('s1-bridge');
-        const detail = document.createElement('div');
-        detail.id = 's1-chip-detail';
-        detail.className = 's1-chip-detail hidden glass rounded-xl px-4 py-3 mt-3 text-sm';
-        detail.setAttribute('role', 'status');
-        detail.setAttribute('aria-live', 'polite');
-        bridge.appendChild(detail);
-      }
-
-      document.querySelectorAll('.cost-chip').forEach((chip) => {
-        chip.addEventListener('click', () => {
-          const id = chip.dataset.costId;
-          const item = NSS_COMPANY_DATA.tripCostItems.find((c) => c.id === id);
-          if (!item) return;
-
-          if (s1ActiveChip === id) {
-            s1ActiveChip = null;
-            chip.classList.remove('is-active');
-            chip.setAttribute('aria-pressed', 'false');
-            document.querySelectorAll('.cost-level-panel').forEach((p) => p.classList.remove('is-highlight'));
-            document.getElementById('s1-chip-detail').classList.add('hidden');
-            return;
-          }
-
-          document.querySelectorAll('.cost-chip').forEach((c) => {
-            c.classList.remove('is-active');
-            c.setAttribute('aria-pressed', 'false');
-          });
-          document.querySelectorAll('.cost-level-panel').forEach((p) => {
-            p.classList.toggle('is-highlight', p.dataset.level === item.level);
-          });
-
-          chip.classList.add('is-active');
-          chip.setAttribute('aria-pressed', 'true');
-          s1ActiveChip = id;
-
-          const group = NSS_COMPANY_DATA.allocationGroups[item.allocationGroup];
-          const amountText = item.exampleAmount != null && item.exampleAmount > 0
-            ? formatBaht(item.exampleAmount, { compact: true, decimals: 0 }) + (item.level === 'period' ? '/เดือน' : '')
-            : 'ขึ้นกับ bill';
-
-          const detail = document.getElementById('s1-chip-detail');
-          detail.classList.remove('hidden');
-          detail.innerHTML = `
-            <strong class="text-primary">${item.name}</strong>
-            <span class="text-muted"> · </span>
-            <span class="font-mono text-accent-blue">${amountText}</span>
-            ${item.note ? `<span class="text-subtle"> (${item.note})</span>` : ''}
-            <span class="text-muted"> · กลุ่ม </span>
-            <span style="color: ${group.color}">${group.shortLabel}</span>`;
-        });
-      });
     }
 
     /* ================================================================

@@ -168,159 +168,54 @@ select.select-dark {
 }
 
 /* ================================================================
-   Slide 1 — Wide view (trip cost overview)
+   Slide 1 — Wide view (simple 2-card layout)
    ================================================================ */
 
-.trip-context-bar {
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.trip-route-visual {
-  border: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-.route-node {
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  padding: 0.35rem 0.75rem;
-  border-radius: 0.75rem;
-  background: rgba(255, 255, 255, 0.06);
-  white-space: nowrap;
-}
-
-.route-line {
-  position: relative;
-  height: 2rem;
-  display: flex;
-  align-items: center;
-}
-
-.route-line-track {
-  width: 100%;
-  height: 3px;
-  border-radius: 2px;
-  background: linear-gradient(90deg, rgba(69, 143, 255, 0.3), rgba(234, 88, 12, 0.5), rgba(69, 143, 255, 0.3));
-  background-size: 200% 100%;
-  animation: routeShimmer 3s ease-in-out infinite;
-}
-
-@keyframes routeShimmer {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
-
-.route-truck {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 1.25rem;
-  animation: truckAlong 4s ease-in-out infinite;
-}
-
-@keyframes truckAlong {
-  0%, 100% { left: 15%; transform: translateX(-50%); }
-  50% { left: 85%; transform: translateX(-50%); }
-}
-
-.cost-level-panel {
-  border-radius: 1.25rem;
-  padding: 1rem 1.25rem;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.cost-level-panel.is-highlight {
-  border-color: var(--level-accent, #458fff);
-  box-shadow: 0 0 0 1px color-mix(in srgb, var(--level-accent) 30%, transparent),
-              0 8px 32px rgba(0, 0, 0, 0.3);
-}
-
-.cost-level-header {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.75rem;
-  margin-bottom: 0.875rem;
-  padding-bottom: 0.75rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-.cost-level-icon {
-  font-size: 1.5rem;
-  line-height: 1;
-  flex-shrink: 0;
-}
-
-.cost-chip-grid {
-  display: flex;
-  flex-wrap: wrap;
+.s1-chip-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.5rem;
 }
 
-.cost-chip {
-  display: inline-flex;
+@media (min-width: 480px) {
+  .s1-chip-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.s1-chip {
+  display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 0.15rem;
-  padding: 0.5rem 0.75rem;
-  border-radius: 0.75rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.05);
-  cursor: pointer;
-  font-family: inherit;
-  text-align: left;
-  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
-  max-width: 100%;
+  gap: 0.25rem;
+  padding: 0.625rem 0.75rem;
+  border-radius: 0.875rem;
+  background: rgba(255, 255, 255, 0.06);
+  min-width: 0;
 }
 
-.cost-chip:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.18);
-}
-
-.cost-chip.is-active {
-  background: rgba(69, 143, 255, 0.15);
-  border-color: rgba(69, 143, 255, 0.5);
-  transform: scale(1.02);
-}
-
-.cost-chip.no-amount {
-  opacity: 0.75;
-}
-
-.cost-chip-name {
-  font-size: 0.75rem;
-  font-weight: 500;
+.s1-chip-label {
+  font-size: 0.6875rem;
+  line-height: 1.35;
   color: var(--text-muted);
-  line-height: 1.3;
 }
 
-.cost-chip-amount {
+@media (min-width: 768px) {
+  .s1-chip-label {
+    font-size: 0.75rem;
+  }
+}
+
+.s1-chip-amount {
   font-size: 0.8125rem;
   font-weight: 700;
   font-family: ui-monospace, monospace;
-  color: var(--text-primary);
-}
-
-.cost-chip.has-amount .cost-chip-amount {
   color: #458fff;
 }
 
-.s1-chip-detail {
-  animation: fadeSlideIn 0.25s ease;
-}
-
-@keyframes fadeSlideIn {
-  from { opacity: 0; transform: translateY(-4px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .route-line-track, .route-truck {
-    animation: none !important;
+@media (min-width: 768px) {
+  .s1-chip-amount {
+    font-size: 0.875rem;
   }
-  .route-truck { left: 50%; }
 }
 
 @keyframes beltMove {

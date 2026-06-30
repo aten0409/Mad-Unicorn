@@ -26,28 +26,21 @@ const NSS_COMPANY_DATA = {
 
   dieselPrice: { min: 31.0, max: 33.0, default: 32.0 },
 
-  /* ── Cost levels (Slide ① wide view) ── */
+  /* ── Cost buckets — Slide ① (ภาพกว้าง: ผันแปร vs คงที่) ── */
   costLevels: {
     trip: {
       id: 'trip',
-      label: 'ต่อเที่ยว',
-      subtitle: 'เกิดตอนวิ่งจริง · จากใบเบิก',
-      accent: '#ea580c',
+      label: 'ผันแปร',
+      subtitle: 'เกิดตามจริง · จากใบเบิก',
+      accent: '#39bf45',
       icon: '🚛',
     },
     period: {
       id: 'period',
-      label: 'รายเดือน',
-      subtitle: 'Fixed cost · แบ่งมาต่อเที่ยว',
+      label: 'คงที่',
+      subtitle: 'ค่าใช้จ่ายรายเดือน',
       accent: '#458fff',
       icon: '📅',
-    },
-    order: {
-      id: 'order',
-      label: 'ต่อ Order',
-      subtitle: 'ผูก bill โดยตรง · ถ้ามี',
-      accent: '#39bf45',
-      icon: '📦',
     },
   },
 
@@ -234,6 +227,15 @@ const NSS_COMPANY_DATA = {
 
   getLevelTotal(levelId) {
     return this.getCostItemsByLevel(levelId).reduce((sum, item) => sum + (item.exampleAmount || 0), 0);
+  },
+
+  getSlide1Buckets() {
+    return ['trip', 'period'].map((id) => ({
+      id,
+      meta: this.costLevels[id],
+      items: this.getCostItemsByLevel(id).filter((item) => item.exampleAmount == null || item.exampleAmount > 0),
+      total: this.getLevelTotal(id),
+    }));
   },
 
   getExampleTrip() {
