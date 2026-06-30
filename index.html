@@ -31,7 +31,7 @@
 
   <!-- Progress bar -->
   <div id="progress-bar" class="fixed top-0 left-0 right-0 z-[60] h-1 bg-white/5">
-    <div id="progress-fill" class="h-full bg-gradient-to-r from-accent-blue to-accent-orange" style="width:25%"></div>
+    <div id="progress-fill" class="h-full bg-gradient-to-r from-accent-blue to-accent-orange" style="width:20%"></div>
   </div>
 
   <!-- Nav chrome -->
@@ -68,37 +68,48 @@
   <div id="slide-deck">
     <div id="slide-track" class="slide-track">
 
-      <!-- SLIDE 1: WIDE VIEW — การขนส่ง 1 ครั้ง มีค่าอะไรบ้าง -->
-      <section class="slide bg-base min-h-screen" data-slide="0" aria-label="ภาพกว้างต้นทุนการขนส่ง">
+      <!-- SLIDES 1–2: Cost morph (same viewport — chips move, chrome fades) -->
+      <section class="slide slide-cost-morph bg-base is-active" id="slide-cost-morph" data-logical-start="0" data-logical-end="1" data-phase="0" aria-label="ต้นทุนการขนส่ง">
         <div class="slide-inner min-h-screen py-10 px-4 md:px-6 pt-[calc(var(--nav-total)+1rem)] md:pt-[calc(var(--nav-total)+1.5rem)] pb-24 max-w-3xl mx-auto w-full">
-          <header class="mb-6 md:mb-8 min-w-0">
-            <p class="text-accent-orange font-semibold text-sm md:text-base mb-1 md:mb-2">Slide 1 · Big Picture</p>
-            <h1 class="text-2xl md:text-4xl font-bold leading-tight mb-2">
-              การขนส่ง 1 ครั้ง<br/>มีค่าอะไรบ้าง?
-            </h1>
-            <p id="s1-trip-context" class="text-sm md:text-base text-muted"></p>
-          </header>
-
-          <div id="s1-float-cloud" class="cost-float-cloud" aria-label="รายการต้นทุนทั้งหมด"></div>
+          <div class="cost-chrome-wrap">
+            <header class="cost-chrome cost-chrome--s1 mb-6 md:mb-8 min-w-0">
+              <p class="text-accent-orange font-semibold text-sm md:text-base mb-1 md:mb-2">Slide 1 · Big Picture</p>
+              <h1 class="text-2xl md:text-4xl font-bold leading-tight mb-2">
+                การขนส่ง 1 ครั้ง<br/>มีค่าอะไรบ้าง?
+              </h1>
+              <p id="s1-trip-context" class="text-sm md:text-base text-muted"></p>
+            </header>
+            <header class="cost-chrome cost-chrome--s2 mb-4 md:mb-5 min-w-0">
+              <p class="text-accent-blue font-semibold text-sm md:text-base mb-1 md:mb-2">Slide 2 · Grouping</p>
+              <h2 class="text-2xl md:text-4xl font-bold leading-tight mb-2">
+                แต่ละต้นทุน<br/>จัดกลุ่มยังไง?
+              </h2>
+              <p class="text-sm md:text-base text-muted">แยกได้เลย · ปันส่วนจากเที่ยว · ปันส่วนรายเดือน (ABC)</p>
+            </header>
+          </div>
+          <div class="cost-morph-stage">
+            <div id="s2-groups" class="s2-groups"></div>
+            <div id="cost-chip-portal" class="cost-chip-portal" aria-label="รายการต้นทุน"></div>
+          </div>
         </div>
       </section>
 
-      <!-- SLIDE 2: จัดกลุ่มตามวิธีปันส่วน -->
-      <section class="slide bg-elevated min-h-screen" data-slide="1" aria-label="การจัดกลุ่มต้นทุน">
-        <div class="slide-inner min-h-screen py-10 px-4 md:px-6 pt-[calc(var(--nav-total)+1rem)] md:pt-[calc(var(--nav-total)+1.5rem)] pb-24 max-w-3xl mx-auto w-full flex flex-col">
-          <header class="mb-4 md:mb-5 min-w-0 shrink-0">
-            <p class="text-accent-blue font-semibold text-sm md:text-base mb-1 md:mb-2">Slide 2 · Grouping</p>
+      <!-- SLIDE 3: ตัวอย่างปันส่วน 1–2 cost -->
+      <section class="slide bg-elevated" data-logical-start="2" data-logical-end="2" aria-label="ตัวอย่างการปันส่วนต้นทุน">
+        <div class="slide-inner min-h-screen py-10 px-4 md:px-6 pt-[calc(var(--nav-total)+1rem)] md:pt-[calc(var(--nav-total)+1.5rem)] pb-24 max-w-3xl mx-auto w-full">
+          <header class="mb-5 md:mb-6 min-w-0">
+            <p class="text-accent-orange font-semibold text-sm md:text-base mb-1 md:mb-2">Slide 3 · Allocation</p>
             <h2 class="text-2xl md:text-4xl font-bold leading-tight mb-2">
-              แต่ละต้นทุน<br/>จัดกลุ่มยังไง?
+              ปันส่วนลง Order<br/>ยังไง?
             </h2>
-            <p class="text-sm md:text-base text-muted">แยกได้เลย · ปันส่วนจากเที่ยว · ปันส่วนรายเดือน (ABC)</p>
+            <p class="text-sm md:text-base text-muted" id="s3-manifest-label"></p>
           </header>
-          <div id="s2-stage" class="s2-stage flex-1 min-h-0"></div>
+          <div id="s3-allocation-examples" class="flex flex-col gap-4 md:gap-5"></div>
         </div>
       </section>
 
-      <!-- SLIDE 3: WORKFLOW (NSS) -->
-      <section class="slide bg-base min-h-screen" data-slide="2" aria-label="กระบวนการบันทึกข้อมูล">
+      <!-- SLIDE 4: WORKFLOW -->
+      <section class="slide bg-base" data-logical-start="3" data-logical-end="3" aria-label="กระบวนการบันทึกข้อมูล">
         <div class="slide-inner min-h-screen py-12 px-6 flex flex-col justify-start lg:flex-row lg:items-start gap-6 lg:gap-8 pt-[calc(var(--nav-total)+1.25rem)] lg:pt-[calc(var(--nav-total)+2rem)] pb-12 lg:p-8 max-w-7xl mx-auto w-full">
           <div class="slide-text order-1 w-full lg:w-7/12 min-w-0 shrink">
             <p class="text-accent-blue font-semibold text-sm md:text-lg mb-2 hidden sm:block">Slide 3 · Data Ingestion</p>
@@ -132,8 +143,8 @@
         </div>
       </section>
 
-      <!-- SLIDE 4: TON-KM LOGIC -->
-      <section class="slide bg-elevated min-h-screen" data-slide="3" aria-label="หลักการปันส่วนตัน-กิโลเมตร">
+      <!-- SLIDE 5: TON-KM LOGIC -->
+      <section class="slide bg-elevated" data-logical-start="4" data-logical-end="4" aria-label="หลักการปันส่วนตัน-กิโลเมตร">
         <div class="slide-inner min-h-screen py-12 px-6 flex flex-col justify-start lg:flex-row lg:items-start gap-6 lg:gap-8 pt-[calc(var(--nav-total)+1.25rem)] lg:pt-[calc(var(--nav-total)+2rem)] pb-12 lg:p-8 max-w-7xl mx-auto w-full">
           <div class="slide-text order-1 w-full lg:w-7/12 min-w-0 shrink overflow-hidden">
             <p class="text-accent-orange font-semibold text-sm md:text-lg mb-2 hidden sm:block">Slide 4 · Ton-Kilometer</p>
@@ -257,11 +268,13 @@
     /* ================================================================
        STATE
        ================================================================ */
-    const TOTAL_SLIDES = 4;
+    const TOTAL_SLIDES = 5;
     let appMode = 'slides';
     let currentSlide = 0;
+    let costMorphPhase = 0;
     let wfStep = 0;
     let capacityDemoInterval = null;
+    let morphAnimTimer = null;
 
     const dashState = { ...NSS_COMPANY_DATA.dashboardDefaults };
 
@@ -292,27 +305,40 @@
 
     let slide2AnimTimer = null;
 
+    function slideForLogical(n) {
+      return [...document.querySelectorAll('.slide[data-logical-start]')].find((el) => {
+        const start = +el.dataset.logicalStart;
+        const end = +el.dataset.logicalEnd;
+        return n >= start && n <= end;
+      });
+    }
+
     function goToSlide(n) {
       if (appMode !== 'slides') return;
       const prev = currentSlide;
       n = Math.max(0, Math.min(TOTAL_SLIDES - 1, n));
-      currentSlide = n;
 
-      const track = document.getElementById('slide-track');
       const progress = document.getElementById('progress-fill');
       const btnNext = document.getElementById('btn-next');
 
-      track.style.transform = `translateX(-${n * 100}vw)`;
+      document.querySelectorAll('.slide[data-logical-start]').forEach((el) => {
+        const start = +el.dataset.logicalStart;
+        const end = +el.dataset.logicalEnd;
+        el.classList.toggle('is-active', n >= start && n <= end);
+      });
+
+      currentSlide = n;
       progress.style.width = `${((n + 1) / TOTAL_SLIDES) * 100}%`;
+
+      if (n <= 1) {
+        const shouldAnimate = prev !== n && prev <= 1;
+        setCostMorphPhase(n, shouldAnimate);
+      } else if (prev <= 1) {
+        setCostMorphPhase(0, false);
+      }
 
       if (n === TOTAL_SLIDES - 1) startCapacityDemo();
       else stopCapacityDemo();
-
-      if (n === 1) {
-        playSlide2Grouping();
-      } else if (prev === 1) {
-        resetSlide2();
-      }
 
       btnNext.disabled = n === TOTAL_SLIDES - 1;
       btnNext.classList.toggle('opacity-40', n === TOTAL_SLIDES - 1);
@@ -383,7 +409,7 @@
       document.addEventListener('wheel', (e) => {
         if (appMode !== 'slides') return;
         if (wheelTimeout) return;
-        const slide = document.querySelector(`[data-slide="${currentSlide}"]`);
+        const slide = slideForLogical(currentSlide);
         if (slide) {
           const atTop = slide.scrollTop <= 0;
           const atBottom = slide.scrollTop + slide.clientHeight >= slide.scrollHeight - 2;
@@ -401,7 +427,7 @@
         if (appMode !== 'slides') return;
         const diff = touchStartY - e.changedTouches[0].clientY;
         if (Math.abs(diff) <= 50) return;
-        const slide = document.querySelector(`[data-slide="${currentSlide}"]`);
+        const slide = slideForLogical(currentSlide);
         if (slide) {
           const atTop = slide.scrollTop <= 0;
           const atBottom = slide.scrollTop + slide.clientHeight >= slide.scrollHeight - 2;
@@ -414,7 +440,7 @@
     }
 
     /* ================================================================
-       SLIDES 1 & 2 — Floating cost chips + grouping animation
+       SLIDES 1–2 — Cost morph (shared chip portal)
        ================================================================ */
     function floatChipHtml(item) {
       const pos = NSS_COMPANY_DATA.getScatterStyle(item.id);
@@ -422,108 +448,270 @@
         style="left:${pos.x}%;top:${pos.y}%;--chip-rot:${pos.r}deg;--float-delay:${pos.delay}s">${item.name}</span>`;
     }
 
-    function renderWideViewSlide() {
+    function initCostMorph() {
       const trip = NSS_COMPANY_DATA.getExampleTrip();
       const route = NSS_COMPANY_DATA.defaultRoute;
-
-      document.getElementById('s1-trip-context').textContent =
-        `${route.name} · ${trip.distanceKm} กม. · ${trip.billCount} orders`;
-
-      document.getElementById('s1-float-cloud').innerHTML =
-        NSS_COMPANY_DATA.getAllCostChipItems().map(floatChipHtml).join('');
-    }
-
-    function renderSlide2() {
       const items = NSS_COMPANY_DATA.getAllCostChipItems();
       const groups = NSS_COMPANY_DATA.allocationGroupOrder.map((id) => ({
         id,
         meta: NSS_COMPANY_DATA.allocationGroups[id],
       }));
 
-      document.getElementById('s2-stage').innerHTML = `
-        <div id="s2-scatter-layer" class="s2-scatter-layer" aria-hidden="true">
-          ${items.map(floatChipHtml).join('')}
-        </div>
-        <div id="s2-groups" class="s2-groups">
-          ${groups.map(({ id, meta }) => `
-            <div class="s2-group glass rounded-3xl p-4 md:p-5" id="s2-group-${id}" data-group="${id}" style="--group-color:${meta.color}">
-              <div class="s2-group-header mb-3">
-                <span class="s2-group-dot" style="background:${meta.color}"></span>
-                <div class="min-w-0 flex-1">
-                  <h3 class="text-sm md:text-base font-bold text-primary">${meta.label}</h3>
-                  <p class="text-xs text-subtle leading-snug">${meta.description}</p>
-                </div>
-              </div>
-              <div class="s2-group-chips flex flex-wrap gap-2 min-h-[2.5rem]"></div>
-            </div>`).join('')}
-        </div>`;
+      document.getElementById('s1-trip-context').textContent =
+        `${route.name} · ${trip.distanceKm} กม. · ${trip.billCount} orders`;
+
+      document.getElementById('s2-groups').innerHTML = groups.map(({ id, meta }) => `
+        <div class="s2-group glass rounded-3xl p-4 md:p-5" id="s2-group-${id}" data-group="${id}" style="--group-color:${meta.color}">
+          <div class="s2-group-header mb-3">
+            <span class="s2-group-dot" style="background:${meta.color}"></span>
+            <div class="min-w-0 flex-1">
+              <h3 class="text-sm md:text-base font-bold text-primary">${meta.label}</h3>
+              <p class="text-xs text-subtle leading-snug">${meta.description}</p>
+            </div>
+          </div>
+          <div class="s2-group-chips flex flex-wrap gap-2 min-h-[2.5rem]"></div>
+        </div>`).join('');
+
+      document.getElementById('cost-chip-portal').innerHTML = items.map(floatChipHtml).join('');
     }
 
-    function resetSlide2() {
+    function getPortalChips() {
+      return [...document.querySelectorAll('#cost-chip-portal .cost-float-chip, .s2-group-chips .cost-float-chip')];
+    }
+
+    function resetChipsToPortal() {
+      clearTimeout(morphAnimTimer);
       clearTimeout(slide2AnimTimer);
-      const scatter = document.getElementById('s2-scatter-layer');
+      const portal = document.getElementById('cost-chip-portal');
       const groups = document.getElementById('s2-groups');
-      if (!scatter || !groups) return;
+      if (!portal || !groups) return;
 
       groups.classList.remove('is-visible', 'is-settled');
+      document.getElementById('slide-cost-morph')?.classList.remove('is-phase-grouped');
 
-      document.querySelectorAll('#s2-stage .cost-float-chip').forEach((chip) => {
+      getPortalChips().forEach((chip) => {
         const pos = NSS_COMPANY_DATA.getScatterStyle(chip.dataset.costId);
         chip.classList.remove('is-settled');
         chip.style.transition = '';
         chip.style.transform = '';
         chip.style.left = pos.x + '%';
         chip.style.top = pos.y + '%';
-        scatter.appendChild(chip);
+        portal.appendChild(chip);
       });
+      costMorphPhase = 0;
+      document.getElementById('slide-cost-morph')?.setAttribute('data-phase', '0');
     }
 
-    function playSlide2Grouping() {
-      resetSlide2();
-      const scatter = document.getElementById('s2-scatter-layer');
-      const groupsEl = document.getElementById('s2-groups');
-      if (!scatter || !groupsEl) return;
+    function settleGroupedImmediate() {
+      resetChipsToPortal();
+      const groups = document.getElementById('s2-groups');
+      groups.classList.add('is-visible', 'is-settled');
+      document.getElementById('slide-cost-morph')?.classList.add('is-phase-grouped');
+      getPortalChips().forEach((chip) => {
+        const slot = document.querySelector(`#s2-group-${chip.dataset.group} .s2-group-chips`);
+        chip.classList.add('is-settled');
+        slot.appendChild(chip);
+      });
+      costMorphPhase = 1;
+      document.getElementById('slide-cost-morph')?.setAttribute('data-phase', '1');
+    }
 
+    function setCostMorphPhase(phase, animate) {
+      costMorphPhase = phase;
+      const morph = document.getElementById('slide-cost-morph');
+      if (!morph) return;
+      morph.setAttribute('data-phase', String(phase));
+
+      if (phase === 0) {
+        morph.classList.remove('is-phase-grouped');
+        if (animate) playUngroupAnimation();
+        else resetChipsToPortal();
+      } else {
+        morph.classList.add('is-phase-grouped');
+        if (animate) playGroupAnimation();
+        else settleGroupedImmediate();
+      }
+    }
+
+    function flipChipsToSlots(chips, onDone) {
       const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const groups = document.getElementById('s2-groups');
+      groups.classList.add('is-visible');
 
-      slide2AnimTimer = setTimeout(() => {
-        groupsEl.classList.add('is-visible');
-        const chips = [...scatter.querySelectorAll('.cost-float-chip')];
-
-        if (prefersReduced) {
-          chips.forEach((chip) => {
-            const slot = document.querySelector(`#s2-group-${chip.dataset.group} .s2-group-chips`);
-            chip.classList.add('is-settled');
-            slot.appendChild(chip);
-          });
-          groupsEl.classList.add('is-settled');
-          return;
-        }
-
-        chips.forEach((chip, i) => {
+      if (prefersReduced) {
+        chips.forEach((chip) => {
           const slot = document.querySelector(`#s2-group-${chip.dataset.group} .s2-group-chips`);
-          const first = chip.getBoundingClientRect();
-          slot.appendChild(chip);
           chip.classList.add('is-settled');
-          const last = chip.getBoundingClientRect();
-          const dx = first.left - last.left;
-          const dy = first.top - last.top;
-          chip.style.transform = `translate(${dx}px, ${dy}px)`;
-          chip.style.transition = 'none';
+          slot.appendChild(chip);
+        });
+        groups.classList.add('is-settled');
+        onDone?.();
+        return;
+      }
+
+      chips.forEach((chip, i) => {
+        const slot = document.querySelector(`#s2-group-${chip.dataset.group} .s2-group-chips`);
+        const first = chip.getBoundingClientRect();
+        slot.appendChild(chip);
+        chip.classList.add('is-settled');
+        const last = chip.getBoundingClientRect();
+        const dx = first.left - last.left;
+        const dy = first.top - last.top;
+        chip.style.transform = `translate(${dx}px, ${dy}px)`;
+        chip.style.transition = 'none';
+        requestAnimationFrame(() => {
           requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-              chip.style.transition = `transform 0.7s cubic-bezier(0.34, 1.15, 0.64, 1) ${i * 0.035}s`;
-              chip.style.transform = 'translate(0, 0)';
-            });
+            chip.style.transition = `transform 0.7s cubic-bezier(0.34, 1.15, 0.64, 1) ${i * 0.035}s`;
+            chip.style.transform = 'translate(0, 0)';
           });
         });
+      });
+      morphAnimTimer = setTimeout(() => {
+        groups.classList.add('is-settled');
+        onDone?.();
+      }, 900);
+    }
 
-        slide2AnimTimer = setTimeout(() => groupsEl.classList.add('is-settled'), 900);
-      }, 450);
+    function flipChipsToPortal(onDone) {
+      const portal = document.getElementById('cost-chip-portal');
+      const groups = document.getElementById('s2-groups');
+      const chips = [...document.querySelectorAll('.s2-group-chips .cost-float-chip')];
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (prefersReduced || chips.length === 0) {
+        resetChipsToPortal();
+        onDone?.();
+        return;
+      }
+
+      groups.classList.remove('is-settled');
+
+      chips.forEach((chip, i) => {
+        const pos = NSS_COMPANY_DATA.getScatterStyle(chip.dataset.costId);
+        const first = chip.getBoundingClientRect();
+        chip.classList.remove('is-settled');
+        portal.appendChild(chip);
+        chip.style.left = pos.x + '%';
+        chip.style.top = pos.y + '%';
+        const last = chip.getBoundingClientRect();
+        const dx = first.left - last.left;
+        const dy = first.top - last.top;
+        chip.style.transform = `translate(${dx}px, ${dy}px)`;
+        chip.style.transition = 'none';
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            chip.style.transition = `transform 0.6s cubic-bezier(0.34, 1.1, 0.64, 1) ${i * 0.03}s`;
+            chip.style.transform = 'translate(0, 0)';
+          });
+        });
+      });
+
+      morphAnimTimer = setTimeout(() => {
+        groups.classList.remove('is-visible');
+        chips.forEach((chip) => {
+          chip.style.transition = '';
+          chip.style.transform = '';
+        });
+        onDone?.();
+      }, 750);
+    }
+
+    function playGroupAnimation() {
+      const chips = [...document.querySelectorAll('#cost-chip-portal .cost-float-chip')];
+      if (chips.length === 0) {
+        settleGroupedImmediate();
+        return;
+      }
+      morphAnimTimer = setTimeout(() => flipChipsToSlots(chips), 80);
+    }
+
+    function playUngroupAnimation() {
+      flipChipsToPortal();
     }
 
     /* ================================================================
-       SLIDE 3 — Workflow stepper + motorcycle
+       SLIDE 3 — Allocation examples
+       ================================================================ */
+    function calculateAllocationExamples(state) {
+      const m = NSS_COMPANY_DATA.goldenManifest;
+      const totalWeight = m.totalWeightKg;
+      const fuelTotal = m.tripCosts.fuel;
+      const dispatchRate = state.dispatchSalary / state.manifestCountPerMonth;
+      const dispatchPerBill = dispatchRate / m.billCount;
+
+      return NSS_COMPANY_DATA.allocationDemoBills.map((bill) => {
+        const fuelAllocated = (bill.weightKg / totalWeight) * fuelTotal;
+        return {
+          ...bill,
+          fuelAllocated,
+          dispatchAllocated: dispatchPerBill,
+          totalAllocated: fuelAllocated + dispatchPerBill,
+        };
+      });
+    }
+
+    function renderSlide3Allocation() {
+      const m = NSS_COMPANY_DATA.goldenManifest;
+      const cfg = m.abcConfig;
+      const state = { dispatchSalary: cfg.dispatchSalary, manifestCountPerMonth: cfg.manifestCountPerMonth };
+
+      document.getElementById('s3-manifest-label').textContent =
+        `${m.id} · ${m.billCount} bills · น้ำหนักรวม ${(m.totalWeightKg / 1000).toFixed(1)} ตัน`;
+
+      function renderExamples() {
+        const fuelTotal = m.tripCosts.fuel;
+        const dispatchRate = state.dispatchSalary / state.manifestCountPerMonth;
+        const bills = calculateAllocationExamples(state);
+
+        document.getElementById('s3-allocation-examples').innerHTML = `
+          <div class="glass rounded-3xl p-5 md:p-6">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="w-2.5 h-2.5 rounded-full bg-accent-orange shrink-0"></span>
+              <h3 class="text-base md:text-lg font-bold text-primary">ตัวอย่าง 1 · น้ำมัน (Trip)</h3>
+            </div>
+            <p class="text-xs md:text-sm text-muted mb-3">(น้ำหนัก bill ÷ น้ำหนักรวม) × ต้นทุนน้ำมัน ${formatBaht(fuelTotal, { compact: true, decimals: 0 })}</p>
+            <div class="space-y-2">
+              ${bills.map((b) => `
+                <div class="flex justify-between gap-2 text-sm glass rounded-xl px-3 py-2.5">
+                  <span class="text-muted truncate">${b.id} · ${b.weightKg} kg</span>
+                  <span class="font-mono font-bold text-accent-blue shrink-0">${formatBaht(b.fuelAllocated, { compact: true, decimals: 0 })}</span>
+                </div>`).join('')}
+            </div>
+          </div>
+          <div class="glass rounded-3xl p-5 md:p-6">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="w-2.5 h-2.5 rounded-full bg-accent-blue shrink-0"></span>
+              <h3 class="text-base md:text-lg font-bold text-primary">ตัวอย่าง 2 · Dispatch (ABC)</h3>
+            </div>
+            <p class="text-xs md:text-sm text-muted mb-4">
+              ${formatBaht(state.dispatchSalary, { compact: true, decimals: 0 })}/เดือน ÷ ${state.manifestCountPerMonth} manifests
+              = <strong class="text-primary">${formatBaht(dispatchRate, { compact: true, decimals: 0 })}/manifest</strong>
+              ÷ ${m.billCount} bills
+            </p>
+            <label class="block text-xs text-subtle mb-1">เงินเดือน Dispatch (฿/เดือน)</label>
+            <input type="range" id="s3-dispatch-slider" min="30000" max="100000" step="5000" value="${state.dispatchSalary}" class="w-full mb-3 touch-manipulation" />
+            <p class="text-center font-mono text-lg font-bold text-accent-blue mb-3" id="s3-dispatch-rate">${formatBaht(dispatchRate, { compact: true, decimals: 0 })}/manifest · ${formatBaht(dispatchRate / m.billCount, { compact: true, decimals: 2 })}/bill</p>
+            <div class="space-y-2">
+              ${bills.map((b) => `
+                <div class="flex justify-between gap-2 text-sm glass rounded-xl px-3 py-2.5">
+                  <span class="text-muted truncate">${b.id}</span>
+                  <span class="font-mono font-bold text-accent-blue shrink-0">${formatBaht(b.dispatchAllocated, { compact: true, decimals: 2 })}</span>
+                </div>`).join('')}
+            </div>
+          </div>`;
+      }
+
+      renderExamples();
+
+      document.getElementById('s3-allocation-examples').addEventListener('input', (e) => {
+        if (e.target.id !== 's3-dispatch-slider') return;
+        state.dispatchSalary = +e.target.value;
+        renderExamples();
+      });
+    }
+
+    /* ================================================================
+       SLIDE 4 — Workflow stepper + motorcycle
        ================================================================ */
     const WF_WAYPOINTS = [30, 150, 250, 350];
 
@@ -795,8 +983,8 @@
        INIT
        ================================================================ */
     document.addEventListener('DOMContentLoaded', () => {
-      renderWideViewSlide();
-      renderSlide2();
+      initCostMorph();
+      renderSlide3Allocation();
       renderWorkflow();
       renderSlide4Content();
       initSlideController();
@@ -805,7 +993,7 @@
       goToSlide(0);
 
       window.addEventListener('resize', () => {
-        if (appMode === 'slides' && currentSlide === 2) setWorkflowStep(wfStep);
+        if (appMode === 'slides' && currentSlide === 3) setWorkflowStep(wfStep);
       });
     });
   </script>

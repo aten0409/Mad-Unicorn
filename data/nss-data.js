@@ -116,6 +116,13 @@ const NSS_COMPANY_DATA = {
     cod_fee:           { x: 75, y: 85, r: -6,  delay: 0.85 },
   },
 
+  /* ── Slide 3 demo bills ── */
+  allocationDemoBills: [
+    { id: 'LTL-12345', weightKg: 350 },
+    { id: 'LTL-12389', weightKg: 1200 },
+    { id: 'LTL-12401', weightKg: 80 },
+  ],
+
   /* ── Golden Manifest (Slides ③–④ — prepared) ── */
   goldenManifest: {
     id: 'M-2024-0892',

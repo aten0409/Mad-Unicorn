@@ -82,20 +82,30 @@ body.mode-dashboard { overflow: auto; }
 }
 
 .slide-track {
-  display: flex;
-  width: 400vw;
+  position: relative;
+  width: 100%;
   height: 100%;
-  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .slide {
-  width: 100vw;
+  position: absolute;
+  inset: 0;
+  width: 100%;
   min-height: 100dvh;
   max-height: 100dvh;
-  flex-shrink: 0;
   overflow-y: auto;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.45s ease, visibility 0.45s ease;
+}
+
+.slide.is-active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
 }
 
 .slide-inner {
@@ -168,31 +178,62 @@ select.select-dark {
 }
 
 /* ================================================================
-   Slides 1 & 2 — Floating cost chips + grouping
+   Slides 1–2 — Cost morph (shared chip portal + chrome fade)
    ================================================================ */
 
-.cost-float-cloud,
-.s2-scatter-layer {
+.cost-chrome-wrap {
+  position: relative;
+  min-height: 7.5rem;
+}
+
+@media (min-width: 768px) {
+  .cost-chrome-wrap {
+    min-height: 8.5rem;
+  }
+}
+
+.cost-chrome {
+  transition: opacity 0.45s ease, visibility 0.45s ease;
+}
+
+.cost-chrome--s1 {
+  opacity: 1;
+  visibility: visible;
+}
+
+.cost-chrome--s2 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.slide-cost-morph.is-phase-grouped .cost-chrome--s1 {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.slide-cost-morph.is-phase-grouped .cost-chrome--s2 {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.cost-morph-stage {
   position: relative;
   width: 100%;
   min-height: clamp(320px, 52vh, 480px);
 }
 
-.s2-stage {
-  position: relative;
-  min-height: clamp(360px, 58vh, 520px);
-}
-
-.s2-scatter-layer {
+.cost-chip-portal {
   position: absolute;
   inset: 0;
   z-index: 2;
   pointer-events: none;
-}
-
-.s2-groups.is-settled .s2-scatter-layer {
-  opacity: 0;
-  visibility: hidden;
 }
 
 .s2-groups {
@@ -202,17 +243,20 @@ select.select-dark {
   flex-direction: column;
   gap: 0.75rem;
   opacity: 0;
-  transition: opacity 0.45s ease;
+  visibility: hidden;
+  transition: opacity 0.45s ease, visibility 0.45s ease;
 }
 
+.slide-cost-morph.is-phase-grouped .s2-groups,
 .s2-groups.is-visible {
   opacity: 1;
+  visibility: visible;
 }
 
 .s2-group {
   border: 1px solid rgba(255, 255, 255, 0.08);
-  opacity: 0.35;
-  transform: translateY(6px);
+  opacity: 0.4;
+  transform: translateY(4px);
   transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.5s ease;
 }
 
@@ -222,8 +266,8 @@ select.select-dark {
 }
 
 .s2-groups.is-settled .s2-group[data-group="direct"] { transition-delay: 0s; }
-.s2-groups.is-settled .s2-group[data-group="trip"] { transition-delay: 0.08s; }
-.s2-groups.is-settled .s2-group[data-group="abc"] { transition-delay: 0.16s; }
+.s2-groups.is-settled .s2-group[data-group="trip"] { transition-delay: 0.06s; }
+.s2-groups.is-settled .s2-group[data-group="abc"] { transition-delay: 0.12s; }
 
 .s2-groups.is-settled .s2-group {
   border-color: color-mix(in srgb, var(--group-color) 35%, transparent);
@@ -286,13 +330,25 @@ select.select-dark {
 }
 
 @keyframes chipFloat {
-  0%, 100% { translate: 0 0; }
-  33% { translate: 3px -4px; }
-  66% { translate: -2px 3px; }
+  0%, 100% { transform: rotate(var(--chip-rot, 0deg)) translate(0, 0); }
+  33% { transform: rotate(var(--chip-rot, 0deg)) translate(3px, -4px); }
+  66% { transform: rotate(var(--chip-rot, 0deg)) translate(-2px, 3px); }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .slide,
+  .cost-chrome,
+  .s2-groups,
+  .s2-group {
+    transition: none !important;
+  }
   .cost-float-chip {
+    animation: none !important;
+  }
+  .slide-track, #capacity-fill, .bar-seg, #motorcycle-group, .wf-step-panel {
+    transition: none !important;
+  }
+  .conveyor-belt, .parcel-box, .data-pulse, .led, .truck-svg {
     animation: none !important;
   }
 }
@@ -429,13 +485,4 @@ input[type="number"] {
 
 input[type="number"]:focus {
   background: rgba(255, 255, 255, 0.14);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .slide-track, #capacity-fill, .bar-seg, #motorcycle-group, .wf-step-panel {
-    transition: none !important;
-  }
-  .conveyor-belt, .parcel-box, .data-pulse, .led, .truck-svg {
-    animation: none !important;
-  }
 }
